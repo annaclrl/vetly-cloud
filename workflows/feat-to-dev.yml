@@ -1,0 +1,27 @@
+name: Feature → Develop
+
+on:
+  push:
+    branches:
+      - 'feature/**'
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create PR to develop
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          gh pr create \
+            --base develop \
+            --head "$BRANCH" \
+            --title "Merge $BRANCH into develop" \
+            --body "Pull Request criado automaticamente para promover a feature para develop." \
+            || echo "PR já existe ou não foi possível criar."

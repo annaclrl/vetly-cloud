@@ -1,0 +1,26 @@
+name: Develop → Homolog
+
+on:
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create PR to homolog
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr create \
+            --base homolog \
+            --head develop \
+            --title "Merge develop into homolog" \
+            --body "Pull Request criado automaticamente para promover develop para homolog." \
+            || echo "PR já existe ou não foi possível criar."
