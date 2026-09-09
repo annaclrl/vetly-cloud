@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Usuários')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <h1 class="h3 mb-3">Usuários</h1>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Email</th><th>Perfil</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="usuario : ${usuarios}">
+            <td th:text="${usuario.email}"></td>
+            <td th:text="${usuario.role}"></td>
+            <td>
+                <span class="badge" th:classappend="${usuario.flagAtivo == 'S'} ? 'text-bg-success' : 'text-bg-secondary'"
+                      th:text="${usuario.flagAtivo == 'S'} ? 'Ativo' : 'Inativo'"></span>
+            </td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/usuarios/{id}(id=${usuario.id})}">Ver</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(usuarios)}"><td colspan="4" class="text-muted text-center py-4">Nenhum usuário cadastrado.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

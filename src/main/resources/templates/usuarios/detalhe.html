@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Usuário')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <h1 class="h3 mb-3" th:text="${usuario.email}"></h1>
+    <dl class="row">
+        <dt class="col-sm-3">Perfil</dt><dd class="col-sm-9" th:text="${usuario.role}"></dd>
+        <dt class="col-sm-3">Status</dt>
+        <dd class="col-sm-9" th:text="${usuario.flagAtivo == 'S'} ? 'Ativo' : 'Inativo'"></dd>
+    </dl>
+    <form th:action="@{/mvc/usuarios/{id}/alternar-ativo(id=${usuario.id})}" method="post">
+        <button class="btn" th:classappend="${usuario.flagAtivo == 'S'} ? 'btn-outline-danger' : 'btn-outline-success'" type="submit"
+                th:text="${usuario.flagAtivo == 'S'} ? 'Desativar' : 'Ativar'"></button>
+    </form>
+    <a class="d-inline-block mt-3" th:href="@{/mvc/usuarios}">← Voltar</a>
+</main>
+</body>
+</html>

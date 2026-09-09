@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Editar animal')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:700px">
+    <h1 class="h3 mb-3">Editar animal</h1>
+    <form th:action="@{/mvc/animais/{id}/editar(id=${animal.id})}" th:object="${form}" method="post">
+        <div th:replace="~{fragments/form-errors :: globalErrors}"></div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Tutor</label>
+                <select class="form-select" th:field="*{tutorId}" th:classappend="${#fields.hasErrors('tutorId')} ? 'is-invalid'">
+                    <option th:each="tutor : ${tutores}" th:value="${tutor.id}" th:text="${tutor.pessoa.nome}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('tutorId')}" th:errors="*{tutorId}"></div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Espécie</label>
+                <select class="form-select" th:field="*{especieId}" th:classappend="${#fields.hasErrors('especieId')} ? 'is-invalid'">
+                    <option th:each="especie : ${especies}" th:value="${especie.id}" th:text="${especie.nome}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('especieId')}" th:errors="*{especieId}"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Nome</label>
+                <input class="form-control" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Raça</label>
+                <input class="form-control" th:field="*{raca}" th:classappend="${#fields.hasErrors('raca')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('raca')}" th:errors="*{raca}"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Sexo</label>
+                <select class="form-select" th:field="*{sexo}" th:classappend="${#fields.hasErrors('sexo')} ? 'is-invalid'">
+                    <option th:each="s : ${sexos}" th:value="${s}" th:text="${s}"></option>
+                </select>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('sexo')}" th:errors="*{sexo}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Data de nascimento</label>
+                <input class="form-control" type="date" th:field="*{dataNascimento}" th:classappend="${#fields.hasErrors('dataNascimento')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('dataNascimento')}" th:errors="*{dataNascimento}"></div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <label class="form-label">Peso (kg)</label>
+                <input class="form-control" type="number" step="0.01" th:field="*{peso}" th:classappend="${#fields.hasErrors('peso')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('peso')}" th:errors="*{peso}"></div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">URL da foto</label>
+            <input class="form-control" th:field="*{urlFoto}" th:classappend="${#fields.hasErrors('urlFoto')} ? 'is-invalid'"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('urlFoto')}" th:errors="*{urlFoto}"></div>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" th:field="*{castrado}" id="castrado"/>
+            <label class="form-check-label" for="castrado">Castrado</label>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Condições pré-existentes</label>
+            <textarea class="form-control" th:field="*{condicoesPreexistentes}" rows="2"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Alergias</label>
+            <textarea class="form-control" th:field="*{alergias}" rows="2"></textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Medicações em uso</label>
+            <textarea class="form-control" th:field="*{medicacoesEmUso}" rows="2"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a class="btn btn-link" th:href="@{/mvc/animais/{id}(id=${animal.id})}">Cancelar</a>
+    </form>
+</main>
+</body>
+</html>

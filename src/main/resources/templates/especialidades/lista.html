@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Especialidades')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:800px">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Especialidades</h1>
+        <a class="btn btn-primary" th:href="@{/mvc/especialidades/novo}">Nova especialidade</a>
+    </div>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Nome</th><th>Descrição</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="esp : ${especialidades}">
+            <td th:text="${esp.nome}"></td>
+            <td th:text="${esp.descricao}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/especialidades/{id}/editar(id=${esp.id})}">Editar</a>
+                <form class="d-inline" th:action="@{/mvc/especialidades/{id}/excluir(id=${esp.id})}" method="post"
+                      onsubmit="return confirm('Excluir esta especialidade?');">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(especialidades)}"><td colspan="3" class="text-muted text-center py-4">Nenhuma especialidade cadastrada.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

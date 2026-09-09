@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nova consulta')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:600px">
+    <h1 class="h3 mb-3">Nova consulta</h1>
+    <form th:action="@{/mvc/consultas}" th:object="${form}" method="post">
+        <div th:replace="~{fragments/form-errors :: globalErrors}"></div>
+        <div class="mb-3">
+            <label class="form-label">Animal</label>
+            <select class="form-select" th:field="*{animalId}" th:classappend="${#fields.hasErrors('animalId')} ? 'is-invalid'">
+                <option value="">Selecione...</option>
+                <option th:each="animal : ${animais}" th:value="${animal.id}"
+                        th:text="${animal.nome} + ' (' + ${animal.tutor.pessoa.nome} + ')'"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('animalId')}" th:errors="*{animalId}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Veterinário</label>
+            <select class="form-select" th:field="*{veterinarioId}" th:classappend="${#fields.hasErrors('veterinarioId')} ? 'is-invalid'">
+                <option value="">Selecione...</option>
+                <option th:each="vet : ${veterinarios}" th:value="${vet.id}" th:text="${vet.pessoa.nome} + ' (' + ${vet.crmv} + ')'"></option>
+            </select>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('veterinarioId')}" th:errors="*{veterinarioId}"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Data e hora</label>
+                <input class="form-control" type="datetime-local" th:field="*{dataHora}" th:classappend="${#fields.hasErrors('dataHora')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('dataHora')}" th:errors="*{dataHora}"></div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Valor (R$)</label>
+                <input class="form-control" type="number" step="0.01" th:field="*{valor}" th:classappend="${#fields.hasErrors('valor')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"></div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Observação</label>
+            <textarea class="form-control" th:field="*{observacao}" rows="2"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Agendar</button>
+        <a class="btn btn-link" th:href="@{/mvc/consultas}">Cancelar</a>
+    </form>
+</main>
+</body>
+</html>

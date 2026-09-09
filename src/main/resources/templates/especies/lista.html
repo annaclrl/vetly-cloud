@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Espécies')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:700px">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Espécies</h1>
+        <a class="btn btn-primary" th:href="@{/mvc/especies/novo}">Nova espécie</a>
+    </div>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Nome</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="especie : ${especies}">
+            <td th:text="${especie.nome}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/especies/{id}/editar(id=${especie.id})}">Editar</a>
+                <form class="d-inline" th:action="@{/mvc/especies/{id}/excluir(id=${especie.id})}" method="post"
+                      onsubmit="return confirm('Excluir esta espécie?');">
+                    <button class="btn btn-sm btn-outline-danger" type="submit">Excluir</button>
+                </form>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(especies)}"><td colspan="2" class="text-muted text-center py-4">Nenhuma espécie cadastrada.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

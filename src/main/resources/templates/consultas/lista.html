@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Consultas')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Consultas</h1>
+        <a class="btn btn-primary" th:href="@{/mvc/consultas/novo}">Nova consulta</a>
+    </div>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Data/hora</th><th>Animal</th><th>Veterinário</th><th>Status</th><th>Valor</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="consulta : ${consultas}">
+            <td th:text="${#temporals.format(consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${consulta.animal.nome}"></td>
+            <td th:text="${consulta.veterinario.pessoa.nome}"></td>
+            <td><span class="badge text-bg-secondary" th:text="${consulta.status}"></span></td>
+            <td th:text="${consulta.valor}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/consultas/{id}(id=${consulta.id})}">Ver</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(consultas)}"><td colspan="6" class="text-muted text-center py-4">Nenhuma consulta cadastrada.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

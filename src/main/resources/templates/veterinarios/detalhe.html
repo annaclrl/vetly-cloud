@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Veterinário')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h1 class="h3 mb-0" th:text="${veterinario.pessoa.nome}"></h1>
+            <div class="text-muted" th:text="${veterinario.usuario.email}"></div>
+        </div>
+        <div>
+            <a class="btn btn-outline-secondary" th:href="@{/mvc/veterinarios/{id}/editar(id=${veterinario.id})}">Editar</a>
+            <form class="d-inline" th:action="@{/mvc/veterinarios/{id}/excluir(id=${veterinario.id})}" method="post"
+                  onsubmit="return confirm('Excluir este veterinário?');">
+                <button class="btn btn-outline-danger" type="submit">Excluir</button>
+            </form>
+        </div>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">CRMV</dt><dd class="col-sm-9" th:text="${veterinario.crmv}"></dd>
+        <dt class="col-sm-3">CPF</dt><dd class="col-sm-9" th:text="${veterinario.pessoa.cpf}"></dd>
+        <dt class="col-sm-3">Telefone</dt><dd class="col-sm-9" th:text="${veterinario.pessoa.telefone}"></dd>
+        <dt class="col-sm-3">Especialidades</dt>
+        <dd class="col-sm-9">
+            <span class="badge text-bg-secondary me-1" th:each="e : ${veterinario.especialidades}" th:text="${e.especialidade.nome}"></span>
+        </dd>
+        <dt class="col-sm-3">Espécies atendidas</dt>
+        <dd class="col-sm-9">
+            <span class="badge text-bg-secondary me-1" th:each="e : ${veterinario.especies}" th:text="${e.especie.nome}"></span>
+        </dd>
+    </dl>
+    <a th:href="@{/mvc/veterinarios}">← Voltar</a>
+</main>
+</body>
+</html>

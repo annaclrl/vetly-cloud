@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Solicitação de exame')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <h1 class="h3 mb-1">Exames de <span th:text="${solicitacao.consulta.animal.nome}"></span></h1>
+    <p class="text-muted">
+        Consulta de <span th:text="${#temporals.format(solicitacao.consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></span>
+        com <span th:text="${solicitacao.consulta.veterinario.pessoa.nome}"></span>
+    </p>
+    <p th:if="${solicitacao.observacao != null}" th:text="'Observação: ' + ${solicitacao.observacao}"></p>
+
+    <div class="card mb-3" th:each="item : ${solicitacao.itens}">
+        <div class="card-header d-flex justify-content-between">
+            <span th:text="${item.nomeExame}"></span>
+            <span class="badge text-bg-secondary" th:text="${item.status}"></span>
+        </div>
+        <div class="card-body">
+            <p class="mb-1">Solicitado em: <span th:text="${item.dataSolicitacao}"></span></p>
+            <p class="mb-1" th:if="${item.descricaoResultado != null}">Resultado: <span th:text="${item.descricaoResultado}"></span></p>
+            <p class="mb-1" th:if="${item.liberadoResponsavel}">Liberado ao responsável em <span th:text="${item.dataLiberacaoResponsavel}"></span></p>
+
+            <form th:if="${item.status.name() == 'SOLICITADO' or item.status.name() == 'AGUARDANDO_RESULTADO'}"
+                  class="d-flex gap-2 align-items-end mt-2" th:action="@{/mvc/exames/itens/{id}/resultado(id=${item.id})}" method="post">
+                <div class="flex-grow-1">
+                    <label class="form-label">Registrar resultado</label>
+                    <input class="form-control" name="descricaoResultado" required/>
+                </div>
+                <button class="btn btn-primary" type="submit">Registrar</button>
+            </form>
+
+            <form th:if="${item.status.name() == 'ANALISADO'}" class="mt-2 d-inline"
+                  th:action="@{/mvc/exames/itens/{id}/liberar(id=${item.id})}" method="post">
+                <button class="btn btn-success" type="submit">Liberar ao responsável</button>
+            </form>
+
+            <form th:if="${item.status.name() != 'RESULTADO_ENVIADO' and item.status.name() != 'CANCELADO'}" class="mt-2 d-inline"
+                  th:action="@{/mvc/exames/itens/{id}/cancelar(id=${item.id})}" method="post"
+                  onsubmit="return confirm('Cancelar este exame?');">
+                <button class="btn btn-outline-danger" type="submit">Cancelar exame</button>
+            </form>
+        </div>
+    </div>
+
+    <a th:href="@{/mvc/consultas/{id}(id=${solicitacao.consulta.id})}">← Voltar à consulta</a>
+</main>
+</body>
+</html>

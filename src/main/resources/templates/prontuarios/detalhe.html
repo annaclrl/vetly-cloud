@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Prontuário')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <h1 class="h3 mb-1">Prontuário de <span th:text="${animal.nome}"></span></h1>
+    <a class="d-inline-block mb-3" th:href="@{/mvc/animais/{id}(id=${animal.id})}">← Voltar ao animal</a>
+
+    <div th:if="${#lists.isEmpty(historico)}" class="alert alert-info">
+        Este animal ainda não possui prontuário.
+        <form class="mt-2" th:action="@{/mvc/animais/{id}/prontuario/criar(id=${animal.id})}" method="post">
+            <div class="mb-2">
+                <label class="form-label">Conteúdo clínico inicial</label>
+                <textarea class="form-control" name="conteudoClinico" rows="4" required></textarea>
+            </div>
+            <button class="btn btn-primary" type="submit">Criar prontuário</button>
+        </form>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(historico)}">
+        <div class="card mb-3" th:each="p, iter : ${historico}">
+            <div class="card-header d-flex justify-content-between">
+                <span th:text="${p.original} ? 'Versão original' : 'Correção'"></span>
+                <span class="text-muted" th:text="${p.dataUltimaAtualizacao}"></span>
+            </div>
+            <div class="card-body">
+                <p class="card-text" style="white-space: pre-wrap" th:text="${p.conteudoClinico}"></p>
+                <p class="text-muted small mb-0" th:if="${p.justificativaCorrecao != null}">
+                    Justificativa: <span th:text="${p.justificativaCorrecao}"></span>
+                </p>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Registrar correção</div>
+            <div class="card-body">
+                <form th:action="@{/mvc/animais/{id}/prontuario/correcoes(id=${animal.id})}" method="post">
+                    <div class="mb-2">
+                        <label class="form-label">Novo conteúdo clínico</label>
+                        <textarea class="form-control" name="conteudoClinico" rows="4" required></textarea>
+                    </div>
+                    <div class="mb-2">
+                        <label class="form-label">Justificativa (obrigatória após 24h da criação — RN-089)</label>
+                        <input class="form-control" name="justificativa"/>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Registrar correção</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Novo tutor')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:600px">
+    <h1 class="h3 mb-3">Novo tutor</h1>
+    <form th:action="@{/mvc/tutores}" th:object="${form}" method="post">
+        <div th:replace="~{fragments/form-errors :: globalErrors}"></div>
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <input class="form-control" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" th:field="*{email}" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Senha</label>
+            <input class="form-control" type="password" th:field="*{senha}" th:classappend="${#fields.hasErrors('senha')} ? 'is-invalid'"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+            <div class="form-text">Mínimo 8 caracteres, com maiúscula, minúscula, número e caractere especial.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">CPF</label>
+            <input class="form-control" th:field="*{cpf}" placeholder="12345678900" th:classappend="${#fields.hasErrors('cpf')} ? 'is-invalid'"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></div>
+            <div class="form-text">Só números, sem pontos ou traço.</div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Telefone</label>
+            <input class="form-control" th:field="*{telefone}" placeholder="(11) 91234-5678" th:classappend="${#fields.hasErrors('telefone')} ? 'is-invalid'"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
+        </div>
+        <button class="btn btn-primary" type="submit">Cadastrar</button>
+        <a class="btn btn-link" th:href="@{/mvc/tutores}">Cancelar</a>
+    </form>
+</main>
+</body>
+</html>

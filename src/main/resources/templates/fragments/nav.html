@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="nav" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand" th:href="@{/mvc/}">Vetly MVC</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navVetly">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navVetly">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/tutores}">Tutores</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/veterinarios}">Veterinários</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/animais}">Animais</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/consultas}">Consultas</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/exames}">Exames</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/especies}">Espécies</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/especialidades}">Especialidades</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/usuarios}">Usuários</a></li>
+            </ul>
+            <span class="navbar-text me-3" th:if="${usuarioLogado != null}" th:text="${usuarioLogado}"></span>
+            <form th:action="@{/mvc/logout}" method="post" class="d-flex">
+                <button class="btn btn-outline-light btn-sm" type="submit">Sair</button>
+            </form>
+        </div>
+    </div>
+</nav>
+</body>
+</html>

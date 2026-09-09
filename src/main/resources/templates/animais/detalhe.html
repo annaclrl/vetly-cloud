@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Animal')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h1 class="h3 mb-0" th:text="${animal.nome}"></h1>
+            <div class="text-muted" th:text="${animal.especie.nome} + ' · ' + ${animal.raca}"></div>
+        </div>
+        <div>
+            <a class="btn btn-outline-secondary" th:href="@{/mvc/animais/{id}/editar(id=${animal.id})}">Editar</a>
+            <a class="btn btn-outline-primary" th:href="@{/mvc/animais/{id}/prontuario(id=${animal.id})}">Prontuário</a>
+            <form class="d-inline" th:action="@{/mvc/animais/{id}/excluir(id=${animal.id})}" method="post"
+                  onsubmit="return confirm('Excluir este animal?');">
+                <button class="btn btn-outline-danger" type="submit">Excluir</button>
+            </form>
+        </div>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">Tutor</dt>
+        <dd class="col-sm-9"><a th:href="@{/mvc/tutores/{id}(id=${animal.tutor.id})}" th:text="${animal.tutor.pessoa.nome}"></a></dd>
+        <dt class="col-sm-3">Sexo</dt><dd class="col-sm-9" th:text="${animal.sexo}"></dd>
+        <dt class="col-sm-3">Data de nascimento</dt><dd class="col-sm-9" th:text="${animal.dataNascimento}"></dd>
+        <dt class="col-sm-3">Peso</dt><dd class="col-sm-9" th:text="${animal.peso} + ' kg'"></dd>
+        <dt class="col-sm-3">Castrado</dt><dd class="col-sm-9" th:text="${animal.castrado == 'S'} ? 'Sim' : 'Não'"></dd>
+        <dt class="col-sm-3">Condições pré-existentes</dt><dd class="col-sm-9" th:text="${animal.condicoesPreexistentes ?: '—'}"></dd>
+        <dt class="col-sm-3">Alergias</dt><dd class="col-sm-9" th:text="${animal.alergias ?: '—'}"></dd>
+        <dt class="col-sm-3">Medicações em uso</dt><dd class="col-sm-9" th:text="${animal.medicacoesEmUso ?: '—'}"></dd>
+    </dl>
+    <a th:href="@{/mvc/animais}">← Voltar</a>
+</main>
+</body>
+</html>

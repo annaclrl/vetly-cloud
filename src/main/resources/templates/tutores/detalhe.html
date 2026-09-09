@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Tutor')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <div>
+            <h1 class="h3 mb-0" th:text="${tutor.pessoa.nome}"></h1>
+            <div class="text-muted" th:text="${tutor.usuario.email}"></div>
+        </div>
+        <div>
+            <a class="btn btn-outline-secondary" th:href="@{/mvc/tutores/{id}/editar(id=${tutor.id})}">Editar</a>
+            <form class="d-inline" th:action="@{/mvc/tutores/{id}/excluir(id=${tutor.id})}" method="post"
+                  onsubmit="return confirm('Excluir este tutor?');">
+                <button class="btn btn-outline-danger" type="submit">Excluir</button>
+            </form>
+        </div>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">CPF</dt><dd class="col-sm-9" th:text="${tutor.pessoa.cpf}"></dd>
+        <dt class="col-sm-3">Telefone</dt><dd class="col-sm-9" th:text="${tutor.pessoa.telefone}"></dd>
+        <dt class="col-sm-3">LGPD aceito</dt><dd class="col-sm-9" th:text="${tutor.lgpdAceito} ? 'Sim' : 'Não'"></dd>
+        <dt class="col-sm-3">Consentimento de rede</dt><dd class="col-sm-9" th:text="${tutor.consentimentoRede} ? 'Sim' : 'Não'"></dd>
+    </dl>
+
+    <h2 class="h5 mt-4">Animais</h2>
+    <table class="table table-sm">
+        <thead><tr><th>Nome</th><th>Espécie</th><th>Raça</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="animal : ${animais}">
+            <td th:text="${animal.nome}"></td>
+            <td th:text="${animal.especie.nome}"></td>
+            <td th:text="${animal.raca}"></td>
+            <td class="text-end"><a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/animais/{id}(id=${animal.id})}">Ver</a></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(animais)}"><td colspan="4" class="text-muted text-center py-3">Nenhum animal cadastrado.</td></tr>
+        </tbody>
+    </table>
+    <a th:href="@{/mvc/tutores}">← Voltar</a>
+</main>
+</body>
+</html>

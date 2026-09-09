@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Animais')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Animais</h1>
+        <a class="btn btn-primary" th:href="@{/mvc/animais/novo}">Novo animal</a>
+    </div>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Nome</th><th>Espécie</th><th>Raça</th><th>Tutor</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="animal : ${animais}">
+            <td th:text="${animal.nome}"></td>
+            <td th:text="${animal.especie.nome}"></td>
+            <td th:text="${animal.raca}"></td>
+            <td th:text="${animal.tutor.pessoa.nome}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/animais/{id}(id=${animal.id})}">Ver</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(animais)}"><td colspan="5" class="text-muted text-center py-4">Nenhum animal cadastrado.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

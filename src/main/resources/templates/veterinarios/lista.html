@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Veterinários')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Veterinários</h1>
+        <a class="btn btn-primary" th:href="@{/mvc/veterinarios/novo}">Novo veterinário</a>
+    </div>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Nome</th><th>CRMV</th><th>Email</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="vet : ${veterinarios}">
+            <td th:text="${vet.pessoa.nome}"></td>
+            <td th:text="${vet.crmv}"></td>
+            <td th:text="${vet.usuario.email}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/veterinarios/{id}(id=${vet.id})}">Ver</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(veterinarios)}"><td colspan="4" class="text-muted text-center py-4">Nenhum veterinário cadastrado.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

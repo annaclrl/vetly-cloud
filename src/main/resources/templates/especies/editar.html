@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Editar espécie')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:500px">
+    <h1 class="h3 mb-3">Editar espécie</h1>
+    <form th:action="@{/mvc/especies/{id}/editar(id=${especie.id})}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Nome</label>
+            <select class="form-select" name="nome" required>
+                <option th:each="n : ${nomesDisponiveis}" th:value="${n}" th:text="${n}" th:selected="${n == especie.nome}"></option>
+            </select>
+        </div>
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a class="btn btn-link" th:href="@{/mvc/especies}">Cancelar</a>
+    </form>
+</main>
+</body>
+</html>

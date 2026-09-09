@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Editar veterinário')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:700px">
+    <h1 class="h3 mb-3">Editar veterinário</h1>
+    <form th:action="@{/mvc/veterinarios/{id}/editar(id=${veterinario.id})}" th:object="${form}" method="post">
+        <div th:replace="~{fragments/form-errors :: globalErrors}"></div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input class="form-control" th:value="${veterinario.usuario.email}" disabled/>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Nome</label>
+                <input class="form-control" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">CRMV</label>
+                <input class="form-control" th:field="*{crmv}" th:classappend="${#fields.hasErrors('crmv')} ? 'is-invalid'"/>
+                <div class="invalid-feedback" th:if="${#fields.hasErrors('crmv')}" th:errors="*{crmv}"></div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Telefone</label>
+            <input class="form-control" th:field="*{telefone}" th:classappend="${#fields.hasErrors('telefone')} ? 'is-invalid'"/>
+            <div class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label d-block">Especialidades</label>
+            <div th:if="${#fields.hasErrors('especialidades')}" class="text-danger small mb-1" th:errors="*{especialidades}"></div>
+            <div class="form-check form-check-inline" th:each="esp : ${especialidadesDisponiveis}">
+                <input class="form-check-input" type="checkbox" th:field="*{especialidades}" th:value="${esp}"/>
+                <label class="form-check-label" th:text="${esp}" th:for="${#ids.prev('especialidades')}"></label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label d-block">Espécies atendidas</label>
+            <div th:if="${#fields.hasErrors('especies')}" class="text-danger small mb-1" th:errors="*{especies}"></div>
+            <div class="form-check form-check-inline" th:each="esp : ${especiesDisponiveis}">
+                <input class="form-check-input" type="checkbox" th:field="*{especies}" th:value="${esp}"/>
+                <label class="form-check-label" th:text="${esp}" th:for="${#ids.prev('especies')}"></label>
+            </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Salvar</button>
+        <a class="btn btn-link" th:href="@{/mvc/veterinarios/{id}(id=${veterinario.id})}">Cancelar</a>
+    </form>
+</main>
+</body>
+</html>

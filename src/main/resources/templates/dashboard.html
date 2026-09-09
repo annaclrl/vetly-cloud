@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Painel')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <h1 class="h3 mb-4">Painel</h1>
+    <div class="row g-3">
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/tutores}">
+                <div class="card-body"><div class="text-muted small">Tutores</div><div class="h3" th:text="${totalTutores}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/veterinarios}">
+                <div class="card-body"><div class="text-muted small">Veterinários</div><div class="h3" th:text="${totalVeterinarios}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/animais}">
+                <div class="card-body"><div class="text-muted small">Animais</div><div class="h3" th:text="${totalAnimais}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/consultas}">
+                <div class="card-body"><div class="text-muted small">Consultas</div><div class="h3" th:text="${totalConsultas}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/exames}">
+                <div class="card-body"><div class="text-muted small">Solicitações de exame</div><div class="h3" th:text="${totalExames}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/especies}">
+                <div class="card-body"><div class="text-muted small">Espécies</div><div class="h3" th:text="${totalEspecies}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/especialidades}">
+                <div class="card-body"><div class="text-muted small">Especialidades</div><div class="h3" th:text="${totalEspecialidades}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/usuarios}">
+                <div class="card-body"><div class="text-muted small">Usuários</div><div class="h3" th:text="${totalUsuarios}">0</div></div>
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

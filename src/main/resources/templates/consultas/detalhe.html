@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Consulta')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <h1 class="h3 mb-0">Consulta de <span th:text="${consulta.animal.nome}"></span></h1>
+        <span class="badge text-bg-secondary fs-6" th:text="${consulta.status}"></span>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">Veterinário</dt>
+        <dd class="col-sm-9"><a th:href="@{/mvc/veterinarios/{id}(id=${consulta.veterinario.id})}" th:text="${consulta.veterinario.pessoa.nome}"></a></dd>
+        <dt class="col-sm-3">Animal</dt>
+        <dd class="col-sm-9"><a th:href="@{/mvc/animais/{id}(id=${consulta.animal.id})}" th:text="${consulta.animal.nome}"></a></dd>
+        <dt class="col-sm-3">Data/hora</dt><dd class="col-sm-9" th:text="${#temporals.format(consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></dd>
+        <dt class="col-sm-3">Valor</dt><dd class="col-sm-9" th:text="${consulta.valor}"></dd>
+        <dt class="col-sm-3">Observação</dt><dd class="col-sm-9" th:text="${consulta.observacao ?: '—'}"></dd>
+    </dl>
+
+    <div th:if="${consulta.status.name() == 'AGENDADA'}" class="d-flex flex-wrap gap-2 mb-4">
+        <form th:action="@{/mvc/consultas/{id}/realizar(id=${consulta.id})}" method="post">
+            <button class="btn btn-success" type="submit">Marcar como realizada</button>
+        </form>
+        <form th:action="@{/mvc/consultas/{id}/nao-compareceu(id=${consulta.id})}" method="post">
+            <button class="btn btn-warning" type="submit">Marcar não compareceu</button>
+        </form>
+        <form th:action="@{/mvc/consultas/{id}/cancelar(id=${consulta.id})}" method="post"
+              onsubmit="return confirm('Cancelar esta consulta?');">
+            <button class="btn btn-outline-danger" type="submit">Cancelar</button>
+        </form>
+    </div>
+
+    <div th:if="${consulta.status.name() == 'AGENDADA'}" class="card mb-4">
+        <div class="card-header">Reagendar</div>
+        <div class="card-body">
+            <form class="d-flex gap-2 align-items-end" th:action="@{/mvc/consultas/{id}/reagendar(id=${consulta.id})}" method="post">
+                <div>
+                    <label class="form-label">Nova data e hora</label>
+                    <input class="form-control" type="datetime-local" name="dataHora" required/>
+                </div>
+                <button class="btn btn-primary" type="submit">Reagendar</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Solicitação de exame</div>
+        <div class="card-body">
+            <p th:if="${solicitacaoExame == null}" class="mb-2">Nenhuma solicitação de exame registrada para esta consulta.</p>
+            <a th:if="${solicitacaoExame == null}" class="btn btn-outline-primary"
+               th:href="@{/mvc/exames/novo(consultaId=${consulta.id})}">Solicitar exame</a>
+            <a th:if="${solicitacaoExame != null}" class="btn btn-outline-primary"
+               th:href="@{/mvc/exames/{id}(id=${solicitacaoExame.id})}">Ver solicitação de exame</a>
+        </div>
+    </div>
+
+    <a class="d-inline-block mt-4" th:href="@{/mvc/consultas}">← Voltar</a>
+</main>
+</body>
+</html>

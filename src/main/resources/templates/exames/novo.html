@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Nova solicitação de exame')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5" style="max-width:600px">
+    <h1 class="h3 mb-3">Nova solicitação de exame</h1>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <form th:action="@{/mvc/exames}" method="post">
+        <div class="mb-3">
+            <label class="form-label">Consulta</label>
+            <select class="form-select" name="consultaId" required>
+                <option value="">Selecione...</option>
+                <option th:each="c : ${consultas}" th:value="${c.id}" th:selected="${c.id == consultaId}"
+                        th:text="${c.animal.nome} + ' — ' + ${#temporals.format(c.dataHora, 'dd/MM/yyyy HH:mm')} + ' (' + ${c.veterinario.pessoa.nome} + ')'"></option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Observação</label>
+            <input class="form-control" name="observacao"/>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Exames solicitados (um por linha)</label>
+            <textarea class="form-control" name="exames" rows="5" required placeholder="Hemograma completo&#10;Raio-X tórax"></textarea>
+        </div>
+        <button class="btn btn-primary" type="submit">Solicitar</button>
+        <a class="btn btn-link" th:href="@{/mvc/exames}">Cancelar</a>
+    </form>
+</main>
+</body>
+</html>

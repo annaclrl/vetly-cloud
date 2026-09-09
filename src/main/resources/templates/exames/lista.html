@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Solicitações de exame')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Solicitações de exame</h1>
+        <a class="btn btn-primary" th:href="@{/mvc/exames/novo}">Nova solicitação</a>
+    </div>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Animal</th><th>Veterinário</th><th>Itens</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="s : ${solicitacoes}">
+            <td th:text="${s.consulta.animal.nome}"></td>
+            <td th:text="${s.consulta.veterinario.pessoa.nome}"></td>
+            <td th:text="${#lists.size(s.itens)}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/exames/{id}(id=${s.id})}">Ver</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(solicitacoes)}"><td colspan="4" class="text-muted text-center py-4">Nenhuma solicitação de exame registrada.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>
