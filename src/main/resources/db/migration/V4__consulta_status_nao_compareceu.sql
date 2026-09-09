@@ -1,0 +1,7 @@
+-- docs/java-database-alignment.md §2.4 — java-scope.md §3.B adota a maquina de estados
+-- AGENDADA -> REALIZADA | CANCELADA | NAO_COMPARECEU, mas o CHECK original so permitia as 3 primeiras.
+
+ALTER TABLE TB_CONSULTA DROP CONSTRAINT CK_STATUS_CONSULTA;
+
+ALTER TABLE TB_CONSULTA ADD CONSTRAINT CK_STATUS_CONSULTA
+    CHECK (ST_CONSULTA IN ('AGENDADA', 'CANCELADA', 'REALIZADA', 'NAO_COMPARECEU'));
