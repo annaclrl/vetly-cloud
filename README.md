@@ -84,8 +84,7 @@ RN-066, RN-067 e RN-068 estão hoje **sem implementação neste serviço**.
 | Linguagem | Java 21 |
 | Framework | Spring Boot 4.0.6 |
 | Persistência | Spring Data JPA (Hibernate) |
-| Migrations | Flyway (`flyway-core` + `flyway-database-oracle`) |
-| Banco de dados | Oracle Database (ojdbc11) |
+| Banco de dados | Oracle Database (ojdbc11) — schema gerenciado manualmente via SQL |
 | Segurança | Spring Security — login por formulário, sessão |
 | Web | Spring Web MVC + Thymeleaf |
 | Validação | Bean Validation (Jakarta) |
@@ -117,8 +116,7 @@ mvc-vetly-java/
     │   └── validation/                       # @ValueOfEnum
     └── resources/
         ├── application.properties
-        ├── templates/                        # Thymeleaf, uma pasta por entidade
-        └── db/migration/                     # V1..V8 (Flyway)
+        └── templates/                        # Thymeleaf, uma pasta por entidade
 ```
 
 Duas camadas de serviço coexistem de propósito, não por descuido:
@@ -320,30 +318,19 @@ em paralelo.
 
 ---
 
-## Banco de dados e migrations
+## Banco de dados
 
-O schema é versionado com **Flyway** em `src/main/resources/db/migration/`.
-
-| Migration | O que faz | RN |
-|-----------|-----------|----|
-| `V1__baseline_schema` | Baseline espelhando o `DDL.txt` anterior ao Flyway | — |
-| `V2__animal_campos_clinicos` | `URL_FOTO_ANIMAL`, `FL_CASTRADO`, `DS_CONDICOES_PREEXIST`, `DS_ALERGIAS`, `DS_MEDICACOES_EM_USO` | RN-081 |
-| `V3__evolucao_clinica_flags_rn068` | `FL_OCULTO_RESPONSAVEL`, `FL_ALERTA_SEGURANCA` | RN-068 |
-| `V4__consulta_status_nao_compareceu` | Inclui `NAO_COMPARECEU` no CHECK de status | RN-038 |
-| `V5__solicitacao_exame_item_liberacao_rn104` | `FL_LIBERADO_RESPONSAVEL`, `DT_LIBERACAO_RESPONSAVEL` | RN-104 |
-| `V6__tutor_consentimento_lgpd_rede` | `FL_LGPD_ACEITO`, `DT_LGPD_ACEITO`, `FL_CONSENTIMENTO_REDE`, `DT_CONSENTIMENTO_REDE` | RN-060/062 |
-| `V7__log_acesso_prontuario_rn067` | Tabela `TB_LOG_ACESSO_PRONTUARIO` | RN-067 (tabela mantida, sem uso hoje) |
-| `V8__prontuario_versionamento_rn088_089` | `DS_CONTEUDO_CLINICO`, auto-FK `TB_PRONTUARIO_ID_ORIGINAL`, `DT_HR_CORRECAO`, `CRMV_SOLICITANTE_CORRECAO`, `DS_JUSTIFICATIVA_CORRECAO` | RN-088/089 |
+O schema Oracle é gerenciado manualmente via SQL (sem ferramenta de migration). O DDL de
+referência fica em `vetly-database/DDL.txt`.
 
 Regras de manutenção:
 
-- `spring.jpa.hibernate.ddl-auto=validate` — o Hibernate **nunca** gera DDL; Flyway é a
-  única fonte de verdade do schema.
-- `baseline-on-migrate=true` porque o schema da FIAP já existia criado à mão: a migration
-  `V1` não é reexecutada nesse ambiente, mas roda normalmente em um schema vazio.
-- Ao criar uma migration nova, replique o mesmo DDL no fim de `vetly-database/DDL.txt`.
-- **Nunca edite uma migration já aplicada.** O checksum do Flyway cobre o arquivo inteiro,
-  comentários inclusive, então qualquer alteração derruba o start com *checksum mismatch*.
+- `spring.jpa.hibernate.ddl-auto=none` — o Hibernate **nunca** gera, altera nem valida DDL.
+- Qualquer alteração de schema (nova coluna, tabela, constraint) precisa ser aplicada à mão
+  no Oracle **antes** do deploy, e replicada no fim de `vetly-database/DDL.txt`.
+- Como não há validação automática, uma divergência entre entidade JPA e schema real só
+  aparece em runtime (erro de SQL na primeira query que tocar a coluna/tabela ausente),
+  não no startup da aplicação.
 
 ---
 
@@ -363,9 +350,8 @@ cd mvc-vetly-java
 ./gradlew test         # só os testes
 ```
 
-Na subida, o Flyway aplica as migrations pendentes e o Hibernate valida o mapeamento
-contra o schema — divergência entre entidade e tabela derruba a aplicação no start,
-de propósito.
+O schema precisa já existir no Oracle antes de subir a aplicação — o Hibernate não cria
+nem altera tabelas (`ddl-auto=none`).
 
 ### Primeiro acesso
 
@@ -391,11 +377,8 @@ spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 
-# Flyway é dono do schema; Hibernate apenas valida
-spring.flyway.enabled=true
-spring.flyway.baseline-on-migrate=true
-spring.flyway.baseline-version=1
-spring.jpa.hibernate.ddl-auto=validate
+# Schema gerenciado manualmente via SQL; Hibernate nao mexe em DDL
+spring.jpa.hibernate.ddl-auto=none
 
 # 404 em rota inexistente em vez de página de erro estática
 spring.mvc.throw-exception-if-no-handler-found=true
