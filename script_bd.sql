@@ -30,6 +30,8 @@ DROP TABLE TB_VETERINARIO_ESPECIE CASCADE CONSTRAINTS;
 
 DROP TABLE TB_LOG_ERRO CASCADE CONSTRAINTS;
 
+DROP TABLE TB_LOG_ACESSO_PRONTUARIO CASCADE CONSTRAINTS;
+
 DROP SEQUENCE SQ_LOG_ERRO;
 
 CREATE TABLE TB_LOG_ERRO (
@@ -185,7 +187,11 @@ COMMENT ON COLUMN TB_USUARIO.SEN_HASH_USUARIO IS
 CREATE TABLE TB_TUTOR (
                           ID_TUTOR              VARCHAR2(36) NOT NULL,
                           TB_USUARIO_ID_USUARIO VARCHAR2(36) NOT NULL,
-                          TB_PESSOA_ID_PESSOA   VARCHAR2(36) NOT NULL
+                          TB_PESSOA_ID_PESSOA   VARCHAR2(36) NOT NULL,
+                          FL_LGPD_ACEITO        CHAR(1) NOT NULL,
+                          DT_LGPD_ACEITO        DATE,
+                          FL_CONSENTIMENTO_REDE CHAR(1) NOT NULL,
+                          DT_CONSENTIMENTO_REDE DATE
 );
 
 CREATE UNIQUE INDEX TB_TUTOR_PESSOA_IDX
@@ -308,7 +314,12 @@ CREATE TABLE TB_ANIMAL (
 DT_NASC_ANIMAL        DATE,
 NR_PESO_ANIMAL        NUMBER(5,2) NOT NULL,
 TB_TUTOR_ID_TUTOR     VARCHAR2(36) NOT NULL,
-TB_ESPECIE_ID_ESPECIE VARCHAR2(36) NOT NULL
+TB_ESPECIE_ID_ESPECIE VARCHAR2(36) NOT NULL,
+URL_FOTO_ANIMAL       VARCHAR2(500 CHAR),
+FL_CASTRADO           CHAR(1) NOT NULL,
+DS_CONDICOES_PREEXIST VARCHAR2(1000 CHAR),
+DS_ALERGIAS           VARCHAR2(1000 CHAR),
+DS_MEDICACOES_EM_USO  VARCHAR2(1000 CHAR)
 );
 
 ALTER TABLE TB_ANIMAL
@@ -362,7 +373,8 @@ ALTER TABLE TB_CONSULTA
             ST_CONSULTA IN (
                             'AGENDADA',
                             'CANCELADA',
-                            'REALIZADA'
+                            'REALIZADA',
+                            'NAO_COMPARECEU'
                 )
             );
 
@@ -395,9 +407,14 @@ COMMENT ON COLUMN TB_CONSULTA.TB_ANIMAL_ID_ANIMAL IS
 'Identificador do animal atendido na consulta';
 
 CREATE TABLE TB_PRONTUARIO (
-                               ID_PRONTUARIO       VARCHAR2(36) NOT NULL,
-                               DT_UPD_PRONTURARIO  DATE NOT NULL,
-                               TB_ANIMAL_ID_ANIMAL VARCHAR2(36) NOT NULL
+                               ID_PRONTUARIO             VARCHAR2(36) NOT NULL,
+                               DT_UPD_PRONTURARIO        DATE NOT NULL,
+                               TB_ANIMAL_ID_ANIMAL       VARCHAR2(36) NOT NULL,
+                               DS_CONTEUDO_CLINICO       CLOB NOT NULL,
+                               TB_PRONTUARIO_ID_ORIGINAL VARCHAR2(36),
+                               DT_HR_CORRECAO            DATE,
+                               CRMV_SOLICITANTE_CORRECAO VARCHAR2(20),
+                               DS_JUSTIFICATIVA_CORRECAO VARCHAR2(1000 CHAR)
 );
 
 CREATE UNIQUE INDEX TB_PRONTUARIO__IDX
@@ -423,7 +440,9 @@ COMMENT ON COLUMN TB_PRONTUARIO.TB_ANIMAL_ID_ANIMAL IS
 CREATE TABLE TB_EVOLUCAO_CLINICA (
                                      ID_EVOLUCAO_CLINICA     VARCHAR2(36) NOT NULL,
                                      ANT_EVOLUCAO_CLINICA    VARCHAR2(2000 CHAR) NOT NULL,
-                                     TB_CONSULTA_ID_CONSULTA VARCHAR2(36) NOT NULL
+                                     TB_CONSULTA_ID_CONSULTA VARCHAR2(36) NOT NULL,
+                                     FL_OCULTO_RESPONSAVEL   CHAR(1) NOT NULL,
+                                     FL_ALERTA_SEGURANCA     CHAR(1) NOT NULL
 );
 
 CREATE UNIQUE INDEX TB_EVOLUCAO_CLINICA__IDX
@@ -480,6 +499,8 @@ CREATE TABLE TB_SOLICITACAO_EXAME_ITEM (
                                            DS_RES_EXAME                  VARCHAR2(500),
                                            DT_ANALISE                    DATE,
                                            DT_ENVIO_RESULTADO            DATE,
+                                           FL_LIBERADO_RESPONSAVEL       CHAR(1) NOT NULL,
+                                           DT_LIBERACAO_RESPONSAVEL      DATE,
                                            TB_SOLCT_EXAME_ID_SOLCT_EXAME VARCHAR2(36) NOT NULL
 );
 
@@ -558,6 +579,49 @@ COMMENT ON COLUMN TB_ANEXO_EXAME.DT_UPLOAD_ANEXO IS
 
 COMMENT ON COLUMN TB_ANEXO_EXAME.TB_SLC_EX_ITEM_ID_SLC_EX_ITEM IS
 'Identificador do item de exame relacionado ao anexo';
+
+CREATE TABLE TB_LOG_ACESSO_PRONTUARIO (
+                                          ID_LOG_ACESSO                 VARCHAR2(36) NOT NULL,
+                                          DT_HR_ACESSO                  DATE NOT NULL,
+                                          DS_CONTEXTO_ACESSO            VARCHAR2(200 CHAR),
+                                          DS_BASE_ACESSO                VARCHAR2(30) NOT NULL,
+                                          TB_ANIMAL_ID_ANIMAL           VARCHAR2(36) NOT NULL,
+                                          TB_VETERINARIO_ID_VETERINARIO VARCHAR2(36) NOT NULL
+);
+
+ALTER TABLE TB_LOG_ACESSO_PRONTUARIO
+    ADD CONSTRAINT CK_BASE_ACESSO_PRONTUARIO
+        CHECK (
+            DS_BASE_ACESSO IN (
+                               'CONSENTIMENTO_REDE',
+                               'ATENDIMENTO_DIRETO'
+                )
+            );
+
+ALTER TABLE TB_LOG_ACESSO_PRONTUARIO
+    ADD CONSTRAINT TB_LOG_ACESSO_PRONTUARIO_PK
+        PRIMARY KEY (ID_LOG_ACESSO);
+
+COMMENT ON TABLE TB_LOG_ACESSO_PRONTUARIO IS
+'Tabela responsável pelo registro de acessos ao prontuário de um animal';
+
+COMMENT ON COLUMN TB_LOG_ACESSO_PRONTUARIO.ID_LOG_ACESSO IS
+'Identificador único do registro de acesso';
+
+COMMENT ON COLUMN TB_LOG_ACESSO_PRONTUARIO.DT_HR_ACESSO IS
+'Data e horário do acesso ao prontuário';
+
+COMMENT ON COLUMN TB_LOG_ACESSO_PRONTUARIO.DS_CONTEXTO_ACESSO IS
+'Contexto ou motivo do acesso ao prontuário';
+
+COMMENT ON COLUMN TB_LOG_ACESSO_PRONTUARIO.DS_BASE_ACESSO IS
+'Base legal do acesso: CONSENTIMENTO_REDE ou ATENDIMENTO_DIRETO';
+
+COMMENT ON COLUMN TB_LOG_ACESSO_PRONTUARIO.TB_ANIMAL_ID_ANIMAL IS
+'Identificador do animal cujo prontuário foi acessado';
+
+COMMENT ON COLUMN TB_LOG_ACESSO_PRONTUARIO.TB_VETERINARIO_ID_VETERINARIO IS
+'Identificador do veterinário que realizou o acesso';
 
 CREATE TABLE TB_VETERINARIO_ESPECIALIDADE (
                                               ID_ESPECIALIDADE_VETERINARIO  VARCHAR2(36) NOT NULL,
@@ -665,6 +729,21 @@ ALTER TABLE TB_PRONTUARIO
     ADD CONSTRAINT TB_PRONTUARIO_TB_ANIMAL_FK
         FOREIGN KEY (TB_ANIMAL_ID_ANIMAL)
             REFERENCES TB_ANIMAL (ID_ANIMAL);
+
+ALTER TABLE TB_PRONTUARIO
+    ADD CONSTRAINT TB_PRONTUARIO_TB_ORIGINAL_FK
+        FOREIGN KEY (TB_PRONTUARIO_ID_ORIGINAL)
+            REFERENCES TB_PRONTUARIO (ID_PRONTUARIO);
+
+ALTER TABLE TB_LOG_ACESSO_PRONTUARIO
+    ADD CONSTRAINT TB_LOG_ACESSO_TB_ANIMAL_FK
+        FOREIGN KEY (TB_ANIMAL_ID_ANIMAL)
+            REFERENCES TB_ANIMAL (ID_ANIMAL);
+
+ALTER TABLE TB_LOG_ACESSO_PRONTUARIO
+    ADD CONSTRAINT TB_LOG_ACESSO_TB_VET_FK
+        FOREIGN KEY (TB_VETERINARIO_ID_VETERINARIO)
+            REFERENCES TB_VETERINARIO (ID_VETERINARIO);
 
 ALTER TABLE TB_EVOLUCAO_CLINICA
     ADD CONSTRAINT TB_EVO_CLNC_TB_CONSULTA_FK
