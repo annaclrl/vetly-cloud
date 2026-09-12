@@ -6,6 +6,7 @@ import com.vetly.vetly_java.model.Tutor;
 import com.vetly.vetly_java.mvc.form.TutorCreateForm;
 import com.vetly.vetly_java.mvc.form.TutorEditForm;
 import com.vetly.vetly_java.repository.TutorRepository;
+import com.vetly.vetly_java.repository.UsuarioRepository;
 import com.vetly.vetly_java.service.AuthService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,10 +20,12 @@ import java.util.UUID;
 public class TutorAdminService {
 
     private final TutorRepository tutorRepository;
+    private final UsuarioRepository usuarioRepository;
     private final AuthService authService;
 
-    public TutorAdminService(TutorRepository tutorRepository, AuthService authService) {
+    public TutorAdminService(TutorRepository tutorRepository, UsuarioRepository usuarioRepository, AuthService authService) {
         this.tutorRepository = tutorRepository;
+        this.usuarioRepository = usuarioRepository;
         this.authService = authService;
     }
 
@@ -61,7 +64,11 @@ public class TutorAdminService {
         return tutorRepository.save(tutor);
     }
 
+    @Transactional
     public void excluir(UUID id) {
-        tutorRepository.deleteById(id);
+        Tutor tutor = buscar(id);
+        UUID usuarioId = tutor.getUsuario().getId();
+        tutorRepository.delete(tutor);
+        usuarioRepository.deleteById(usuarioId);
     }
 }

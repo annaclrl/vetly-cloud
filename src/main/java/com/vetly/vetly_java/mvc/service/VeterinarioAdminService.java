@@ -14,6 +14,7 @@ import com.vetly.vetly_java.repository.EspecieRepository;
 import com.vetly.vetly_java.repository.VeterinarioEspecialidadeRepository;
 import com.vetly.vetly_java.repository.VeterinarioEspecieRepository;
 import com.vetly.vetly_java.repository.VeterinarioRepository;
+import com.vetly.vetly_java.repository.UsuarioRepository;
 import com.vetly.vetly_java.service.AuthService;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class VeterinarioAdminService {
     private final EspecieRepository especieRepository;
     private final VeterinarioEspecialidadeRepository veterinarioEspecialidadeRepository;
     private final VeterinarioEspecieRepository veterinarioEspecieRepository;
+    private final UsuarioRepository usuarioRepository;
     private final AuthService authService;
 
     public VeterinarioAdminService(VeterinarioRepository veterinarioRepository,
@@ -37,12 +39,14 @@ public class VeterinarioAdminService {
                                    EspecieRepository especieRepository,
                                    VeterinarioEspecialidadeRepository veterinarioEspecialidadeRepository,
                                    VeterinarioEspecieRepository veterinarioEspecieRepository,
+                                   UsuarioRepository usuarioRepository,
                                    AuthService authService) {
         this.veterinarioRepository = veterinarioRepository;
         this.especialidadeVetRepository = especialidadeVetRepository;
         this.especieRepository = especieRepository;
         this.veterinarioEspecialidadeRepository = veterinarioEspecialidadeRepository;
         this.veterinarioEspecieRepository = veterinarioEspecieRepository;
+        this.usuarioRepository = usuarioRepository;
         this.authService = authService;
     }
 
@@ -96,7 +100,13 @@ public class VeterinarioAdminService {
         return veterinario;
     }
 
+    @Transactional
     public void excluir(UUID id) {
-        veterinarioRepository.deleteById(id);
+        Veterinario veterinario = buscar(id);
+        UUID usuarioId = veterinario.getUsuario().getId();
+        veterinarioEspecialidadeRepository.deleteAll(veterinario.getEspecialidades());
+        veterinarioEspecieRepository.deleteAll(veterinario.getEspecies());
+        veterinarioRepository.delete(veterinario);
+        usuarioRepository.deleteById(usuarioId);
     }
 }
