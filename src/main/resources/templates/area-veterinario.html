@@ -12,15 +12,17 @@
         Nenhum cadastro de veterinário associado a este usuário.
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header">O que eu posso fazer como Veterinário</div>
-        <ul class="list-group list-group-flush">
-            <li class="list-group-item">Iniciar e encerrar as consultas atribuídas a mim.</li>
-            <li class="list-group-item">Registrar evolução clínica e prontuário do animal atendido.</li>
-            <li class="list-group-item">Corrigir o prontuário em até 24h livremente; depois exige justificativa e nunca sobrescreve o original.</li>
-            <li class="list-group-item">Solicitar exames e liberar resultados ao tutor explicitamente.</li>
-            <li class="list-group-item">Acessar o histórico do animal apenas durante o ciclo do atendimento (colmeia), com log de acesso registrado.</li>
-        </ul>
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/area-veterinario/consultas}">
+                <div class="card-body"><div class="text-muted small">Minhas consultas</div><div class="h3" th:text="${#lists.size(consultas)}">0</div></div>
+            </a>
+        </div>
+        <div class="col-6 col-md-3">
+            <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/area-veterinario/exames}">
+                <div class="card-body"><div class="text-muted small">Exames</div><div class="h6 pt-2">Ver solicitações</div></div>
+            </a>
+        </div>
     </div>
 
     <h2 class="h5">Minhas consultas</h2>
@@ -29,7 +31,7 @@
         <tbody>
             <tr th:each="c : ${consultas}">
                 <td th:text="${#temporals.format(c.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
-                <td th:text="${c.animal.nome}"></td>
+                <td><a th:href="@{/mvc/area-veterinario/consultas/{id}(id=${c.id})}" th:text="${c.animal.nome}"></a></td>
                 <td th:text="${c.status}"></td>
             </tr>
             <tr th:if="${#lists.isEmpty(consultas)}"><td colspan="3" class="text-muted">Nenhuma consulta.</td></tr>

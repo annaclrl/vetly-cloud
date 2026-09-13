@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Consulta')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <div class="d-flex justify-content-between align-items-start mb-3">
+        <h1 class="h3 mb-0">Consulta de <span th:text="${consulta.animal.nome}"></span></h1>
+        <span class="badge text-bg-secondary fs-6" th:text="${consulta.status}"></span>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-3">Tutor</dt><dd class="col-sm-9" th:text="${consulta.animal.tutor.pessoa.nome}"></dd>
+        <dt class="col-sm-3">Animal</dt>
+        <dd class="col-sm-9"><a th:href="@{/mvc/area-veterinario/animais/{id}/prontuario(id=${consulta.animal.id})}" th:text="${consulta.animal.nome}"></a></dd>
+        <dt class="col-sm-3">Data/hora</dt><dd class="col-sm-9" th:text="${#temporals.format(consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></dd>
+        <dt class="col-sm-3">Valor</dt><dd class="col-sm-9" th:text="${consulta.valor}"></dd>
+        <dt class="col-sm-3">Observação</dt><dd class="col-sm-9" th:text="${consulta.observacao ?: '—'}"></dd>
+    </dl>
+
+    <div th:if="${consulta.status.name() == 'AGENDADA'}" class="d-flex flex-wrap gap-2 mb-4">
+        <form th:action="@{/mvc/area-veterinario/consultas/{id}/realizar(id=${consulta.id})}" method="post">
+            <button class="btn btn-success" type="submit">Marcar como realizada</button>
+        </form>
+        <form th:action="@{/mvc/area-veterinario/consultas/{id}/nao-compareceu(id=${consulta.id})}" method="post">
+            <button class="btn btn-warning" type="submit">Marcar não compareceu</button>
+        </form>
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">Evolução clínica desta consulta</div>
+        <div class="card-body">
+            <p th:if="${evolucao != null}" class="card-text" style="white-space: pre-wrap" th:text="${evolucao.anotacoes}"></p>
+            <span th:if="${evolucao != null and evolucao.alertaSeguranca}" class="badge text-bg-danger">Alerta de segurança</span>
+
+            <form th:if="${evolucao == null}" th:action="@{/mvc/area-veterinario/consultas/{id}/evolucao(id=${consulta.id})}" method="post">
+                <div class="mb-2">
+                    <label class="form-label">Anotações da evolução clínica</label>
+                    <textarea class="form-control" name="anotacoes" rows="4" required></textarea>
+                </div>
+                <div class="form-check mb-2">
+                    <input class="form-check-input" type="checkbox" name="alertaSeguranca" id="alertaSeguranca" value="true"/>
+                    <label class="form-check-label" for="alertaSeguranca">Marcar como alerta de segurança (nunca poderá ser ocultado pelo tutor)</label>
+                </div>
+                <button class="btn btn-primary" type="submit">Registrar evolução</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Solicitação de exame</div>
+        <div class="card-body">
+            <p th:if="${solicitacaoExame == null}" class="mb-2">Nenhuma solicitação de exame registrada para esta consulta.</p>
+            <a th:if="${solicitacaoExame == null}" class="btn btn-outline-primary"
+               th:href="@{/mvc/area-veterinario/exames/novo(consultaId=${consulta.id})}">Solicitar exame</a>
+            <a th:if="${solicitacaoExame != null}" class="btn btn-outline-primary"
+               th:href="@{/mvc/area-veterinario/exames/{id}(id=${solicitacaoExame.id})}">Ver solicitação de exame</a>
+        </div>
+    </div>
+
+    <a class="d-inline-block mt-4" th:href="@{/mvc/area-veterinario/consultas}">← Voltar</a>
+</main>
+</body>
+</html>

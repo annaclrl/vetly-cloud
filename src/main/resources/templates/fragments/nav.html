@@ -28,6 +28,8 @@
             </ul>
             <ul class="navbar-nav me-auto" sec:authorize="hasRole('VETERINARIO')">
                 <li class="nav-item"><a class="nav-link" th:href="@{/mvc/area-veterinario}">Minha área</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/area-veterinario/consultas}">Minhas consultas</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/area-veterinario/exames}">Exames</a></li>
             </ul>
             <span class="navbar-text me-3" th:if="${usuarioLogado != null}" th:text="${usuarioLogado}"></span>
             <form th:action="@{/mvc/logout}" method="post" class="d-flex">

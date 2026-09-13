@@ -55,6 +55,10 @@ public class ProntuarioAdminService {
     }
 
     public Prontuario corrigir(UUID animalId, String conteudoClinico, String justificativa) {
+        return corrigir(animalId, conteudoClinico, justificativa, null);
+    }
+
+    public Prontuario corrigir(UUID animalId, String conteudoClinico, String justificativa, String crmvSolicitante) {
         Animal animal = findAnimal(animalId);
         Prontuario original = prontuarioRepository.findByAnimalAndOriginalIsNull(animal)
                 .orElseThrow(() -> new EntityNotFoundException("Animal ainda não possui prontuário: " + animalId));
@@ -69,6 +73,7 @@ public class ProntuarioAdminService {
         correcao.setOriginal(original);
         correcao.setDataHoraCorrecao(LocalDateTime.now());
         correcao.setJustificativaCorrecao(dentroDaJanelaDe24h ? null : justificativa);
+        correcao.setCrmvSolicitanteCorrecao(crmvSolicitante);
         return prontuarioRepository.save(correcao);
     }
 
