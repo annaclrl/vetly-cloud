@@ -204,10 +204,10 @@ az webapp config appsettings set \
   --resource-group rg-vetly \
   --name vetly-app \
   --settings \
-  DB_URL="jdbc:oracle:thin:@//oracle.fiap.com.br:1521/orcl" \
-  DB_USERNAME="<DB_USERNAME>" \
-  DB_PASSWORD="<DB_PASSWORD>" \
-  ADMIN_EMAIL="<ADMIN_EMAIL>" \
+  DB_URL="" \
+  DB_USERNAME="" \
+  DB_PASSWORD="" \
+  ADMIN_EMAIL="" \
   ADMIN_PASSWORD="<ADMIN_PASSWORD>"
 ```
 
@@ -238,4 +238,4 @@ https://vetly-app.azurewebsites.net/mvc/login
 Para facilitar a validação do projeto, disponibilizamos uma demonstração completa da
 solução em vídeo.
 
-🎥 <a href="#" target="_blank">Assistir demonstração no YouTube</a>
+🎥 <a href="https://youtu.be/m13l9fAtts4" target="_blank">Assistir demonstração no YouTube</a>
