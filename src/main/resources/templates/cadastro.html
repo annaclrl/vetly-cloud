@@ -96,17 +96,29 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Especialidades</label>
-                            <select class="form-select" multiple size="5" th:field="*{especialidades}">
-                                <option th:each="e : ${especialidadesDisponiveis}" th:value="${e.name()}" th:text="${e.name()}"></option>
-                            </select>
+                            <label class="form-label">Especialidades (selecione uma ou mais)</label>
+                            <div class="row row-cols-2 row-cols-md-3 g-2 border rounded p-2"
+                                 th:classappend="${#fields.hasErrors('especialidades')} ? 'border-danger'">
+                                <div class="col" th:each="e : ${especialidadesDisponiveis}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" th:field="*{especialidades}" th:value="${e.name()}"/>
+                                        <label class="form-check-label" th:for="${#ids.prev('especialidades')}" th:text="${e.name()}"></label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('especialidades')}" th:errors="*{especialidades}"></div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label">Espécies atendidas</label>
-                            <select class="form-select" multiple size="5" th:field="*{especies}">
-                                <option th:each="e : ${especiesDisponiveis}" th:value="${e.name()}" th:text="${e.name()}"></option>
-                            </select>
+                            <label class="form-label">Espécies atendidas (selecione uma ou mais)</label>
+                            <div class="row row-cols-2 row-cols-md-3 g-2 border rounded p-2"
+                                 th:classappend="${#fields.hasErrors('especies')} ? 'border-danger'">
+                                <div class="col" th:each="e : ${especiesDisponiveis}">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" th:field="*{especies}" th:value="${e.name()}"/>
+                                        <label class="form-check-label" th:for="${#ids.prev('especies')}" th:text="${e.name()}"></label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('especies')}" th:errors="*{especies}"></div>
                         </div>
                         <button class="btn btn-primary w-100" type="submit">Cadastrar como Veterinário</button>
