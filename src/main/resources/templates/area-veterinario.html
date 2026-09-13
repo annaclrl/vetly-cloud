@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Área do Veterinário')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <h1 class="h3 mb-1">Minha área</h1>
+    <p class="text-muted mb-4" th:if="${veterinario != null}"
+       th:text="'Dr(a). ' + ${veterinario.pessoa.nome} + ' · CRMV ' + ${veterinario.crmv}"></p>
+
+    <div class="alert alert-warning" th:if="${veterinario == null}">
+        Nenhum cadastro de veterinário associado a este usuário.
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">O que eu posso fazer como Veterinário</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Iniciar e encerrar as consultas atribuídas a mim.</li>
+            <li class="list-group-item">Registrar evolução clínica e prontuário do animal atendido.</li>
+            <li class="list-group-item">Corrigir o prontuário em até 24h livremente; depois exige justificativa e nunca sobrescreve o original.</li>
+            <li class="list-group-item">Solicitar exames e liberar resultados ao tutor explicitamente.</li>
+            <li class="list-group-item">Acessar o histórico do animal apenas durante o ciclo do atendimento (colmeia), com log de acesso registrado.</li>
+        </ul>
+    </div>
+
+    <h2 class="h5">Minhas consultas</h2>
+    <table class="table table-sm">
+        <thead><tr><th>Data</th><th>Animal</th><th>Status</th></tr></thead>
+        <tbody>
+            <tr th:each="c : ${consultas}">
+                <td th:text="${#temporals.format(c.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                <td th:text="${c.animal.nome}"></td>
+                <td th:text="${c.status}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(consultas)}"><td colspan="3" class="text-muted">Nenhuma consulta.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

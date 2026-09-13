@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Área do Tutor')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <h1 class="h3 mb-1">Minha área</h1>
+    <p class="text-muted mb-4" th:if="${tutor != null}" th:text="'Tutor: ' + ${tutor.pessoa.nome}"></p>
+
+    <div class="alert alert-warning" th:if="${tutor == null}">
+        Nenhum cadastro de tutor associado a este usuário.
+    </div>
+
+    <div class="card mb-4">
+        <div class="card-header">O que eu posso fazer como Tutor</div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">Agendar, cancelar e remarcar consultas para os meus animais.</li>
+            <li class="list-group-item">Manter o cadastro dos meus animais (peso, espécie, alergias, vacinação).</li>
+            <li class="list-group-item">Ocultar itens do histórico clínico, exceto alertas de segurança.</li>
+            <li class="list-group-item">Consultar o log de acesso ao prontuário dos meus animais.</li>
+            <li class="list-group-item">Solicitar exames e ver resultados após liberação do veterinário.</li>
+        </ul>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <h2 class="h5">Meus animais</h2>
+            <table class="table table-sm">
+                <thead><tr><th>Nome</th><th>Espécie</th><th>Raça</th></tr></thead>
+                <tbody>
+                    <tr th:each="a : ${animais}">
+                        <td th:text="${a.nome}"></td>
+                        <td th:text="${a.especie != null ? a.especie.nome : ''}"></td>
+                        <td th:text="${a.raca}"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(animais)}"><td colspan="3" class="text-muted">Nenhum animal cadastrado.</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h2 class="h5">Minhas consultas</h2>
+            <table class="table table-sm">
+                <thead><tr><th>Data</th><th>Animal</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr th:each="c : ${consultas}">
+                        <td th:text="${#temporals.format(c.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+                        <td th:text="${c.animal.nome}"></td>
+                        <td th:text="${c.status}"></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(consultas)}"><td colspan="3" class="text-muted">Nenhuma consulta.</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+</body>
+</html>

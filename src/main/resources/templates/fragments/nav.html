@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
 <nav th:fragment="nav" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/mvc/}">Vetly MVC</a>
+        <a class="navbar-brand" sec:authorize="hasRole('ADMIN')" th:href="@{/mvc/}">Vetly MVC</a>
+        <a class="navbar-brand" sec:authorize="hasRole('TUTOR')" th:href="@{/mvc/area-tutor}">Vetly MVC</a>
+        <a class="navbar-brand" sec:authorize="hasRole('VETERINARIO')" th:href="@{/mvc/area-veterinario}">Vetly MVC</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navVetly">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navVetly">
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto" sec:authorize="hasRole('ADMIN')">
                 <li class="nav-item"><a class="nav-link" th:href="@{/mvc/tutores}">Tutores</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/mvc/veterinarios}">Veterinários</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/mvc/animais}">Animais</a></li>
@@ -17,6 +19,12 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/mvc/especies}">Espécies</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/mvc/especialidades}">Especialidades</a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/mvc/usuarios}">Usuários</a></li>
+            </ul>
+            <ul class="navbar-nav me-auto" sec:authorize="hasRole('TUTOR')">
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/area-tutor}">Minha área</a></li>
+            </ul>
+            <ul class="navbar-nav me-auto" sec:authorize="hasRole('VETERINARIO')">
+                <li class="nav-item"><a class="nav-link" th:href="@{/mvc/area-veterinario}">Minha área</a></li>
             </ul>
             <span class="navbar-text me-3" th:if="${usuarioLogado != null}" th:text="${usuarioLogado}"></span>
             <form th:action="@{/mvc/logout}" method="post" class="d-flex">

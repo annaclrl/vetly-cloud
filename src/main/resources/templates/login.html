@@ -5,9 +5,10 @@
 <div class="container d-flex align-items-center justify-content-center" style="min-height:100vh">
     <div class="card shadow-sm" style="width: 100%; max-width: 380px;">
         <div class="card-body p-4">
-            <h1 class="h4 mb-3 text-center">Vetly · Área administrativa</h1>
+            <h1 class="h4 mb-3 text-center">Vetly · Login</h1>
             <div class="alert alert-danger" th:if="${param.erro}">Email ou senha inválidos.</div>
             <div class="alert alert-success" th:if="${param.logout}">Sessão encerrada.</div>
+            <div class="alert alert-success" th:if="${param.cadastrado} or ${sucesso != null}">Cadastro realizado com sucesso. Faça login para continuar.</div>
             <form th:action="@{/mvc/login}" method="post">
                 <div class="mb-3">
                     <label class="form-label" for="username">Email</label>
@@ -19,6 +20,9 @@
                 </div>
                 <button class="btn btn-primary w-100" type="submit">Entrar</button>
             </form>
+            <p class="text-center mt-3 mb-0">
+                Ainda não tem conta? <a th:href="@{/mvc/cadastro}">Cadastre-se</a>
+            </p>
         </div>
     </div>
 </div>

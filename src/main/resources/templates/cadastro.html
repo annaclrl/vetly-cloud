@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Cadastro')}"></head>
+<body class="bg-light">
+<div class="container py-5" style="max-width: 720px;">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h1 class="h4 mb-1 text-center">Vetly · Cadastro</h1>
+            <p class="text-muted text-center mb-4">Cadastre-se como tutor de um animal ou como veterinário.</p>
+
+            <ul class="nav nav-tabs mb-4" id="tipoCadastro" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="tab-tutor-btn" data-bs-toggle="tab" data-bs-target="#tab-tutor"
+                            type="button" role="tab">Sou Tutor</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tab-vet-btn" data-bs-toggle="tab" data-bs-target="#tab-vet"
+                            type="button" role="tab">Sou Veterinário</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="tab-tutor" role="tabpanel">
+                    <form th:action="@{/mvc/cadastro/tutor}" th:object="${tutorForm}" method="post">
+                        <div th:replace="~{fragments/form-errors :: globalErrors}"></div>
+                        <div class="mb-3">
+                            <label class="form-label">Nome completo</label>
+                            <input class="form-control" th:field="*{nome}" th:errorclass="is-invalid"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">E-mail</label>
+                                <input class="form-control" type="email" th:field="*{email}" th:errorclass="is-invalid"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Senha</label>
+                                <input class="form-control" type="password" th:field="*{senha}" th:errorclass="is-invalid"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">CPF</label>
+                                <input class="form-control" th:field="*{cpf}" th:errorclass="is-invalid" placeholder="somente números"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input class="form-control" th:field="*{telefone}" th:errorclass="is-invalid" placeholder="(11) 91234-5678"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">Cadastrar como Tutor</button>
+                    </form>
+                </div>
+
+                <div class="tab-pane fade" id="tab-vet" role="tabpanel">
+                    <form th:action="@{/mvc/cadastro/veterinario}" th:object="${veterinarioForm}" method="post">
+                        <div th:replace="~{fragments/form-errors :: globalErrors}"></div>
+                        <div class="row">
+                            <div class="col-md-8 mb-3">
+                                <label class="form-label">Nome completo</label>
+                                <input class="form-control" th:field="*{nome}" th:errorclass="is-invalid"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></div>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label class="form-label">CRMV</label>
+                                <input class="form-control" th:field="*{crmv}" th:errorclass="is-invalid"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('crmv')}" th:errors="*{crmv}"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">E-mail</label>
+                                <input class="form-control" type="email" th:field="*{email}" th:errorclass="is-invalid"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Senha</label>
+                                <input class="form-control" type="password" th:field="*{senha}" th:errorclass="is-invalid"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('senha')}" th:errors="*{senha}"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">CPF</label>
+                                <input class="form-control" th:field="*{cpf}" th:errorclass="is-invalid" placeholder="somente números"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('cpf')}" th:errors="*{cpf}"></div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Telefone</label>
+                                <input class="form-control" th:field="*{telefone}" th:errorclass="is-invalid" placeholder="(11) 91234-5678"/>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('telefone')}" th:errors="*{telefone}"></div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Especialidades</label>
+                            <select class="form-select" multiple size="5" th:field="*{especialidades}">
+                                <option th:each="e : ${especialidadesDisponiveis}" th:value="${e.name()}" th:text="${e.name()}"></option>
+                            </select>
+                            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('especialidades')}" th:errors="*{especialidades}"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Espécies atendidas</label>
+                            <select class="form-select" multiple size="5" th:field="*{especies}">
+                                <option th:each="e : ${especiesDisponiveis}" th:value="${e.name()}" th:text="${e.name()}"></option>
+                            </select>
+                            <div class="invalid-feedback d-block" th:if="${#fields.hasErrors('especies')}" th:errors="*{especies}"></div>
+                        </div>
+                        <button class="btn btn-primary w-100" type="submit">Cadastrar como Veterinário</button>
+                    </form>
+                </div>
+            </div>
+
+            <p class="text-center mt-4 mb-0">
+                <a th:href="@{/mvc/login}">Já tenho conta — entrar</a>
+            </p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

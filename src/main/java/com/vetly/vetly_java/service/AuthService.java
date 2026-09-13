@@ -65,6 +65,9 @@ public class AuthService implements UserDetailsService {
         if (usuarioRepository.findByEmail(dto.email()) != null) {
             throw new IllegalArgumentException("Email já cadastrado");
         }
+        if (pessoaRepository.existsByCpfAndTelefone(dto.cpf(), dto.telefone())) {
+            throw new IllegalArgumentException("Já existe uma pessoa cadastrada com este CPF e telefone");
+        }
 
         var usuario = new Usuario();
         usuario.setEmail(dto.email());
@@ -116,6 +119,9 @@ public class AuthService implements UserDetailsService {
     public UsuarioResponse registerTutor(@Valid RegisterTutorDTO dto) {
         if (usuarioRepository.findByEmail(dto.email()) != null) {
             throw new IllegalArgumentException("Email já cadastrado");
+        }
+        if (pessoaRepository.existsByCpfAndTelefone(dto.cpf(), dto.telefone())) {
+            throw new IllegalArgumentException("Já existe uma pessoa cadastrada com este CPF e telefone");
         }
 
         var usuario = new Usuario();
