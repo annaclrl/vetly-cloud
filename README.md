@@ -148,6 +148,7 @@ O Vetly é implantado na Microsoft Azure como **Azure App Service** (Java 21), d
 forma **manual via Azure CLI**, conectado a um banco **Oracle Database já existente**
 (instância da FIAP).
 
+> 💡 O arquivo [`script.sh`](script.sh) reúne todos os comandos abaixo em sequência.
 
 ### 1️⃣ Clonar o Repositório
 
@@ -204,10 +205,10 @@ az webapp config appsettings set \
   --resource-group rg-vetly \
   --name vetly-app \
   --settings \
-  DB_URL="" \
-  DB_USERNAME="" \
-  DB_PASSWORD="" \
-  ADMIN_EMAIL="" \
+  DB_URL="<DB_URL>" \
+  DB_USERNAME="<DB_USERNAME>" \
+  DB_PASSWORD="<DB_PASSWORD>" \
+  ADMIN_EMAIL="<ADMIN_EMAIL>" \
   ADMIN_PASSWORD="<ADMIN_PASSWORD>"
 ```
 
