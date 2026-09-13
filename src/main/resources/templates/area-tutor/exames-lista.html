@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Meus exames')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <h1 class="h3 mb-3">Meus exames</h1>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Animal</th><th>Consulta</th><th>Itens</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="s : ${solicitacoes}">
+            <td th:text="${s.consulta.animal.nome}"></td>
+            <td th:text="${#temporals.format(s.consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${#lists.size(s.itens)}"></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/area-tutor/exames/{id}(id=${s.id})}">Ver</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(solicitacoes)}"><td colspan="4" class="text-muted text-center py-4">Nenhuma solicitação de exame.</td></tr>
+        </tbody>
+    </table>
+    <a th:href="@{/mvc/area-tutor}">← Voltar</a>
+</main>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Minhas consultas')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Minhas consultas</h1>
+        <a class="btn btn-primary" th:href="@{/mvc/area-tutor/consultas/novo}">Agendar consulta</a>
+    </div>
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <table class="table table-hover align-middle">
+        <thead><tr><th>Data</th><th>Animal</th><th>Veterinário</th><th>Status</th><th></th></tr></thead>
+        <tbody>
+        <tr th:each="c : ${consultas}">
+            <td th:text="${#temporals.format(c.dataHora, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${c.animal.nome}"></td>
+            <td th:text="${c.veterinario.pessoa.nome}"></td>
+            <td><span class="badge text-bg-secondary" th:text="${c.status}"></span></td>
+            <td class="text-end">
+                <a class="btn btn-sm btn-outline-secondary" th:href="@{/mvc/area-tutor/consultas/{id}(id=${c.id})}">Ver</a>
+            </td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(consultas)}"><td colspan="5" class="text-muted text-center py-4">Nenhuma consulta agendada.</td></tr>
+        </tbody>
+    </table>
+    <a th:href="@{/mvc/area-tutor}">← Voltar</a>
+</main>
+</body>
+</html>

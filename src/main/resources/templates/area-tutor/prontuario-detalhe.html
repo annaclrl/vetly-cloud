@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Prontuário')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+    <h1 class="h3 mb-1">Prontuário de <span th:text="${animal.nome}"></span></h1>
+    <a class="d-inline-block mb-3" th:href="@{/mvc/area-tutor/animais/{id}(id=${animal.id})}">← Voltar ao animal</a>
+
+    <div th:if="${#lists.isEmpty(historico)}" class="alert alert-info">
+        Este animal ainda não possui prontuário. O prontuário é criado pelo veterinário na primeira consulta.
+    </div>
+
+    <div th:unless="${#lists.isEmpty(historico)}" class="mb-4">
+        <h2 class="h5">Histórico clínico</h2>
+        <div class="card mb-3" th:each="p : ${historico}">
+            <div class="card-header d-flex justify-content-between">
+                <span th:text="${p.original} ? 'Versão original' : 'Correção'"></span>
+                <span class="text-muted" th:text="${p.dataUltimaAtualizacao}"></span>
+            </div>
+            <div class="card-body">
+                <p class="card-text" style="white-space: pre-wrap" th:text="${p.conteudoClinico}"></p>
+                <p class="text-muted small mb-0" th:if="${p.justificativaCorrecao != null}">
+                    Justificativa: <span th:text="${p.justificativaCorrecao}"></span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="h5">Evoluções clínicas por consulta</h2>
+    <p class="text-muted small">Você pode ocultar registros do seu histórico. Alertas de segurança nunca podem ser ocultados (RN-068).</p>
+    <div class="card mb-3" th:each="e : ${evolucoes}">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <span th:text="${#temporals.format(e.consulta.dataHora, 'dd/MM/yyyy HH:mm')} + ' — ' + ${e.consulta.veterinario.pessoa.nome}"></span>
+            <span class="badge text-bg-danger" th:if="${e.alertaSeguranca}">Alerta de segurança</span>
+            <span class="badge text-bg-secondary" th:if="${e.ocultoResponsavel and !e.alertaSeguranca}">Oculto</span>
+        </div>
+        <div class="card-body" th:unless="${e.ocultoResponsavel and !e.alertaSeguranca}">
+            <p class="card-text" style="white-space: pre-wrap" th:text="${e.anotacoes}"></p>
+        </div>
+        <div class="card-body" th:if="${e.ocultoResponsavel and !e.alertaSeguranca}">
+            <p class="text-muted mb-0 fst-italic">Registro ocultado por você.</p>
+        </div>
+        <div class="card-footer" th:unless="${e.alertaSeguranca}">
+            <form th:if="${!e.ocultoResponsavel}" class="d-inline"
+                  th:action="@{/mvc/area-tutor/animais/{id}/prontuario/evolucoes/{eid}/ocultar(id=${animal.id},eid=${e.id})}" method="post">
+                <button class="btn btn-sm btn-outline-secondary" type="submit">Ocultar</button>
+            </form>
+            <form th:if="${e.ocultoResponsavel}" class="d-inline"
+                  th:action="@{/mvc/area-tutor/animais/{id}/prontuario/evolucoes/{eid}/reexibir(id=${animal.id},eid=${e.id})}" method="post">
+                <button class="btn btn-sm btn-outline-secondary" type="submit">Reexibir</button>
+            </form>
+        </div>
+    </div>
+    <p th:if="${#lists.isEmpty(evolucoes)}" class="text-muted">Nenhuma evolução clínica registrada ainda.</p>
+
+    <h2 class="h5 mt-4">Log de acesso ao prontuário</h2>
+    <p class="text-muted small">Todo acesso de um veterinário ao histórico deste animal fica registrado aqui (RN-067).</p>
+    <table class="table table-sm">
+        <thead><tr><th>Data/hora</th><th>Veterinário</th><th>Base de acesso</th><th>Contexto</th></tr></thead>
+        <tbody>
+        <tr th:each="log : ${logsAcesso}">
+            <td th:text="${#temporals.format(log.dataHoraAcesso, 'dd/MM/yyyy HH:mm')}"></td>
+            <td th:text="${log.veterinario.pessoa.nome}"></td>
+            <td th:text="${log.baseAcesso}"></td>
+            <td th:text="${log.contextoAcesso}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(logsAcesso)}"><td colspan="4" class="text-muted text-center py-3">Nenhum acesso registrado.</td></tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

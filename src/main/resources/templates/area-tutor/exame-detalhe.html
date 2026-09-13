@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('Solicitação de exame')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <h1 class="h3 mb-1">Exames de <span th:text="${solicitacao.consulta.animal.nome}"></span></h1>
+    <p class="text-muted">
+        Consulta de <span th:text="${#temporals.format(solicitacao.consulta.dataHora, 'dd/MM/yyyy HH:mm')}"></span>
+        com <span th:text="${solicitacao.consulta.veterinario.pessoa.nome}"></span>
+    </p>
+    <p th:if="${solicitacao.observacao != null}" th:text="'Observação: ' + ${solicitacao.observacao}"></p>
+
+    <div class="card mb-3" th:each="item : ${solicitacao.itens}">
+        <div class="card-header d-flex justify-content-between">
+            <span th:text="${item.nomeExame}"></span>
+            <span class="badge text-bg-secondary" th:text="${item.status}"></span>
+        </div>
+        <div class="card-body">
+            <p class="mb-1">Solicitado em: <span th:text="${item.dataSolicitacao}"></span></p>
+            <p class="mb-1" th:if="${item.liberadoResponsavel}">
+                Resultado: <span th:text="${item.descricaoResultado}"></span>
+                (liberado em <span th:text="${item.dataLiberacaoResponsavel}"></span>)
+            </p>
+            <p class="mb-0 text-muted fst-italic" th:unless="${item.liberadoResponsavel}">
+                Resultado ainda não liberado pelo veterinário.
+            </p>
+        </div>
+    </div>
+
+    <a th:href="@{/mvc/area-tutor/consultas/{id}(id=${solicitacao.consulta.id})}">← Voltar à consulta</a>
+</main>
+</body>
+</html>
