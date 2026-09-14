@@ -351,21 +351,31 @@ Regras de manutenção:
 
 ### Pré-requisitos
 
-- Java 21+
+- Java 21+ (`java -version`)
 - Instância Oracle acessível (o wrapper `./gradlew` dispensa instalar o Gradle)
+
+### Passo a passo
 
 ```bash
 git clone https://github.com/challenge-vetly/vetly-java.git
 cd mvc-vetly-java
+
+# 1. Configure o acesso ao Oracle em src/main/resources/application.properties
+#    (ver seção "Configuração" abaixo) antes do primeiro build/run.
 
 ./gradlew build        # compila e roda os testes
 ./gradlew bootRun      # sobe em http://localhost:8080/mvc/login
 ./gradlew test         # só os testes
 ```
 
-Na subida, o Flyway aplica as migrations pendentes e o Hibernate valida o mapeamento
-contra o schema — divergência entre entidade e tabela derruba a aplicação no start,
-de propósito.
+No Windows use `gradlew.bat` no lugar de `./gradlew`.
+
+Na subida, o Flyway aplica as migrations pendentes (`src/main/resources/db/migration`)
+e o Hibernate valida o mapeamento contra o schema — divergência entre entidade e
+tabela derruba a aplicação no start, de propósito. Erro de conexão com o Oracle também
+impede o start, já que não há fallback para outro banco.
+
+Para parar a aplicação, `Ctrl+C` no terminal onde `bootRun` está rodando.
 
 ### Primeiro acesso
 
@@ -380,21 +390,27 @@ essas duas linhas — o bootstrap não faz nada assim que já existe um ADMIN.
 
 ## Configuração
 
-`src/main/resources/application.properties`:
+`src/main/resources/application.properties` (valores hoje versionados, apontando para
+o Oracle da FIAP — troque pelos do seu ambiente antes de rodar local):
 
 ```properties
 spring.application.name=vetly-java
 
 # Oracle
-spring.datasource.url=jdbc:oracle:thin:@//localhost:1521/orcl
+spring.datasource.url=jdbc:oracle:thin:@//oracle.fiap.com.br:1521/orcl
 spring.datasource.username=seu_usuario
 spring.datasource.password=sua_senha
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 
-# Flyway é dono do schema; Hibernate apenas valida
+# O schema do usuario FIAP ja existe com as tabelas de DDL.txt criadas manualmente antes
+# do Flyway entrar no projeto. baseline-on-migrate marca esse estado atual como a versao
+# de baseline sem reexecutar o CREATE TABLE, e so aplica as migrations seguintes.
+# Um schema novo/vazio (ex.: outro ambiente) executa V1 normalmente.
 spring.flyway.enabled=true
 spring.flyway.baseline-on-migrate=true
-spring.flyway.baseline-version=1
+spring.flyway.baseline-version=8
+
+# Flyway é dono do schema; Hibernate apenas valida, nunca gera DDL
 spring.jpa.hibernate.ddl-auto=validate
 
 # 404 em rota inexistente em vez de página de erro estática
@@ -406,9 +422,15 @@ vetly.admin.bootstrap.email=admin@vetly.com.br
 vetly.admin.bootstrap.senha=Admin@123
 ```
 
+Para rodar contra um Oracle próprio (local ou outra instância), basta sobrescrever a
+URL/usuário/senha — por variável de ambiente (`SPRING_DATASOURCE_URL`,
+`SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) ou editando o arquivo
+diretamente. Num schema vazio, o Flyway roda `V1__baseline_schema.sql` em diante
+normalmente — não é preciso mexer em `baseline-version` nesse caso.
+
 > ⚠️ O arquivo versionado hoje contém credenciais reais do ambiente da FIAP. Antes de
-> qualquer uso fora da disciplina, mova-as para variáveis de ambiente
-> (`SPRING_DATASOURCE_PASSWORD`) e não comite segredo.
+> qualquer uso fora da disciplina, mova-as para variáveis de ambiente e não comite
+> segredo.
 
 ---
 
