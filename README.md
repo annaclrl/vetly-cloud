@@ -38,7 +38,7 @@ servidor — sem API REST.
 - [Como executar](#como-executar)
 - [Configuração](#configuração)
 - [Roadmap](#roadmap)
-- [Demostração](#demostração)
+- [Demonstração](#demonstração)
 
 ---
 
