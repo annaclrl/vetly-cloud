@@ -38,6 +38,7 @@ servidor — sem API REST.
 - [Como executar](#como-executar)
 - [Configuração](#configuração)
 - [Roadmap](#roadmap)
+- [Demonstração](#demonstração)
 
 ---
 
@@ -453,3 +454,9 @@ normalmente — não é preciso mexer em `baseline-version` nesse caso.
       e de uma decisão sobre split financeiro
 - [ ] LGPD granular por finalidade (RN-061) em vez do aceite simplificado atual
 - [ ] `Disponibilidade` — grade horária do veterinário e resolução de conflitos de agenda
+
+## 🎥 Demonstração
+
+Para facilitar a validação do projeto, disponibilizamos uma demonstração em vídeo do protótipo.
+
+<a href="https://youtu.be/NA3uADLVsbU" target="_blank">Assistir demonstração no YouTube</a>
