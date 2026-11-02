@@ -1,49 +1,76 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head th:replace="~{fragments/head :: head('Painel')}"></head>
 <body>
 <nav th:replace="~{fragments/nav :: nav}"></nav>
 <main class="container pb-5">
-    <h1 class="h3 mb-4">Painel</h1>
+    <div class="mb-4">
+        <h1 class="h3 mb-1">Painel</h1>
+        <p class="text-muted mb-0">Visão geral da plataforma.</p>
+    </div>
     <div class="row g-3">
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/tutores}">
-                <div class="card-body"><div class="text-muted small">Tutores</div><div class="h3" th:text="${totalTutores}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-people" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Tutores</div><div class="stat-value" th:text="${totalTutores}">0</div></div>
+                </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/veterinarios}">
-                <div class="card-body"><div class="text-muted small">Veterinários</div><div class="h3" th:text="${totalVeterinarios}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-person-badge" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Veterinários</div><div class="stat-value" th:text="${totalVeterinarios}">0</div></div>
+                </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/animais}">
-                <div class="card-body"><div class="text-muted small">Animais</div><div class="h3" th:text="${totalAnimais}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-emoji-smile" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Animais</div><div class="stat-value" th:text="${totalAnimais}">0</div></div>
+                </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/consultas}">
-                <div class="card-body"><div class="text-muted small">Consultas</div><div class="h3" th:text="${totalConsultas}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Consultas</div><div class="stat-value" th:text="${totalConsultas}">0</div></div>
+                </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/exames}">
-                <div class="card-body"><div class="text-muted small">Solicitações de exame</div><div class="h3" th:text="${totalExames}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-clipboard2-pulse" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Solicitações de exame</div><div class="stat-value" th:text="${totalExames}">0</div></div>
+                </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/especies}">
-                <div class="card-body"><div class="text-muted small">Espécies</div><div class="h3" th:text="${totalEspecies}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-diagram-3" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Espécies</div><div class="stat-value" th:text="${totalEspecies}">0</div></div>
+                </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/especialidades}">
-                <div class="card-body"><div class="text-muted small">Especialidades</div><div class="h3" th:text="${totalEspecialidades}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-award" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Especialidades</div><div class="stat-value" th:text="${totalEspecialidades}">0</div></div>
+                </div>
             </a>
         </div>
-        <div class="col-6 col-md-3">
+        <div class="col-6 col-lg-3">
             <a class="card text-decoration-none text-reset h-100" th:href="@{/mvc/usuarios}">
-                <div class="card-body"><div class="text-muted small">Usuários</div><div class="h3" th:text="${totalUsuarios}">0</div></div>
+                <div class="card-body d-flex align-items-center gap-3">
+                    <span class="stat-icon"><i class="bi bi-person-gear" aria-hidden="true"></i></span>
+                    <div><div class="text-muted small">Usuários</div><div class="stat-value" th:text="${totalUsuarios}">0</div></div>
+                </div>
             </a>
         </div>
     </div>
