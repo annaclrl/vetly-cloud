@@ -33,7 +33,7 @@
             <div th:if="${#fields.hasErrors('especialidades')}" class="text-danger small mb-1" th:errors="*{especialidades}"></div>
             <div class="form-check form-check-inline" th:each="esp : ${especialidadesDisponiveis}">
                 <input class="form-check-input" type="checkbox" th:field="*{especialidades}" th:value="${esp}"/>
-                <label class="form-check-label" th:text="${esp}" th:for="${#ids.prev('especialidades')}"></label>
+                <label class="form-check-label" th:text="${#strings.replace(esp, 'MEDICINA_ANIMAIS_SELVAGENS', 'ANIMAIS_SELVAGENS')}" th:for="${#ids.prev('especialidades')}"></label>
             </div>
         </div>
         <div class="mb-3">
