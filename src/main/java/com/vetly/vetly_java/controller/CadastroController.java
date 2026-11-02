@@ -6,6 +6,7 @@ import com.vetly.vetly_java.model.NomeEspecialidade;
 import com.vetly.vetly_java.model.NomeEspecie;
 import com.vetly.vetly_java.service.TutorAdminService;
 import com.vetly.vetly_java.service.VeterinarioAdminService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,13 @@ public class CadastroController {
     }
 
     @GetMapping
-    public String form(Model model) {
+    public String formulario(Model model, HttpServletRequest request) {
+        // Garante a sessao antes de renderizar (token CSRF dos formularios; ver AuthViewController)
+        request.getSession(true);
+        return form(model);
+    }
+
+    private String form(Model model) {
         if (!model.containsAttribute("tutorForm")) {
             model.addAttribute("tutorForm", new TutorCreateForm());
         }
