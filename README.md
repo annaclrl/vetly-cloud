@@ -26,6 +26,7 @@ servidor — sem API REST.
 
 ## Índice
 
+- [Entrega final e integração entre disciplinas](#entrega-final-e-integração-entre-disciplinas)
 - [Escopo do domínio](#escopo-do-domínio)
 - [Funcionalidade removida: Colmeia](#funcionalidade-removida-colmeia)
 - [Stack tecnológica](#stack-tecnológica)
@@ -39,6 +40,23 @@ servidor — sem API REST.
 - [Configuração](#configuração)
 - [Roadmap](#roadmap)
 - [Demonstração](#demonstração)
+
+---
+
+## Entrega final e integração entre disciplinas
+
+| Conjunto | Disciplinas | Repositórios |
+|---|---|---|
+| **A** | Java Advanced + DevOps & Cloud + Mastering Databases | este repositório + `vetly-database` |
+| **B** | Mobile + Advanced Business Development with .NET | `vetly-.net` + app React Native/Expo |
+
+No conjunto A, a aplicação Java (Spring Boot/JPA) consulta o **Oracle da FIAP**, seguindo a
+modelagem, o DDL e as migrations de `vetly-database`, e é publicada na **Azure** por uma
+pipeline CI/CD (build, testes, artefato, deploy). Fluxo, requisitos da Sprint 4, estado de
+cada item (✅/🟡/⬜) e checklist: [docs/ENTREGA-FINAL-SPRINT4.md](docs/ENTREGA-FINAL-SPRINT4.md).
+
+Os projetos Java anteriores (API REST `vetly-java` e o pacote da Sprint 3) foram arquivados
+fora deste repositório; **este é o projeto canônico da disciplina**.
 
 ---
 
@@ -119,7 +137,7 @@ mvc-vetly-java/
     └── resources/
         ├── application.properties
         ├── templates/                        # Thymeleaf, uma pasta por entidade
-        └── db/migration/                     # V1..V8 (Flyway)
+        └── db/migration/                     # V1..V9 (Flyway)
 ```
 
 Duas camadas de serviço coexistem de propósito, não por descuido:
@@ -335,6 +353,7 @@ O schema é versionado com **Flyway** em `src/main/resources/db/migration/`.
 | `V6__tutor_consentimento_lgpd_rede` | `FL_LGPD_ACEITO`, `DT_LGPD_ACEITO`, `FL_CONSENTIMENTO_REDE`, `DT_CONSENTIMENTO_REDE` | RN-060/062 |
 | `V7__log_acesso_prontuario_rn067` | Tabela `TB_LOG_ACESSO_PRONTUARIO` | RN-067 (tabela mantida, sem uso hoje) |
 | `V8__prontuario_versionamento_rn088_089` | `DS_CONTEUDO_CLINICO`, auto-FK `TB_PRONTUARIO_ID_ORIGINAL`, `DT_HR_CORRECAO`, `CRMV_SOLICITANTE_CORRECAO`, `DS_JUSTIFICATIVA_CORRECAO` | RN-088/089 |
+| `V9__seed_especie_especialidade` | Semeia `TB_ESPECIE` e `TB_ESPECIALIDADES_VET` com os valores dos enums Java | — |
 
 Regras de manutenção:
 
@@ -358,7 +377,7 @@ Regras de manutenção:
 ### Passo a passo
 
 ```bash
-git clone https://github.com/challenge-vetly/vetly-java.git
+git clone https://github.com/Duartegdm/vetly-mvc.git
 cd mvc-vetly-java
 
 # 1. Configure o acesso ao Oracle em src/main/resources/application.properties
