@@ -8,6 +8,15 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.security.oauth2.client.oidc.authentication.OidcIdTokenValidator;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
+import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
+import org.springframework.security.oauth2.jwt.JwtDecoderFactory;
+import org.springframework.security.oauth2.jwt.JwtTimestampValidator;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -24,10 +33,12 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity,
+                                                   GoogleLoginSuccessHandler googleSuccessHandler) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/mvc/login", "/mvc/logout", "/mvc/cadastro", "/mvc/cadastro/**").permitAll()
+                        .requestMatchers("/mvc/login", "/mvc/logout", "/mvc/cadastro", "/mvc/cadastro/**",
+                                "/oauth2/**", "/login/oauth2/**").permitAll()
                         .requestMatchers("/mvc/area-tutor", "/mvc/area-tutor/**").hasRole("TUTOR")
                         .requestMatchers("/mvc/area-veterinario", "/mvc/area-veterinario/**").hasRole("VETERINARIO")
                         .anyRequest().hasRole("ADMIN")
@@ -38,6 +49,11 @@ public class SecurityConfig {
                         .successHandler(successHandler())
                         .failureUrl("/mvc/login?erro")
                         .permitAll()
+                )
+                .oauth2Login(oauth -> oauth
+                        .loginPage("/mvc/login")
+                        .successHandler(googleSuccessHandler)
+                        .failureUrl("/mvc/login?erroGoogle")
                 )
                 .logout(logout -> logout
                         .logoutUrl("/mvc/logout")
@@ -77,5 +93,28 @@ public class SecurityConfig {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * O decoder padrao baixa as chaves publicas do Google (JWKS) com timeout de ~500ms,
+     * insuficiente em redes mais lentas ("Read timed out" -> invalid_id_token).
+     * Mesmo decoder/validacoes do padrao, so com timeouts maiores.
+     */
+    @Bean
+    public JwtDecoderFactory<ClientRegistration> idTokenDecoderFactory() {
+        SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+        requestFactory.setConnectTimeout(10_000);
+        requestFactory.setReadTimeout(10_000);
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        return registration -> {
+            NimbusJwtDecoder decoder = NimbusJwtDecoder
+                    .withJwkSetUri(registration.getProviderDetails().getJwkSetUri())
+                    .jwsAlgorithm(SignatureAlgorithm.RS256)
+                    .restOperations(restTemplate)
+                    .build();
+            decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(
+                    new JwtTimestampValidator(), new OidcIdTokenValidator(registration)));
+            return decoder;
+        };
     }
 }

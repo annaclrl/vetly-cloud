@@ -9,6 +9,8 @@
             <div class="alert alert-danger" th:if="${param.erro}">Email ou senha inválidos.</div>
             <div class="alert alert-success" th:if="${param.logout}">Sessão encerrada.</div>
             <div class="alert alert-success" th:if="${param.cadastrado} or ${sucesso != null}">Cadastro realizado com sucesso. Faça login para continuar.</div>
+            <div class="alert alert-danger" th:if="${param.erroGoogle}">Não foi possível entrar com o Google.</div>
+            <div class="alert alert-warning" th:if="${param.googleSemConta}">Nenhuma conta Vetly com este e-mail Google. Cadastre-se primeiro.</div>
             <form th:action="@{/mvc/login}" method="post">
                 <div class="mb-3">
                     <label class="form-label" for="username">Email</label>
@@ -20,6 +22,7 @@
                 </div>
                 <button class="btn btn-primary w-100" type="submit">Entrar</button>
             </form>
+            <a class="btn btn-outline-secondary w-100 mt-3" th:href="@{/oauth2/authorization/google}">Entrar com Google</a>
             <p class="text-center mt-3 mb-0">
                 Ainda não tem conta? <a th:href="@{/mvc/cadastro}">Cadastre-se</a>
             </p>
