@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head th:replace="~{fragments/head :: head('Cadastro')}"></head>
-<body class="bg-light">
-<div class="container py-5" style="max-width: 720px;">
-    <div class="card shadow-sm">
-        <div class="card-body p-4">
-            <h1 class="h4 mb-1 text-center">Vetly · Cadastro</h1>
+<body>
+<main class="auth-shell py-5" style="align-items: flex-start;">
+    <div class="card auth-card" style="max-width: 720px;">
+        <div class="card-body p-4 p-sm-5">
+            <div class="text-center">
+                <span class="auth-logo"><i class="bi bi-heart-pulse-fill" aria-hidden="true"></i></span>
+            </div>
+            <h1 class="h4 mb-1 text-center">Crie sua conta Vetly</h1>
             <p class="text-muted text-center mb-4">Cadastre-se como tutor de um animal ou como veterinário.</p>
 
             <ul class="nav nav-tabs mb-4" id="tipoCadastro" role="tablist">
@@ -131,6 +134,6 @@
             </p>
         </div>
     </div>
-</div>
+</main>
 </body>
 </html>

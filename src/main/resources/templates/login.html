@@ -1,30 +1,37 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <head th:replace="~{fragments/head :: head('Login')}"></head>
-<body class="bg-light">
-<div class="container d-flex align-items-center justify-content-center" style="min-height:100vh">
-    <div class="card shadow-sm" style="width: 100%; max-width: 380px;">
-        <div class="card-body p-4">
-            <h1 class="h4 mb-3 text-center">Vetly · Login</h1>
-            <div class="alert alert-danger" th:if="${param.erro}">Email ou senha inválidos.</div>
-            <div class="alert alert-success" th:if="${param.logout}">Sessão encerrada.</div>
-            <div class="alert alert-success" th:if="${param.cadastrado} or ${sucesso != null}">Cadastro realizado com sucesso. Faça login para continuar.</div>
-            <div class="alert alert-danger" th:if="${param.erroGoogle}">Não foi possível entrar com o Google.</div>
-            <div class="alert alert-warning" th:if="${param.googleSemConta}">Nenhuma conta Vetly com este e-mail Google. Cadastre-se primeiro.</div>
+<body>
+<main class="auth-shell">
+    <div class="card auth-card" style="max-width: 420px;">
+        <div class="card-body p-4 p-sm-5">
+            <div class="text-center mb-4">
+                <span class="auth-logo"><i class="bi bi-heart-pulse-fill" aria-hidden="true"></i></span>
+                <h1 class="h4 mb-1">Bem-vindo ao Vetly</h1>
+                <p class="text-muted mb-0">Entre para acessar a saúde do seu pet.</p>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${param.erro}"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i><div>Email ou senha inválidos.</div></div>
+            <div class="alert alert-success" role="status" th:if="${param.logout}"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><div>Sessão encerrada.</div></div>
+            <div class="alert alert-success" role="status" th:if="${param.cadastrado} or ${sucesso != null}"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><div>Cadastro realizado com sucesso. Faça login para continuar.</div></div>
+            <div class="alert alert-danger" role="alert" th:if="${param.erroGoogle}"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i><div>Não foi possível entrar com o Google.</div></div>
+            <div class="alert alert-warning" role="alert" th:if="${param.googleSemConta}"><i class="bi bi-info-circle-fill" aria-hidden="true"></i><div>Nenhuma conta Vetly com este e-mail Google. Cadastre-se primeiro.</div></div>
             <form th:action="@{/mvc/login}" method="post">
                 <div class="mb-3">
-                    <label class="form-label" for="username">Email</label>
-                    <input class="form-control" type="email" id="username" name="username" required autofocus/>
+                    <label class="form-label" for="username">E-mail</label>
+                    <input class="form-control" type="email" id="username" name="username" autocomplete="username"
+                           placeholder="voce@exemplo.com" required autofocus/>
                 </div>
-                <div class="mb-3">
+                <div class="mb-4">
                     <label class="form-label" for="password">Senha</label>
-                    <input class="form-control" type="password" id="password" name="password" required/>
+                    <input class="form-control" type="password" id="password" name="password"
+                           autocomplete="current-password" required/>
                 </div>
-                <button class="btn btn-primary w-100" type="submit">Entrar</button>
+                <button class="btn btn-primary w-100" type="submit"><i class="bi bi-box-arrow-in-right" aria-hidden="true"></i>Entrar</button>
             </form>
-            <a class="btn btn-outline-secondary w-100 mt-3" th:href="@{/oauth2/authorization/google}">Entrar com Google</a>
-            <p class="text-center mt-3 mb-0">
-                Ainda não tem conta? <a th:href="@{/mvc/cadastro}">Cadastre-se</a>
+            <div class="divider">ou</div>
+            <a class="btn btn-outline-secondary w-100" th:href="@{/oauth2/authorization/google}"><i class="bi bi-google" aria-hidden="true"></i>Entrar com Google</a>
+            <p class="text-center mt-4 mb-0">
+                Ainda não tem conta? <a class="fw-semibold" th:href="@{/mvc/cadastro}">Cadastre-se</a>
             </p>
         </div>
     </div>
