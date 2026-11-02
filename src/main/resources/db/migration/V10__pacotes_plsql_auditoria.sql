@@ -1,12 +1,12 @@
 -- V10: pacotes PL/SQL, trilha de auditoria e trigger (Sprint 4 - Banco de Dados)
 --
 -- Cria PKG_VETLY_LOG, PKG_VETLY_VALIDACAO, PKG_VETLY_JSON e PKG_VETLY_RELATORIO,
--- a tabela TB_AUDITORIA e a trigger TRG_AUD_CONSULTA. O mvc-vetly-java consome
+-- a tabela TB_AUDITORIA e a trigger TRG_AUD_CONSULTA. O painel Java consome
 -- PKG_VETLY_RELATORIO; os demais servem a validacao, a exportacao para MongoDB
 -- e a auditoria. Tudo e entregue por esta migration: qualquer ambiente que rode
 -- o Flyway recebe os objetos, sem passo manual.
 --
--- Fonte: vetly-database/vetly-sprint-4/scripts/01..05 (gerado por gerar-migration.sh).
+-- Fonte: database/scripts/01..05 (gerado por gerar-migration.sh).
 -- NAO EDITE depois de aplicada: o checksum do Flyway cobre o arquivo inteiro.
 
 -- ---------------------------------------------------------------- 01_pkg_vetly_log

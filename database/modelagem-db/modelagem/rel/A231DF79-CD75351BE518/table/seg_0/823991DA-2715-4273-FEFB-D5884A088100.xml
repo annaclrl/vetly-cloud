@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="823991DA-2715-4273-FEFB-D5884A088100" name="TB_USUARIO">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>5ED062C0-A77A-9BA6-D799-B80895D24BD1</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_USUARIO" id="3A43A80F-3D34-9E0F-420C-B59C22174B39">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>27648D1D-5D53-D4F2-32EE-8EE89391E0B8</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="EM_USUARIO" id="FFB7FDB2-0FAD-884E-4FD4-D894E17549FE">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[EMAIL DO USUARIO - USERNAME]]></commentInRDBMS>
+<generatorID>9FDFB5A9-8810-A684-7723-52850EE58810</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255 CHAR</dataTypeSize>
+<ownDataTypeParameters>255 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="RL_USUARIO" id="273EC5D2-674C-2861-5562-3833AA7F02E0">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[USER ROLE]]></commentInRDBMS>
+<generatorID>38EECD59-CD09-1E1D-915E-0E27B49466BD</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<constraintName>CK_ROLE_USUARIO</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="ADMIN" description=""/>
+<valueDef value="TUTOR" description=""/>
+<valueDef value="VETERINARIO" description=""/>
+</listOfValues>
+<ownDataTypeParameters>20 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="FL_ATV_USUARIO" id="C8F62F25-3DE5-03FC-FAC8-CFC6CABEF0C0">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[FLAG USUARIO ATIVO]]></commentInRDBMS>
+<generatorID>808A19A8-1D6B-79ED-6305-9E851FFFC806</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT006</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="SEN_HASH_USUARIO" id="C1601289-7AD5-F73C-5FAE-257D5B414517">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[SENHA HASH]]></commentInRDBMS>
+<generatorID>1EE27DAF-8C2B-067F-093F-1A7D3A93B3BA</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>255</dataTypeSize>
+<ownDataTypeParameters>255,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="3E0933F4-1012-A6EF-7E8A-E40445C3EC20" name="TB_USUARIO_PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>A604255D-C3FF-C3ED-DB7A-EE5B9AC67C29</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="3A43A80F-3D34-9E0F-420C-B59C22174B39"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E813690F-FA94-D76F-333C-58AD2CD649FB" name="TB_USUARIO_EM_USUARIO_UN">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>6ED62D8D-5B8D-F026-EF36-1F9B37991441</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="FFB7FDB2-0FAD-884E-4FD4-D894E17549FE"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

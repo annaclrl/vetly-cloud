@@ -1,0 +1,80 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="14C6950D-1426-4C74-91FD-541EF675D3B0" name="TB_EVOLUCAO_CLINICA">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>BE8F2E5C-EFAD-7C53-1CFC-5C2F2EC42FC8</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_EVOLUCAO_CLINICA" id="046EA801-F2E8-7BAB-06E9-89C22A4B807D">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>489C612E-EEFE-BE65-8FA1-CA5E06C7CEF0</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ANT_EVOLUCAO_CLINICA" id="658775B7-40D0-542D-0BCB-2A1C3532B6C3">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<commentInRDBMS><![CDATA[ANOTACOES DA EVOLUCAO CLINICA]]></commentInRDBMS>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>1538A38D-D1E8-D76E-7DCE-22C4FF0CA219</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10000 CHAR</dataTypeSize>
+<ownDataTypeParameters>10000 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_CONSULTA" id="43239E91-C800-77F9-50E3-7CD9FEE168B0">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<generatorID>2AC0CD87-0F67-23C0-8DA9-152927506E65</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>5FF77743-D30C-2C50-895B-B690F6B7DA5A</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<referedAttribute>A5AA70B9-FEB8-1580-98B4-09F897C2D73E</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="5DD1FFEA-C1AD-FF88-E08B-CD1927DD6FC1" name="TB_EVOLUCAO_CLINICA PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>27806E33-175C-6103-63FA-037ACA21F4A8</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>046EA801-F2E8-7BAB-06E9-89C22A4B807D</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

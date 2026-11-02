@@ -1,0 +1,21 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="ANML_PRONTUARIO" directorySegmentName="seg_0" id="039569BF-9B3C-B82F-34B3-40BB4D382D25">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>B3A30141-F4EE-9358-BF6A-3637E4A3EC92</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<sourcePk>DB17E54C-CF8F-C8F1-750B-91CD1598B631</sourcePk>
+<dominantRole>E10D2B08-BFCA-09E1-A90E-65E972D8074F</dominantRole>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>E10D2B08-BFCA-09E1-A90E-65E972D8074F</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>985F9E19-3304-0BBA-F9F1-5C51B9DE3E1D</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

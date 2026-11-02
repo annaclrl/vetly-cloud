@@ -1,0 +1,73 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="89A77F50-059B-EA3A-8700-9F687E656513" name="TB_ESPECIE">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>B2ABCD99-21DF-8D75-4BA8-D6CB261F7D6C</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_ESPECIE" id="2B0F0274-9D04-CC1B-E8EF-718F246224C1">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>A65A2AC9-C721-2556-CFFC-0E04B4C315AC</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NM_ESPECIE" id="312520A4-D049-5C26-B676-D88428B9E03A">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[NOME DA ESPECIE]]></commentInRDBMS>
+<generatorID>76887A75-0F21-A7E3-7F7C-BBDE48A257EF</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<constraintName>CK_ESPECIE</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="ANFIBIO" description=""/>
+<valueDef value="AVE" description=""/>
+<valueDef value="CAO" description=""/>
+<valueDef value="EQUIDEO" description=""/>
+<valueDef value="GATO" description=""/>
+<valueDef value="MAMIFERO" description=""/>
+<valueDef value="PEIXE" description=""/>
+<valueDef value="REPTIL" description=""/>
+</listOfValues>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="31A82414-E94E-A6E3-7811-D7A703478A60" name="TB_ESPECIE_PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>D94E4929-88C5-79D2-32BC-6DCCF718FB5D</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="2B0F0274-9D04-CC1B-E8EF-718F246224C1"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3FD6756B-B8F9-8E4B-1C93-66A71342522B" name="TB_ESPECIE_NM_ESPECIE_UN">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>E7747AA4-8183-4888-D55A-EEC8984B03B1</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="312520A4-D049-5C26-B676-D88428B9E03A"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,160 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="E10D2B08-BFCA-09E1-A90E-65E972D8074F" name="TB_ANIMAL">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>55805868-1ACF-522C-2DFC-E8ACFD1ACC56</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_ANIMAL" id="6EDF5012-752C-50EE-F264-F642555531B3">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>AB9EECD4-68C9-DD46-F4C7-7B098B48169F</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NM_ANIMAL" id="4BA14CD9-0AAF-A205-C944-A84504ABB736">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>2645842D-B1AE-2675-8888-0D8E7734948E</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>80</dataTypeSize>
+<ownDataTypeParameters>80,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="RC_ANIMAL" id="57F5BA60-72BD-42DD-2BDD-506CD64FA354">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<commentInRDBMS><![CDATA[RACA DO ANIMAL]]></commentInRDBMS>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>14D1C521-D4AD-8D96-ECA2-79BD8C0BE53E</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>80</dataTypeSize>
+<ownDataTypeParameters>80,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="SX_ANIMAL" id="C220E5FC-C2FD-1AF7-8275-44E1FD1BDBAB">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<commentInRDBMS><![CDATA[SEXO DO ANIMAL]]></commentInRDBMS>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>76F0CDAC-26EB-9AC5-F9E0-A25123E53416</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<constraintName>CK_SX_ANIMAL</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT025</logicalDatatype>
+<dataTypeSize>1 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="F" description=""/>
+<valueDef value="M" description=""/>
+</listOfValues>
+<ownDataTypeParameters>1 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="DT_NASC_ANIMAL" id="95CA40DE-BA50-556D-9543-B6963EC21F96">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<commentInRDBMS><![CDATA[DATA DE NASCIMENTO DO ANIMAL]]></commentInRDBMS>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>EF6715D3-FB9A-BE2B-06A1-877362DE7483</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NR_PESO_ANIMAL" id="CD058B51-E260-B59E-E0CE-B2FF4A79147D">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>2C919AB2-ACE6-73A4-4140-901D4C1B4E30</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>5</dataTypePrecision>
+<dataTypeScale>2</dataTypeScale>
+<ownDataTypeParameters>,5,2</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_TUTOR" id="9A0F81D3-BE66-5040-E6C7-C37343AD03A9">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<generatorID>8A2BCBBC-0F72-8274-1F52-20C5DD5E5E15</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>D5571AA4-3E62-6AAA-F35B-E0B3018D6578</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<referedAttribute>92616D85-C193-3346-2094-E9BA2C66B219</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_ESPECIE" id="4F761CD5-56C8-1E5B-FC30-1F9BC81CEF43">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<generatorID>8203E790-8D03-8224-A15E-D354E2D17B4F</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>3DB1B3C6-0F93-6550-2C68-97FD22B9783C</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<referedAttribute>A65A2AC9-C721-2556-CFFC-0E04B4C315AC</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="DB17E54C-CF8F-C8F1-750B-91CD1598B631" name="TB_ANIMAL PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>288712CE-FE18-4BCD-C64E-6903AEA4C625</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>6EDF5012-752C-50EE-F264-F642555531B3</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

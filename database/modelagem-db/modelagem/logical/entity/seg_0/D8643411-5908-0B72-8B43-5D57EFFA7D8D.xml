@@ -1,0 +1,115 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="D8643411-5908-0B72-8B43-5D57EFFA7D8D" name="TB_ESPECIALIDADES_VET">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>72F7A143-3E2C-E81E-F12E-80B03CC08596</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_ESPECIALIDADE_VET" id="794CF3B8-6022-B56A-3C8B-059A1451FE8A">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>FD52B888-A20D-24BA-FF70-08579F44B23C</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NM_ESPECIALIDADE" id="237CB0B5-C4F9-3CB0-0488-45FEBD71243E">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<commentInRDBMS><![CDATA[CHECK ESPECIALIDADES OFICIAIS CRMV]]></commentInRDBMS>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>9EFC239F-8B9F-70CE-9DFE-0D412A27BB17</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<constraintName>CK_ESPECIALIDADE_VET</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="ACUPUNTURA" description=""/>
+<valueDef value="ANESTESIOLOGIA" description=""/>
+<valueDef value="CARDIOLOGIA" description=""/>
+<valueDef value="CIRURGIA" description=""/>
+<valueDef value="DERMATOLOGIA" description=""/>
+<valueDef value="ENDOCRINOLOGIA" description=""/>
+<valueDef value="FISIOTERAPIA" description=""/>
+<valueDef value="GERIATRIA" description=""/>
+<valueDef value="HOMEOPATIA" description=""/>
+<valueDef value="MEDICINA_ANIMAIS_SELVAGENS" description=""/>
+<valueDef value="MEDICINA_DO_COLETIVO" description=""/>
+<valueDef value="MEDICINA_INTENSIVA" description=""/>
+<valueDef value="NEFROLOGIA_E_UROLOGIA" description=""/>
+<valueDef value="NEUROLOGIA" description=""/>
+<valueDef value="NUTROLOGIA" description=""/>
+<valueDef value="ODONTOLOGIA" description=""/>
+<valueDef value="OFTALMOLOGIA" description=""/>
+<valueDef value="PATOLOGIA" description=""/>
+<valueDef value="PEQUENOS_ANIMAIS" description=""/>
+<valueDef value="PNEUMOLOGIA" description=""/>
+<valueDef value="RADIOLOGIA" description=""/>
+</listOfValues>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="DS_ESPECIALIDADE" id="6020FFA9-1571-2C94-9D93-24D4AD58AAB5">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<commentInRDBMS><![CDATA[DESCRICAO DA ESPECIALIDADE]]></commentInRDBMS>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>532A634F-AB4D-D6A1-A520-82D6BFDA921B</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>150 CHAR</dataTypeSize>
+<ownDataTypeParameters>150 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="74B6404D-6F4D-3F42-4E9C-092980B3D320" name="TB_ESPECIALIDADES_VET PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>D57F2A59-DD89-9C6F-EFA0-EE3936375FF3</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>794CF3B8-6022-B56A-3C8B-059A1451FE8A</attributeRef>
+</usedAttributes>
+</identifier>
+<identifier id="AA36C41B-1604-FD1B-A0B9-EE09A6377127" name="UNQ_ESPCD_VET">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>9E2890BF-66CC-3BDF-392C-810F6C95D58F</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<usedAttributes>
+<attributeRef>237CB0B5-C4F9-3CB0-0488-45FEBD71243E</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

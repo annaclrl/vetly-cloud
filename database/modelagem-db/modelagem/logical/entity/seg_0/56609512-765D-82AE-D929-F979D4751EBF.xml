@@ -1,0 +1,98 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="56609512-765D-82AE-D929-F979D4751EBF" name="TB_PESSOA">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:08:39 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_PESSOA" id="D6BA33AD-77EB-DC1A-CD5D-1365F7931014">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:08:52 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NM_PESSOA" id="3A6E9523-D0E4-4E32-1857-C13A38BF9737">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:09:02 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100 CHAR</dataTypeSize>
+<ownDataTypeParameters>100 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CPF_PESSOA" id="1AC78006-1BAA-C5AB-75ED-F702CCB033A8">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:09:41 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>11 CHAR</dataTypeSize>
+<ownDataTypeParameters>11 CHAR,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="TEL_PESSOA" id="7154F572-1610-44A7-DE60-89B56A929A39">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:11:16 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>15 CHAR</dataTypeSize>
+<ownDataTypeParameters>15 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="CD83E6C5-ECBC-56D2-38AC-6F7C2E934CE4" name="TB_PESSOA PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:09:09 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>D6BA33AD-77EB-DC1A-CD5D-1365F7931014</attributeRef>
+</usedAttributes>
+</identifier>
+<identifier id="E2E2DA4B-8705-04C5-B614-3F011510A26E" name="CPF_PESSOA">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:10:21 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<newElementsIDs>1AC78006-1BAA-C5AB-75ED-F702CCB033A8,7154F572-1610-44A7-DE60-89B56A929A39</newElementsIDs>
+<usedAttributes>
+<attributeRef>1AC78006-1BAA-C5AB-75ED-F702CCB033A8</attributeRef>
+<attributeRef>7154F572-1610-44A7-DE60-89B56A929A39</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

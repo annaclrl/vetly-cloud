@@ -1,0 +1,89 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="6740B704-6118-9245-96DC-305E66E37F2D" name="TB_EVOLUCAO_CLINICA">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>14C6950D-1426-4C74-91FD-541EF675D3B0</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_EVOLUCAO_CLINICA" id="0554DD70-E80D-9FAB-338D-6C0889F45928">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>046EA801-F2E8-7BAB-06E9-89C22A4B807D</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ANT_EVOLUCAO_CLINICA" id="818EF9B9-6444-BA08-3131-B2E1381E2A78">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[ANOTACOES DA EVOLUCAO CLINICA]]></commentInRDBMS>
+<generatorID>658775B7-40D0-542D-0BCB-2A1C3532B6C3</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>10000 CHAR</dataTypeSize>
+<ownDataTypeParameters>10000 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TB_CONSULTA_ID_CONSULTA" id="548583AE-7094-6081-6988-57CD90E76E16">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>43239E91-C800-77F9-50E3-7CD9FEE168B0</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4352A5EA-9CE8-9692-FA52-8000D7B1F5D1" referredColumn="68E6F846-CDDD-5E1C-342F-FDF906523D16"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="25CC0F84-7A4C-DB84-8C1B-40195F9EB091" name="TB_EVOLUCAO_CLINICA_PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>5DD1FFEA-C1AD-FF88-E08B-CD1927DD6FC1</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="0554DD70-E80D-9FAB-338D-6C0889F45928"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A4BE7B2C-2E0A-044C-3456-73A4FB0F9CA7" name="TB_EVOLUCAO_CLINICA__IDX">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>2AC0CD87-0F67-23C0-8DA9-152927506E65</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="548583AE-7094-6081-6988-57CD90E76E16"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="3E124576-E26F-91BD-35D9-EDCA29881D3C" name="TB_EVO_CLNC_TB_CONSULTA_FK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>2AC0CD87-0F67-23C0-8DA9-152927506E65</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="548583AE-7094-6081-6988-57CD90E76E16"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

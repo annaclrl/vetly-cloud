@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="92F5687D-E60B-EFAB-561A-80B2A2E8C860" containerWithKeyObject="F4A9D7F8-F395-9B36-A201-49618501F711" localFKIndex="8AEB9D36-CBA3-2ACD-F3EE-FAD8A6059CA7" name="TB_SLC_EX_ITEM_TB_SLC_EX_FK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>8550356F-8321-2888-62C3-725BEF74F9F6</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<referredTableLongName>TB_SOLICITACAO_EXAME</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>CFE0FF2F-63C4-94BA-0122-EF3AB7E2FA00</referredTableID>
+<keyObject>6C84EF04-7A0B-F28D-D148-CB94B6C2370A</keyObject>
+<referredKeyID>6C84EF04-7A0B-F28D-D148-CB94B6C2370A</referredKeyID>
+<mandatory>true</mandatory>
+<refColNames>ID_SOLICITACAO_EXAME</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>
