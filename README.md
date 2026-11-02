@@ -137,7 +137,7 @@ mvc-vetly-java/
     └── resources/
         ├── application.properties
         ├── templates/                        # Thymeleaf, uma pasta por entidade
-        └── db/migration/                     # V1..V9 (Flyway)
+        └── db/migration/                     # V1..V10 (Flyway)
 ```
 
 Duas camadas de serviço coexistem de propósito, não por descuido:
@@ -317,6 +317,7 @@ Tudo sob `/mvc/**`, protegido por login (só `ADMIN`):
 | `/mvc/animais/{id}/prontuario` | `ProntuarioMvcController` | Ver histórico de versões, criar, corrigir |
 | `/mvc/consultas` | `ConsultaMvcController` | Listar, agendar, detalhar, reagendar, mudar status |
 | `/mvc/exames` | `SolicitacaoExameMvcController` | Listar, criar solicitação, registrar resultado, liberar, cancelar |
+| `/mvc/relatorios/consultas` | `RelatorioMvcController` | Relatório de consultas por veterinário/status, calculado no Oracle por `PKG_VETLY_RELATORIO` |
 | `/mvc/especies` | `EspecieMvcController` | Listar, cadastrar, editar, excluir |
 | `/mvc/especialidades` | `EspecialidadeVetMvcController` | Listar, cadastrar, editar, excluir |
 
@@ -354,6 +355,7 @@ O schema é versionado com **Flyway** em `src/main/resources/db/migration/`.
 | `V7__log_acesso_prontuario_rn067` | Tabela `TB_LOG_ACESSO_PRONTUARIO` | RN-067 (tabela mantida, sem uso hoje) |
 | `V8__prontuario_versionamento_rn088_089` | `DS_CONTEUDO_CLINICO`, auto-FK `TB_PRONTUARIO_ID_ORIGINAL`, `DT_HR_CORRECAO`, `CRMV_SOLICITANTE_CORRECAO`, `DS_JUSTIFICATIVA_CORRECAO` | RN-088/089 |
 | `V9__seed_especie_especialidade` | Semeia `TB_ESPECIE` e `TB_ESPECIALIDADES_VET` com os valores dos enums Java | — |
+| `V10__pacotes_plsql_auditoria` | Pacotes `PKG_VETLY_LOG/VALIDACAO/JSON/RELATORIO`, `TB_AUDITORIA` e trigger `TRG_AUD_CONSULTA` (fonte: `vetly-database/vetly-sprint-4`) | Sprint 4 Banco |
 
 Regras de manutenção:
 

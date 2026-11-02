@@ -98,24 +98,37 @@ espelham as mesmas migrations — ao criar uma nova, replique nos dois lugares.
 | Artefato | Local | Status |
 |---|---|---|
 | DDL completo (19 tabelas) | `DDL.txt` (este repo) ↔ `vetly-database/DDL.txt` | ✅ |
-| Migrations Flyway V1..V9 | `src/main/resources/db/migration/` ↔ `vetly-database/migrations/` | ✅ idênticas em nome |
+| Migrations Flyway V1..V10 | `src/main/resources/db/migration/` ↔ `vetly-database/migrations/` | ✅ idênticas |
 | Modelagem lógica e relacional (PNG + Data Modeler) | `vetly-database/modelagem-db/` | ✅ |
 | Procedures de carga (`SP_INS_*`, `SP_REGISTRA_LOG`) | `vetly-database/procedures/procedures_carga.sql` | ✅ |
 | Funções, procedures de relatório e trigger de auditoria da Sprint 3 | `vetly-database/vetly-sprint-3/scripts/01..06` e `docs-entrega/` | ✅ |
 | Relatórios SQL com saída | `vetly-database/relatorios/relatorio-1..4` | ✅ |
 
-**Lacunas frente à Sprint 4 de Banco de Dados** (conferidas no código — nenhuma é opinião):
+**Sprint 4 de Banco de Dados — entregue em `vetly-database/vetly-sprint-4/`** (branch `feature/sprint4-pacotes-mongo`):
 
-| Exigência do enunciado | Situação | Ação sugerida |
+| Exigência do enunciado | Situação | Onde |
 |---|---|---|
-| Objetos **empacotados** (`PACKAGE`) | ⬜ Não há nenhum `CREATE PACKAGE` em `vetly-database`; funções/procedures estão soltas | Agrupar em packages lógicos, ex.: `PKG_VETLY_CARGA` (`SP_INS_*`), `PKG_VETLY_RELATORIO`, `PKG_VETLY_VALIDACAO` (`FN_VALIDA_CPF`…) |
-| Procedures **chamadas pela aplicação** e demonstradas no vídeo | ⬜ O `mvc-vetly-java` hoje só usa JPA; não chama nenhuma procedure | Expor ao menos uma pela tela de ADMIN (ex.: relatório de consultas por veterinário/status) via `SimpleJdbcCall` ou `@Procedure` |
-| Export do dataset em **JSON** + importação no **MongoDB** | ⬜ Não existe no repo Java/DB (a função `FN_MONTA_JSON_ANIMAL` gera JSON, mas não há import) | Gerar o JSON a partir da procedure de listagem e criar o script de import (`mongoimport`/`mongosh`). O `.NET` já sobe um MongoDB no `docker-compose` — pode ser reaproveitado como destino |
-| Modelo lógico/físico reentregue com correções do professor | 🟡 Existe; falta aplicar o feedback da Sprint 3 | Revisar `modelagem-db/` com o feedback recebido |
+| Objetos **empacotados** | ✅ `PKG_VETLY_LOG`, `_VALIDACAO`, `_JSON`, `_RELATORIO`, `_CARGA` (16 procedures) + `TRG_AUD_CONSULTA`, com tratamento de exceção | `vetly-sprint-4/scripts/01..06` |
+| Procedures **chamadas pela aplicação** | ✅ Tela `/mvc/relatorios/consultas` chama `PKG_VETLY_RELATORIO.prc_consultas_vet_status` via `SimpleJdbcCall` | `RelatorioConsultasService`, `RelatorioMvcController`, `templates/relatorios/consultas.html` |
+| Export **JSON** do relacional | ✅ `PKG_VETLY_JSON.fn_dataset_animais_json` + `SPOOL` no cliente | `vetly-sprint-4/mongo/01_exportar_dataset.sql`, `dataset/animais.ndjson` |
+| Importação no **MongoDB** | ✅ Coleção `animais` (tutor e consultas embutidos), validador de schema, índices, consultas de demonstração | `vetly-sprint-4/mongo/02_importar_mongo.js`, `03_consultas_demo.js` |
+| Modelo lógico/físico reentregue com correções do professor | 🟡 Existe em `modelagem-db/`; falta aplicar o feedback da Sprint 3 (não está no repositório) | — |
+| Vídeo da execução | ⬜ gravar | roteiro na seção 6 |
 
-> Estas lacunas pertencem ao repositório `vetly-database` (e à integração no Java), não a
-> este documento — estão listadas aqui porque a *integração Java ↔ Banco* é o que o
-> critério 3 do Java avalia.
+**Integração Java ↔ Banco independente de ambiente.** Os pacotes chegam pela migration
+`V10__pacotes_plsql_auditoria.sql`, idêntica nos dois repositórios: qualquer deploy (Web App,
+ACI, local) recebe os objetos quando o Flyway roda. Os objetos não usam `DBMS_OUTPUT`,
+`UTL_FILE`/`DIRECTORY` nem dependem de NLS (máscaras fixas); a conexão é só por variável de
+ambiente; a chamada não consulta o dicionário de dados. Detalhes e verificação em
+[`vetly-database/vetly-sprint-4/README.md`](../../vetly-database/vetly-sprint-4/README.md).
+
+`TRG_AUD_CONSULTA` audita também as gravações feitas pelo Java (JPA) em `TB_CONSULTA`, em
+`TB_AUDITORIA`.
+
+> **Verificado em Oracle Free 23ai e MongoDB 7 (containers):** 21 verificações SQL passam;
+> o `mvc-vetly-java` subiu contra um schema **vazio** com Flyway V1→V10 e a tela respondeu com
+> total R$ 1.200,00, igual ao total agregado no Mongo. A V10 **ainda não foi aplicada no Oracle
+> da FIAP** — roda sozinha no primeiro start do app contra ele.
 
 ### 2.3 Cloud: deploy e CI/CD
 
@@ -204,7 +217,7 @@ Java, Cloud e Banco entregam o **back-office** administrativo sobre o mesmo dom�
 |---|---|---|---|---|
 | 1 | **Demonstração técnica** (40) — online, fluxos, conceitos, UI/UX | Painel Thymeleaf com login, dashboard e CRUDs; Security, JPA, Validation, Flyway | [README](../README.md) · telas em `src/main/resources/templates/` | 🟡 falta URL pública (⬜ deploy) |
 | 2 | **Narrativa** (20) — proposta, decisões, originalidade | [Seção 5](#5-narrativa-da-solução) | `README.md` "Mudança de arquitetura", `Decisão de implementação registrada` | ✅ texto pronto; ensaiar a fala |
-| 3 | **Integração multidisciplinar** (20) — disciplinas + evidências | [Seção 2](#2-conjunto-1--java--cloud--banco-de-dados) | DDL, modelagem, scripts SQL, pipeline | 🟡 ver lacunas em 2.2 e 2.3 |
+| 3 | **Integração multidisciplinar** (20) — disciplinas + evidências | [Seção 2](#2-conjunto-1--java--cloud--banco-de-dados) | DDL, modelagem, pacotes PL/SQL, Mongo, pipeline | 🟡 banco ✅; falta pipeline (2.3) |
 | 4 | **Apresentação oral** (10) — todos participam | [Seção 6](#6-roteiro-do-vídeo-máx-15-min) com divisão por integrante | `integrantes.txt` | ⬜ gravar |
 | 5 | **Organização e documentação** (10) | README + este documento; repositórios canônicos separados dos legados | Esta pasta `docs/` | ✅ |
 
@@ -267,8 +280,10 @@ Para o CRUD, mostrar a tela ao lado de um cliente SQL com o `SELECT` corresponde
 - [ ] Projeto `Sprint 4 – Azure DevOps` privado, professor com acesso **Basic**
 - [ ] Deploy no Azure Web App ou ACI, **URL pública** testada fora da rede local
 - [ ] Testes automatizados reais (hoje só o smoke test de contexto)
-- [ ] Procedures em **packages** e ao menos uma chamada pelo Java
-- [ ] JSON exportado + import MongoDB (disciplina de Banco)
+- [x] Procedures em **packages** e ao menos uma chamada pelo Java (V10 + tela de relatório)
+- [x] JSON exportado + import MongoDB (`vetly-database/vetly-sprint-4/mongo/`)
+- [ ] Aplicar a V10 no Oracle da FIAP (primeiro start do app) e conferir `TB_AUDITORIA` e a tela de relatório online
+- [ ] Reentregar a modelagem lógica/física com o feedback do professor
 - [ ] Diagrama de arquitetura + fluxo CI/CD desenhado em ferramenta própria (o enunciado de Cloud rejeita desenho parecido com fluxograma/UML; os diagramas Mermaid acima servem de rascunho)
 - [ ] Vídeo ≤ 15 min, 720p+, todos falando, áudio claro, publicado no YouTube (não listado)
 - [ ] PDF só com nomes, RMs, turmas e links (GitHub, YouTube, Azure DevOps)
