@@ -1,8 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <body>
-<div th:fragment="globalErrors" class="alert alert-danger" th:if="${#fields.hasErrors('global')}">
-    <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
+<div th:fragment="globalErrors" class="alert alert-danger" role="alert" th:if="${#fields.hasErrors('global')}">
+    <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+    <div>
+        <div th:each="err : ${#fields.errors('global')}" th:text="${err}"></div>
+    </div>
 </div>
 </body>
 </html>

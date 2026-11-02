@@ -1,9 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
 <body>
 <div th:fragment="alerts">
-    <div class="alert alert-success" th:if="${sucesso != null}" th:text="${sucesso}"></div>
-    <div class="alert alert-danger" th:if="${erro != null}" th:text="${erro}"></div>
+    <div class="alert alert-success alert-dismissible fade show" role="status" th:if="${sucesso != null}">
+        <i class="bi bi-check-circle-fill" aria-hidden="true"></i>
+        <div class="flex-grow-1" th:text="${sucesso}"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${erro != null}">
+        <i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i>
+        <div class="flex-grow-1" th:text="${erro}"></div>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+    </div>
 </div>
 </body>
 </html>
