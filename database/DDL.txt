@@ -73,7 +73,7 @@ CREATE SEQUENCE SQ_LOG_ERRO START WITH 1 INCREMENT BY 1 NOCACHE;
 
 CREATE TABLE TB_ANEXO_EXAME 
     ( 
-     ID_ANEXO_EXAME                VARCHAR2 (36 CHAR)  NOT NULL ,
+     ID_ANEXO_EXAME                VARCHAR2(36)  NOT NULL , 
      URL_ARQUIVO_ANEXO             VARCHAR2 (500 CHAR)  NOT NULL , 
      MIME_TYPE_ANEXO               VARCHAR2 (30 CHAR)  NOT NULL , 
      DT_UPLOAD_ANEXO               DATE  NOT NULL , 
@@ -581,7 +581,100 @@ ALTER TABLE TB_VETERINARIO
 
 
 
--- Oracle SQL Developer Data Modeler Summary Report: 
+-- ============================================================================
+-- Evolucao pos-baseline aplicada via vetly-java/src/main/resources/db/migration
+-- (Flyway). Este DDL.txt permanece a fonte de verdade do schema GEN1; toda vez
+-- que uma migration Flyway nova for criada em vetly-java, replique o mesmo DDL
+-- aqui para os dois projetos nao divergirem. Ver docs/java-database-alignment.md.
+-- ============================================================================
+
+-- V2 (docs/java-database-alignment.md §2.1) — campos clinicos do Animal
+ALTER TABLE TB_ANIMAL ADD (
+    URL_FOTO_ANIMAL         VARCHAR2(500 CHAR),
+    FL_CASTRADO             CHAR(1) DEFAULT 'N' NOT NULL,
+    DS_CONDICOES_PREEXIST   VARCHAR2(1000 CHAR),
+    DS_ALERGIAS             VARCHAR2(1000 CHAR),
+    DS_MEDICACOES_EM_USO    VARCHAR2(1000 CHAR)
+);
+
+ALTER TABLE TB_ANIMAL ADD CONSTRAINT CK_FL_CASTRADO CHECK (FL_CASTRADO IN ('S','N'));
+
+-- V3 (§2.2) — RN-068: ocultar registro do historico, exceto alerta de seguranca
+ALTER TABLE TB_EVOLUCAO_CLINICA ADD (
+    FL_OCULTO_RESPONSAVEL   CHAR(1) DEFAULT 'N' NOT NULL,
+    FL_ALERTA_SEGURANCA     CHAR(1) DEFAULT 'N' NOT NULL
+);
+
+ALTER TABLE TB_EVOLUCAO_CLINICA ADD CONSTRAINT CK_FL_OCULTO CHECK (FL_OCULTO_RESPONSAVEL IN ('S','N'));
+ALTER TABLE TB_EVOLUCAO_CLINICA ADD CONSTRAINT CK_FL_ALERTA CHECK (FL_ALERTA_SEGURANCA IN ('S','N'));
+
+-- V4 (§2.4) — estado NAO_COMPARECEU na maquina de estados da Consulta
+ALTER TABLE TB_CONSULTA DROP CONSTRAINT CK_STATUS_CONSULTA;
+
+ALTER TABLE TB_CONSULTA ADD CONSTRAINT CK_STATUS_CONSULTA
+    CHECK (ST_CONSULTA IN ('AGENDADA', 'CANCELADA', 'REALIZADA', 'NAO_COMPARECEU'));
+
+-- V5 (§2.7) — RN-104: liberacao explicita do resultado de exame ao Responsavel
+ALTER TABLE TB_SOLICITACAO_EXAME_ITEM ADD (
+    FL_LIBERADO_RESPONSAVEL    CHAR(1) DEFAULT 'N' NOT NULL,
+    DT_LIBERACAO_RESPONSAVEL   DATE
+);
+
+ALTER TABLE TB_SOLICITACAO_EXAME_ITEM ADD CONSTRAINT CK_FL_LIBERADO CHECK (FL_LIBERADO_RESPONSAVEL IN ('S','N'));
+
+-- V6 (§2.3) — aceite LGPD simplificado + consentimento de rede (gatilho da Colmeia, RN-064)
+ALTER TABLE TB_TUTOR ADD (
+    FL_LGPD_ACEITO          CHAR(1) DEFAULT 'N' NOT NULL,
+    DT_LGPD_ACEITO          DATE,
+    FL_CONSENTIMENTO_REDE   CHAR(1) DEFAULT 'N' NOT NULL,
+    DT_CONSENTIMENTO_REDE   DATE
+);
+
+ALTER TABLE TB_TUTOR ADD CONSTRAINT CK_FL_LGPD CHECK (FL_LGPD_ACEITO IN ('S','N'));
+ALTER TABLE TB_TUTOR ADD CONSTRAINT CK_FL_CONSENT_REDE CHECK (FL_CONSENTIMENTO_REDE IN ('S','N'));
+
+-- V7 (§2.6) — RN-067: log de acesso ao prontuario via Colmeia
+CREATE TABLE TB_LOG_ACESSO_PRONTUARIO (
+    ID_LOG_ACESSO           VARCHAR2(36) NOT NULL,
+    DT_HR_ACESSO            DATE NOT NULL,
+    DS_CONTEXTO_ACESSO      VARCHAR2(200),
+    DS_BASE_ACESSO          VARCHAR2(30) NOT NULL,
+    TB_ANIMAL_ID_ANIMAL     VARCHAR2(36) NOT NULL,
+    TB_VETERINARIO_ID_VETERINARIO VARCHAR2(36) NOT NULL,
+    CONSTRAINT TB_LOG_ACESSO_PRONTUARIO_PK PRIMARY KEY (ID_LOG_ACESSO)
+);
+
+ALTER TABLE TB_LOG_ACESSO_PRONTUARIO ADD CONSTRAINT CK_DS_BASE_ACESSO
+    CHECK (DS_BASE_ACESSO IN ('CONSENTIMENTO_REDE', 'ATENDIMENTO_DIRETO'));
+
+ALTER TABLE TB_LOG_ACESSO_PRONTUARIO ADD CONSTRAINT TB_LOG_ACS_TB_ANIMAL_FK FOREIGN KEY
+    (TB_ANIMAL_ID_ANIMAL) REFERENCES TB_ANIMAL (ID_ANIMAL);
+ALTER TABLE TB_LOG_ACESSO_PRONTUARIO ADD CONSTRAINT TB_LOG_ACS_TB_VET_FK FOREIGN KEY
+    (TB_VETERINARIO_ID_VETERINARIO) REFERENCES TB_VETERINARIO (ID_VETERINARIO);
+
+-- V8 (§2.5, Opcao A — decisao tomada em 2026-09-05) — RN-088/089: prontuario
+-- versiona na propria tabela. Uma linha original (TB_PRONTUARIO_ID_ORIGINAL nulo)
+-- por animal, mais N linhas de correcao apontando para ela; a original nunca e
+-- sobrescrita. O indice unico por animal vira nao-unico.
+ALTER TABLE TB_PRONTUARIO DROP CONSTRAINT TB_PRONTUARIO_PK CASCADE;
+DROP INDEX TB_PRONTUARIO__IDX;
+
+ALTER TABLE TB_PRONTUARIO ADD (
+    DS_CONTEUDO_CLINICO         CLOB NOT NULL,
+    TB_PRONTUARIO_ID_ORIGINAL   VARCHAR2(36),
+    DT_HR_CORRECAO              DATE,
+    CRMV_SOLICITANTE_CORRECAO   VARCHAR2(20),
+    DS_JUSTIFICATIVA_CORRECAO   VARCHAR2(1000)
+);
+
+ALTER TABLE TB_PRONTUARIO ADD CONSTRAINT TB_PRONTUARIO_PK PRIMARY KEY (ID_PRONTUARIO);
+
+CREATE INDEX TB_PRONTUARIO_ANIMAL_IDX ON TB_PRONTUARIO (TB_ANIMAL_ID_ANIMAL);
+
+ALTER TABLE TB_PRONTUARIO ADD CONSTRAINT TB_PRONTUARIO_ORIGINAL_FK FOREIGN KEY
+    (TB_PRONTUARIO_ID_ORIGINAL) REFERENCES TB_PRONTUARIO (ID_PRONTUARIO);
+
+-- Oracle SQL Developer Data Modeler Summary Report:
 -- 
 -- CREATE TABLE                            15
 -- CREATE INDEX                             7
@@ -623,3 +716,8 @@ ALTER TABLE TB_VETERINARIO
 -- 
 -- ERRORS                                   0
 -- WARNINGS                                 0
+-- ============================================================================
+-- V9 (seed de TB_ESPECIE/TB_ESPECIALIDADES_VET) e V10 (pacotes PKG_VETLY_*, TB_AUDITORIA,
+-- TRG_AUD_CONSULTA) nao alteram as tabelas acima; ver src/main/resources/db/migration/ e
+-- database/scripts/. Toda migration nova que altere tabelas deve ser replicada aqui.
+-- ============================================================================

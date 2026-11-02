@@ -1,0 +1,87 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="B2ABCD99-21DF-8D75-4BA8-D6CB261F7D6C" name="TB_ESPECIE">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>E52A6D1E-7FAE-8F90-0216-74B84918FF52</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_ESPECIE" id="A65A2AC9-C721-2556-CFFC-0E04B4C315AC">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>451B9C1B-7DB9-72A5-B5FC-145BA5E0C364</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="NM_ESPECIE" id="76887A75-0F21-A7E3-7F7C-BBDE48A257EF">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<commentInRDBMS><![CDATA[NOME DA ESPECIE]]></commentInRDBMS>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>88AA4FED-9B67-EB6F-7814-9DD3D1F8816D</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<constraintName>CK_ESPECIE</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>50 CHAR</dataTypeSize>
+<listOfValues>
+<valueDef value="ANFIBIO" description=""/>
+<valueDef value="AVE" description=""/>
+<valueDef value="CAO" description=""/>
+<valueDef value="EQUIDEO" description=""/>
+<valueDef value="GATO" description=""/>
+<valueDef value="MAMIFERO" description=""/>
+<valueDef value="PEIXE" description=""/>
+<valueDef value="REPTIL" description=""/>
+</listOfValues>
+<ownDataTypeParameters>50 CHAR,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="D94E4929-88C5-79D2-32BC-6DCCF718FB5D" name="TB_ESPECIE PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>B79718AA-09E2-20BE-FAE8-BC6E2BE2F610</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>A65A2AC9-C721-2556-CFFC-0E04B4C315AC</attributeRef>
+</usedAttributes>
+</identifier>
+<identifier id="E7747AA4-8183-4888-D55A-EEC8984B03B1" name="UNQ_ESPECIE">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>EE258B87-9F5B-0683-A1D4-1EBB8CF5D1B5</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<usedAttributes>
+<attributeRef>76887A75-0F21-A7E3-7F7C-BBDE48A257EF</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

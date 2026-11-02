@@ -1,0 +1,15 @@
+# MongoDB local para a demonstracao da Sprint 4 (sem autenticacao: so desenvolvimento).
+#   docker compose up -d
+#   mongosh "mongodb://localhost:27017/vetly" --file 02_importar_mongo.js
+#   mongosh "mongodb://localhost:27017/vetly" --file 03_consultas_demo.js
+services:
+  mongo:
+    image: mongo:7
+    container_name: vetly-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - vetly-mongo-data:/data/db
+
+volumes:
+  vetly-mongo-data:

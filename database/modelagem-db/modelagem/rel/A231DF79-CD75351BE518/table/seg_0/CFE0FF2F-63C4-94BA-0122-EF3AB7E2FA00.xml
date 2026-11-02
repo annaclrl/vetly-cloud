@@ -1,0 +1,90 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="CFE0FF2F-63C4-94BA-0122-EF3AB7E2FA00" name="TB_SOLICITACAO_EXAME">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>97318EB0-3FCA-5FD0-4EDC-43296C8EC806</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_SOLICITACAO_EXAME" id="9E473875-D983-ABCE-51DE-61919990A9C7">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>28F33E16-2F35-FD4A-E5FB-7EB8D8B28207</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="OBS_SOLICITACAO" id="B7D6EFE1-8CD7-1CA2-11A0-FB311E26C92E">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>580A5670-86D6-AA7C-7D0F-A591AB17BE21</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>300 CHAR</dataTypeSize>
+<ownDataTypeParameters>300 CHAR,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TB_CONSULTA_ID_CONSULTA" id="9C251F38-D5C0-F585-73FE-1543DB465E80">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>D73B3686-EF3D-4C49-F60F-1E925ADA1192</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="B132D2F7-383C-0C72-959E-4B3B23B3EC95" referredColumn="68E6F846-CDDD-5E1C-342F-FDF906523D16"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="6C84EF04-7A0B-F28D-D148-CB94B6C2370A" name="TB_SOLICITACAO_EXAME_PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>B1E1EB8D-62A6-7432-A1E2-7A07A62F36F3</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9E473875-D983-ABCE-51DE-61919990A9C7"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="2F9D65E2-5A49-72BC-ADF5-4FA92EE15B8B" name="TB_SOLICITACAO_EXAME__IDX">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Unique Plain Index</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<relationGeneratorID>DF88D8F0-8459-350A-F22A-9B9891B85AA8</relationGeneratorID>
+<indexColumnUsage>
+<colUsage columnID="9C251F38-D5C0-F585-73FE-1543DB465E80"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="E9F77496-6923-1DC2-2679-A0A0327D99EA" name="TB_SLCT_EXM_TB_CONSULTA_FK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>DF88D8F0-8459-350A-F22A-9B9891B85AA8</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="9C251F38-D5C0-F585-73FE-1543DB465E80"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

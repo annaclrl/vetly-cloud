@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+<head th:replace="~{fragments/head :: head('Relatório de consultas')}"></head>
+<body>
+<nav th:replace="~{fragments/nav :: nav}"></nav>
+<main class="container pb-5">
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+        <div>
+            <h1 class="h3 mb-0">Consultas por veterinário</h1>
+            <p class="text-muted mb-0 small">
+                Calculado no Oracle pela procedure <code>PKG_VETLY_RELATORIO.prc_consultas_vet_status</code>.
+            </p>
+        </div>
+        <form class="d-flex gap-2" method="get" th:action="@{/mvc/relatorios/consultas}">
+            <label class="visually-hidden" for="status">Status</label>
+            <select class="form-select" id="status" name="status">
+                <option value="">Todos os status</option>
+                <option th:each="s : ${statusDisponiveis}" th:value="${s}" th:text="${s}"
+                        th:selected="${s == status}"></option>
+            </select>
+            <button class="btn btn-primary" type="submit">Filtrar</button>
+        </form>
+    </div>
+
+    <div th:replace="~{fragments/alerts :: alerts}"></div>
+
+    <table class="table align-middle" th:if="${linhas != null}">
+        <thead>
+        <tr><th>Veterinário</th><th>Status</th><th class="text-end">Consultas</th><th class="text-end">Valor (R$)</th></tr>
+        </thead>
+        <tbody>
+        <tr th:each="l : ${linhas}"
+            th:classappend="${l.total} ? 'table-dark fw-bold' : (${l.subtotal} ? 'table-light fw-semibold' : '')">
+            <td th:text="${l.subtotal} ? 'Subtotal — ' + ${l.veterinario} : ${l.veterinario}"></td>
+            <td><span class="badge text-bg-secondary" th:if="${l.detalhe}" th:text="${l.status}"></span></td>
+            <td class="text-end" th:text="${l.quantidade}"></td>
+            <td class="text-end" th:text="${#numbers.formatDecimal(l.valorTotal, 1, 'POINT', 2, 'COMMA')}"></td>
+        </tr>
+        <tr th:if="${#lists.isEmpty(linhas)}">
+            <td colspan="4" class="text-muted text-center py-4">Nenhuma consulta para o filtro selecionado.</td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+</body>
+</html>

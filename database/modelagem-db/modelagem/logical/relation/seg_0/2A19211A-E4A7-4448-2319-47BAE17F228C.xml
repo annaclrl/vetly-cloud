@@ -1,0 +1,20 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="VET_ESPCD_ESPCD" directorySegmentName="seg_0" id="2A19211A-E4A7-4448-2319-47BAE17F228C">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:28 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>2EE8729C-9FBF-05BC-4C49-5E10FC473635</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<sourcePk>74B6404D-6F4D-3F42-4E9C-092980B3D320</sourcePk>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>D8643411-5908-0B72-8B43-5D57EFFA7D8D</sourceEntity>
+<targetCardinalityString>*</targetCardinalityString>
+<targetEntity>DC24CACF-0713-7804-5A8E-8582BE2E9F5A</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

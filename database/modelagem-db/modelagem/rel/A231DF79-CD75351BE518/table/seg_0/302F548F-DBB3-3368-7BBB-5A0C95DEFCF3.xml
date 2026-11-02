@@ -1,0 +1,103 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="302F548F-DBB3-3368-7BBB-5A0C95DEFCF3" name="TB_VETERINARIO_ESPECIALIDADE">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>DC24CACF-0713-7804-5A8E-8582BE2E9F5A</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_ESPECIALIDADE_VETERINARIO" id="B02D2DB8-4FC1-6002-AFB2-35DCA54BAD57">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>4BDF357B-5B8E-92BF-D6BB-DBFD58ACD9BC</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TB_VETERINARIO_ID_VETERINARIO" id="52711041-318F-DF97-896E-78B091C21C57">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>E7BCB9D7-4858-5DEA-296E-F6DAC98A1AA1</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="24628ABC-BE58-7855-2D73-77843918DA6A" referredColumn="82D3136F-84BB-9DB0-965D-0CAFBC831F7B"/>
+</associations>
+</Column>
+<Column name="TB_ESPCD_VET_ID_ESPCD_VET" id="4F3DBA19-0886-4882-D786-DF2F9CB73559">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>1ED480F7-1F19-F660-2088-EEE6BF3BAEA5</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="4D445B0C-8077-199D-2FE9-2FA540411ED5" referredColumn="8E3BDB7F-9C04-9555-DFDF-AD3CF8622EAA"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="03DB23FB-6B70-C85F-7286-3BB172122668" name="TB_VETERINARIO_ESPCD_PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>389ACB06-DB08-3B90-4C9F-43AE046C4933</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="B02D2DB8-4FC1-6002-AFB2-35DCA54BAD57"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="264B33F9-A865-D31B-C488-70A386455132" name="TB_VETERINARIO_ESPCD_UN">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:27:08 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Unique Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52711041-318F-DF97-896E-78B091C21C57"/>
+<colUsage columnID="4F3DBA19-0886-4882-D786-DF2F9CB73559"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="A3CDA442-46AE-873D-1CBE-41455F6C4C20" name="TB_VET_ESPCD_TB_ESPCD_VET_FK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>2A19211A-E4A7-4448-2319-47BAE17F228C</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="4F3DBA19-0886-4882-D786-DF2F9CB73559"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="86B06314-1C40-ABCC-B5DD-A771BD6AB3D6" name="TB_VET_ESPCD_TB_VET_FK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>531D046D-4CF9-4197-2A25-1C8BEE97EBBF</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="52711041-318F-DF97-896E-78B091C21C57"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

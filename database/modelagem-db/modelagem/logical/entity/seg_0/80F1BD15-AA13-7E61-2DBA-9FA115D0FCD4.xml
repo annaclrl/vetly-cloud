@@ -1,0 +1,107 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="80F1BD15-AA13-7E61-2DBA-9FA115D0FCD4" name="TB_VETERINARIO">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>5C552A76-70FB-673B-E4E5-6591CF3D4D24</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_VETERINARIO" id="1AFF8E8F-9C25-2210-A34F-725B38F26276">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>0AF24F20-BDEB-7742-FDE5-E10D2FE29DE3</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="CRMV_VETERINARIO" id="D852464B-3141-00A4-4EDF-791C657A07E2">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>D16A7263-25F1-3F16-DA08-73F556F4AC56</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_USUARIO" id="026E732B-D66A-4A9E-E9A7-60F7F2CAF399">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<generatorID>562160C5-B877-BCE3-DB71-05DBE3E33190</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>2E3A8A33-743F-CDB9-4048-18BDB1B1AAD9</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<referedAttribute>27648D1D-5D53-D4F2-32EE-8EE89391E0B8</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_PESSOA" id="8C209E13-8140-04B6-1B35-4458ABF7ECC6">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 18:32:09 UTC</createdTime>
+<generatorID>4E5A9A27-8FFB-60BF-F9AC-4CE82A08266E</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<referedAttribute>D6BA33AD-77EB-DC1A-CD5D-1365F7931014</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B8F9F13A-CC75-FFA7-E12D-F4BB5F479109" name="TB_VETERINARIO PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>AC251BC4-ACB6-8691-84C8-A85D1F902FCD</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>1AFF8E8F-9C25-2210-A34F-725B38F26276</attributeRef>
+</usedAttributes>
+</identifier>
+<identifier id="F4260773-6BA9-154B-95A5-FFEB94B84026" name="UNQ_VETERINARIO">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>8973BA4D-A851-1A3E-5B8A-88738407F760</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<newElementsIDs>D852464B-3141-00A4-4EDF-791C657A07E2</newElementsIDs>
+<usedAttributes>
+<attributeRef>D852464B-3141-00A4-4EDF-791C657A07E2</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

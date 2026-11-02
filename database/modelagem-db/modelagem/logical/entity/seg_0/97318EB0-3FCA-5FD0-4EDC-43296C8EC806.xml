@@ -1,0 +1,75 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Entity class="oracle.dbtools.crest.model.design.logical.Entity" directorySegmentName="seg_0" id="97318EB0-3FCA-5FD0-4EDC-43296C8EC806" name="TB_SOLICITACAO_EXAME">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:06:21 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<adequatelyNormalized>NO</adequatelyNormalized>
+<expectedVolumes>0</expectedVolumes>
+<fwdEngineeringStrategyName>Single Table</fwdEngineeringStrategyName>
+<growthPercent>0</growthPercent>
+<growthType>Year</growthType>
+<maxVolumes>9999999</maxVolumes>
+<minVolumes>0</minVolumes>
+<normalForm>Third</normalForm>
+<attributes itemClass="oracle.dbtools.crest.model.design.logical.Attribute">
+<Attribute name="ID_SOLICITACAO_EXAME" id="28F33E16-2F35-FD4A-E5FB-7EB8D8B28207">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:06:34 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="OBS_SOLICITACAO" id="580A5670-86D6-AA7C-7D0F-A591AB17BE21">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:06:56 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+<Attribute name="ID_CONSULTA" id="D73B3686-EF3D-4C49-F60F-1E925ADA1192">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:22 UTC</createdTime>
+<generatorID>DF88D8F0-8459-350A-F22A-9B9891B85AA8</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<nullsAllowed>true</nullsAllowed>
+<referedAttribute>A5AA70B9-FEB8-1580-98B4-09F897C2D73E</referedAttribute>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+</Attribute>
+</attributes>
+<identifiers itemClass="oracle.dbtools.crest.model.design.logical.CandidateKey">
+<identifier id="B1E1EB8D-62A6-7432-A1E2-7A07A62F36F3" name="TB_SOLICITACAO_EXAME PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:06:54 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<pk>true</pk>
+<usedAttributes>
+<attributeRef>28F33E16-2F35-FD4A-E5FB-7EB8D8B28207</attributeRef>
+</usedAttributes>
+</identifier>
+</identifiers>
+</Entity>

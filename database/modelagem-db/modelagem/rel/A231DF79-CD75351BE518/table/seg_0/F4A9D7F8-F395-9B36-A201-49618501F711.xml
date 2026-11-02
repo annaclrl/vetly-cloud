@@ -1,0 +1,160 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Table class="oracle.dbtools.crest.model.design.relational.Table" directorySegmentName="seg_0" id="F4A9D7F8-F395-9B36-A201-49618501F711" name="TB_SOLICITACAO_EXAME_ITEM">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>EEECD0FB-BCF9-3009-ED8F-6C20363EB8C7</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<allowColumnReorder>false</allowColumnReorder>
+<existDependencyGenerateInDDl>true</existDependencyGenerateInDDl>
+<parsed>true</parsed>
+<columns itemClass="oracle.dbtools.crest.model.design.relational.Column">
+<Column name="ID_SOLICITACAO_EXAME_ITEM" id="BABFDFCE-2197-9F5F-BDB2-13AED80C7E18">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>AB80D7B8-FBF1-1E05-BE65-3ABC3F37D7A6</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,10,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="NM_EXAME" id="694290AE-5666-73BB-1EDD-B1761ACE5186">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>114D34AB-B6DA-105F-4C36-5C9F01770639</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>100</dataTypeSize>
+<ownDataTypeParameters>100,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="ST_EXAME" id="5C160480-344B-8CF9-A85B-3D839710F227">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[STATUS DO EXAME]]></commentInRDBMS>
+<generatorID>FEAEA0AB-635F-D11C-9A88-BBD78310FB45</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<constraintName>CK_STATUS_EXAME</constraintName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>20</dataTypeSize>
+<listOfValues>
+<valueDef value="AGUARDANDO_RESULTADO" description=""/>
+<valueDef value="ANALISADO" description=""/>
+<valueDef value="CANCELADO" description=""/>
+<valueDef value="RESULTADO_ENVIADO" description=""/>
+<valueDef value="SOLICITADO" description=""/>
+</listOfValues>
+<ownDataTypeParameters>20,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DT_SOLC_EXAME" id="9F15E766-47C8-BB44-B651-C0B07E4B9D3D">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>34873540-978B-02AF-7949-B4AAED395962</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DT_RES_EXAME" id="35CF557E-0432-B607-FB08-7F631AF9933F">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[DATA DO RESULTADO DO EXAME]]></commentInRDBMS>
+<generatorID>D67B736F-7924-261A-2536-8E75094B15BD</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT007</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DS_RES_EXAME" id="1ED6C5F8-CBA5-3773-EF3E-60BD754F1FF4">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<commentInRDBMS><![CDATA[RESULTADO DO EXAME]]></commentInRDBMS>
+<generatorID>156359FC-2690-1834-6C20-BF47EAF7F752</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT024</logicalDatatype>
+<dataTypeSize>500</dataTypeSize>
+<ownDataTypeParameters>500,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DT_ANALISE" id="7A1637CA-2D04-55C1-B5BC-7F00D8EEAA20">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>24E42D6F-150F-8811-7B95-24904D40069C</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="DT_ENVIO_RESULTADO" id="44974263-41F6-C9B7-75DE-2A4945629D59">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>E3C35FEE-4277-B1F4-E1EC-608D77057DAB</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<nullsAllowed>true</nullsAllowed>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT008</logicalDatatype>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<autoIncrementCycle>false</autoIncrementCycle>
+</Column>
+<Column name="TB_SOLCT_EXAME_ID_SOLCT_EXAME" id="1893F8DC-618B-212D-C900-0FF5C5A63F9B">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>09981D92-675E-60B0-FE10-4C35F74E1754</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<useDomainConstraints>false</useDomainConstraints>
+<use>1</use>
+<logicalDatatype>LOGDT019</logicalDatatype>
+<dataTypePrecision>10</dataTypePrecision>
+<ownDataTypeParameters>,,</ownDataTypeParameters>
+<previousColumn>false</previousColumn>
+<autoIncrementCycle>false</autoIncrementCycle>
+<associations>
+<colAssociation fkAssociation="92F5687D-E60B-EFAB-561A-80B2A2E8C860" referredColumn="9E473875-D983-ABCE-51DE-61919990A9C7"/>
+</associations>
+</Column>
+</columns>
+<indexes itemClass="oracle.dbtools.crest.model.design.relational.Index">
+<ind_PK_UK id="4F46569B-F933-5CD7-D2DE-18FE51595E09" name="TB_SOLICITACAO_EXAME_ITEM_PK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>E5AC7B56-A34A-3E4D-BF2E-3C8FCF479FD3</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<pk>true</pk>
+<indexState>Primary Constraint</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="BABFDFCE-2197-9F5F-BDB2-13AED80C7E18"/>
+</indexColumnUsage>
+</ind_PK_UK>
+<ind_PK_UK id="8AEB9D36-CBA3-2ACD-F3EE-FAD8A6059CA7" name="TB_SLC_EX_ITEM_TB_SLC_EX_FK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>8550356F-8321-2888-62C3-725BEF74F9F6</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<indexState>Foreign Key</indexState>
+<isSurrogateKey>false</isSurrogateKey>
+<indexColumnUsage>
+<colUsage columnID="1893F8DC-618B-212D-C900-0FF5C5A63F9B"/>
+</indexColumnUsage>
+</ind_PK_UK>
+</indexes>
+</Table>

@@ -1,0 +1,17 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<FKIndexAssociation class="oracle.dbtools.crest.model.design.relational.FKIndexAssociation" directorySegmentName="seg_0" id="D30FBF44-9DC1-7997-38E8-495E584960C5" containerWithKeyObject="C72A7141-322D-00BB-5AF2-45EB4E9717FA" localFKIndex="CCE4B51D-8794-1AB9-BB4F-0729055B7D08" name="TB_ANX_EXM_TB_SOLCT_ITEM_FK">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 19:22:42 UTC</createdTime>
+<generatorID>457EB6C4-5318-9FD5-C5A3-A7415EB20577</generatorID>
+<ownerDesignName>modelagem</ownerDesignName>
+<referredTableLongName>TB_SOLICITACAO_EXAME_ITEM</referredTableLongName>
+<deleteRule>NO ACTION</deleteRule>
+<referredTableID>F4A9D7F8-F395-9B36-A201-49618501F711</referredTableID>
+<keyObject>4F46569B-F933-5CD7-D2DE-18FE51595E09</keyObject>
+<referredKeyID>4F46569B-F933-5CD7-D2DE-18FE51595E09</referredKeyID>
+<mandatory>false</mandatory>
+<refColNames>ID_SOLICITACAO_EXAME_ITEM</refColNames>
+<transferable>true</transferable>
+<rely>false</rely>
+<columnDependencyConstraintGenerateInDDL>true</columnDependencyConstraintGenerateInDDL>
+</FKIndexAssociation>

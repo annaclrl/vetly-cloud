@@ -1,0 +1,22 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<Relation class="oracle.dbtools.crest.model.design.logical.Relation" name="USR_TUTOR" directorySegmentName="seg_0" id="9040DF23-79AC-45BC-A281-6AD4FCD35219">
+<createdBy>gabriel</createdBy>
+<createdTime>2026-05-18 17:57:27 UTC</createdTime>
+<ownerDesignName>modelagem</ownerDesignName>
+<importedID>91D73E7A-AE48-54FB-7030-D2930865094A</importedID>
+<engineerTo>
+<item key="A231DF79-A261-E322-089F-CD75351BE518" value="true"/>
+</engineerTo>
+<sourcePk>5CE07BB0-FEBF-6D1B-A754-DDB402C866B5</sourcePk>
+<targetPk>A604255D-C3FF-C3ED-DB7A-EE5B9AC67C29</targetPk>
+<dominantRole>5ED062C0-A77A-9BA6-D799-B80895D24BD1</dominantRole>
+<identifying>false</identifying>
+<optionalSource>false</optionalSource>
+<optionalTarget>false</optionalTarget>
+<sourceCardinality>1</sourceCardinality>
+<sourceEntity>429125A3-FDEF-F98C-1C5E-EFC8362E9C82</sourceEntity>
+<targetCardinalityString>1</targetCardinalityString>
+<targetEntity>5ED062C0-A77A-9BA6-D799-B80895D24BD1</targetEntity>
+<transferable>true</transferable>
+<deleteRule>NO ACTION</deleteRule>
+</Relation>

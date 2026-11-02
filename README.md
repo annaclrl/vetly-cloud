@@ -26,6 +26,7 @@ servidor — sem API REST.
 
 ## Índice
 
+- [Entrega final e integração entre disciplinas](#entrega-final-e-integração-entre-disciplinas)
 - [Escopo do domínio](#escopo-do-domínio)
 - [Funcionalidade removida: Colmeia](#funcionalidade-removida-colmeia)
 - [Stack tecnológica](#stack-tecnológica)
@@ -39,6 +40,23 @@ servidor — sem API REST.
 - [Configuração](#configuração)
 - [Roadmap](#roadmap)
 - [Demonstração](#demonstração)
+
+---
+
+## Entrega final e integração entre disciplinas
+
+| Conjunto | Disciplinas | Repositórios |
+|---|---|---|
+| **A** | Java Advanced + DevOps & Cloud + Mastering Databases | este repositório (`src/` Java + `database/`) |
+| **B** | Mobile + Advanced Business Development with .NET | `vetly-.net` + app React Native/Expo |
+
+No conjunto A, a aplicação Java (Spring Boot/JPA) consulta o **Oracle da FIAP**, seguindo a
+modelagem, o DDL e as migrations (pasta [`database/`](database/README.md)), e é publicada na **Azure** por uma
+pipeline CI/CD (build, testes, artefato, deploy). Fluxo, requisitos da Sprint 4, estado de
+cada item (✅/🟡/⬜) e checklist: [docs/ENTREGA-FINAL-SPRINT4.md](docs/ENTREGA-FINAL-SPRINT4.md).
+
+Este repositório é a **entrega única** da Sprint 4: código Java e código de banco juntos, sem
+repositórios aninhados. A API REST `vetly-java` e os pacotes da Sprint 3 foram removidos.
 
 ---
 
@@ -98,10 +116,11 @@ RN-066, RN-067 e RN-068 estão hoje **sem implementação neste serviço**.
 ## Estrutura do projeto
 
 ```
-mvc-vetly-java/
+vetly-mvc/
 ├── build.gradle
 ├── settings.gradle
-├── DDL.txt                                  # Schema Oracle completo (espelha vetly-database)
+├── database/                                # Banco: DDL, modelagem, pacotes PL/SQL, export JSON e MongoDB
+├── docs/                                    # Documentação da entrega final (Sprint 4)
 └── src/main/
     ├── java/com/vetly/vetly_java/
     │   ├── VetlyJavaApplication.java
@@ -119,7 +138,7 @@ mvc-vetly-java/
     └── resources/
         ├── application.properties
         ├── templates/                        # Thymeleaf, uma pasta por entidade
-        └── db/migration/                     # V1..V8 (Flyway)
+        └── db/migration/                     # V1..V10 (Flyway)
 ```
 
 Duas camadas de serviço coexistem de propósito, não por descuido:
@@ -299,6 +318,7 @@ Tudo sob `/mvc/**`, protegido por login (só `ADMIN`):
 | `/mvc/animais/{id}/prontuario` | `ProntuarioMvcController` | Ver histórico de versões, criar, corrigir |
 | `/mvc/consultas` | `ConsultaMvcController` | Listar, agendar, detalhar, reagendar, mudar status |
 | `/mvc/exames` | `SolicitacaoExameMvcController` | Listar, criar solicitação, registrar resultado, liberar, cancelar |
+| `/mvc/relatorios/consultas` | `RelatorioMvcController` | Relatório de consultas por veterinário/status, calculado no Oracle por `PKG_VETLY_RELATORIO` |
 | `/mvc/especies` | `EspecieMvcController` | Listar, cadastrar, editar, excluir |
 | `/mvc/especialidades` | `EspecialidadeVetMvcController` | Listar, cadastrar, editar, excluir |
 
@@ -335,6 +355,8 @@ O schema é versionado com **Flyway** em `src/main/resources/db/migration/`.
 | `V6__tutor_consentimento_lgpd_rede` | `FL_LGPD_ACEITO`, `DT_LGPD_ACEITO`, `FL_CONSENTIMENTO_REDE`, `DT_CONSENTIMENTO_REDE` | RN-060/062 |
 | `V7__log_acesso_prontuario_rn067` | Tabela `TB_LOG_ACESSO_PRONTUARIO` | RN-067 (tabela mantida, sem uso hoje) |
 | `V8__prontuario_versionamento_rn088_089` | `DS_CONTEUDO_CLINICO`, auto-FK `TB_PRONTUARIO_ID_ORIGINAL`, `DT_HR_CORRECAO`, `CRMV_SOLICITANTE_CORRECAO`, `DS_JUSTIFICATIVA_CORRECAO` | RN-088/089 |
+| `V9__seed_especie_especialidade` | Semeia `TB_ESPECIE` e `TB_ESPECIALIDADES_VET` com os valores dos enums Java | — |
+| `V10__pacotes_plsql_auditoria` | Pacotes `PKG_VETLY_LOG/VALIDACAO/JSON/RELATORIO`, `TB_AUDITORIA` e trigger `TRG_AUD_CONSULTA` (fonte: `database/scripts`) | Sprint 4 Banco |
 
 Regras de manutenção:
 
@@ -342,7 +364,7 @@ Regras de manutenção:
   única fonte de verdade do schema.
 - `baseline-on-migrate=true` porque o schema da FIAP já existia criado à mão: a migration
   `V1` não é reexecutada nesse ambiente, mas roda normalmente em um schema vazio.
-- Ao criar uma migration nova, replique o mesmo DDL no fim de `vetly-database/DDL.txt`.
+- Ao criar uma migration nova, replique o mesmo DDL no fim de `database/DDL.txt`. A V10 (pacotes e trigger) é gerada de `database/scripts/` por `database/gerar-migration.sh`.
 - **Nunca edite uma migration já aplicada.** O checksum do Flyway cobre o arquivo inteiro,
   comentários inclusive, então qualquer alteração derruba o start com *checksum mismatch*.
 
@@ -358,8 +380,8 @@ Regras de manutenção:
 ### Passo a passo
 
 ```bash
-git clone https://github.com/challenge-vetly/vetly-java.git
-cd mvc-vetly-java
+git clone https://github.com/Duartegdm/vetly-mvc.git
+cd vetly-mvc
 
 # 1. Configure o acesso ao Oracle em src/main/resources/application.properties
 #    (ver seção "Configuração" abaixo) antes do primeiro build/run.
