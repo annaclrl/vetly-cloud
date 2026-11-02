@@ -12,7 +12,7 @@
             </div>
             <div class="alert alert-danger" role="alert" th:if="${param.erro}"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i><div>Email ou senha inválidos.</div></div>
             <div class="alert alert-success" role="status" th:if="${param.logout}"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><div>Sessão encerrada.</div></div>
-            <div class="alert alert-success" role="status" th:if="${param.cadastrado} or ${sucesso != null}"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><div>Cadastro realizado com sucesso. Faça login para continuar.</div></div>
+            <div class="alert alert-success" role="status" th:if="${param.cadastrado != null or #ctx.containsVariable('sucesso')}"><i class="bi bi-check-circle-fill" aria-hidden="true"></i><div>Cadastro realizado com sucesso. Faça login para continuar.</div></div>
             <div class="alert alert-danger" role="alert" th:if="${param.erroGoogle}"><i class="bi bi-exclamation-triangle-fill" aria-hidden="true"></i><div>Não foi possível entrar com o Google.</div></div>
             <div class="alert alert-warning" role="alert" th:if="${param.googleSemConta}"><i class="bi bi-info-circle-fill" aria-hidden="true"></i><div>Nenhuma conta Vetly com este e-mail Google. Cadastre-se primeiro.</div></div>
             <form th:action="@{/mvc/login}" method="post">
