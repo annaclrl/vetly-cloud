@@ -95,7 +95,14 @@ public class VeterinarioAdminService {
         return veterinario;
     }
 
+    @Transactional
     public void excluir(UUID id) {
-        veterinarioRepository.deleteById(id);
+        Veterinario veterinario = buscar(id);
+        veterinarioEspecialidadeRepository.deleteAll(veterinario.getEspecialidades());
+        veterinarioEspecieRepository.deleteAll(veterinario.getEspecies());
+        veterinarioEspecialidadeRepository.flush();
+        veterinarioEspecieRepository.flush();
+        veterinarioRepository.delete(veterinario);
+        veterinarioRepository.flush();
     }
 }
