@@ -13,7 +13,7 @@ public class VeterinarioCreateForm {
 
     @NotBlank(message = "A senha é obrigatória")
     @Pattern(
-            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+            regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d\\s])\\S{8,}$",
             message = "A senha deve ter no mínimo 8 caracteres, com maiúscula, minúscula, número e caractere especial"
     )
     private String senha;
