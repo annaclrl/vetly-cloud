@@ -29,5 +29,10 @@
         </div>
     </div>
 </div>
+<script th:if="${param.logout}" th:inline="javascript">
+    setTimeout(function () {
+        window.location.replace(/*[[@{/mvc/login}]]*/ '/mvc/login');
+    }, 2000);
+</script>
 </body>
 </html>
