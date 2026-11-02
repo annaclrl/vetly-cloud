@@ -10,7 +10,7 @@ public record RegisterTutorDTO(
         String email,
         @NotBlank(message = "A senha é obrigatória")
         @Pattern(
-                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
+                regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z\\d\\s])\\S{8,}$",
                 message = """
             A senha deve conter:
             - mínimo 8 caracteres
