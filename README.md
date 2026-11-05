@@ -35,7 +35,17 @@
 
 O **Vetly** é uma plataforma que conecta tutores de animais a veterinários independentes.
 
-Este repositório contém o **painel administrativo (back-office)** da plataforma, operado por um ator **ADMIN**, cobrindo o núcleo clínico da operação: cadastro de tutores, veterinários e animais, agendamento e acompanhamento de consultas, prontuário eletrônico versionado e solicitação/liberação de resultados de exames.
+Este repositório contém a aplicação web da plataforma. O foco da entrega é o **painel administrativo (back-office)**, operado pelo perfil **ADMIN**, que cobre o núcleo clínico da operação: cadastro de tutores, veterinários e animais, agendamento e acompanhamento de consultas, prontuário eletrônico versionado e solicitação/liberação de resultados de exames.
+
+A aplicação também possui áreas próprias para tutores e veterinários:
+
+| Perfil | Acesso | O que faz |
+|---|---|---|
+| `ADMIN` | `/mvc/` | Gerencia os cadastros, as consultas, os prontuários e os exames no painel administrativo. |
+| `TUTOR` | `/mvc/area-tutor` | Gerencia seus animais e consultas, acompanha prontuários e vê resultados de exames liberados. |
+| `VETERINARIO` | `/mvc/area-veterinario` | Atende suas consultas, registra evoluções clínicas, gerencia prontuários e libera resultados de exames. |
+
+Tutores e veterinários criam a própria conta pelo cadastro público em `/mvc/cadastro`. O administrador inicial é criado automaticamente na inicialização da aplicação, a partir das variáveis de ambiente.
 
 A solução foi desenvolvida utilizando **Java 21 com Spring Boot**, arquitetura MVC e Thymeleaf, banco de dados **Oracle Database em nuvem**, disponibilizado pela FIAP, e infraestrutura de aplicação hospedada na **Microsoft Azure**, por meio do Azure App Service.
 
@@ -59,7 +69,7 @@ O projeto demonstra a aplicação prática dos conceitos de:
 
 **Fluxo de acesso à aplicação:**
 
-1. O usuário ADMIN acessa o Vetly pela web.
+1. O usuário acessa o Vetly pela web, com o perfil ADMIN, TUTOR ou VETERINARIO.
 2. A requisição chega ao **Azure App Service**, responsável por hospedar a aplicação Java.
 3. O App Service executa a aplicação `vetly-app`, utilizando os recursos do plano `vetly-plan`.
 4. A aplicação realiza a comunicação com o **Oracle Database da FIAP**, por meio de conexão JDBC.
@@ -77,7 +87,7 @@ O projeto demonstra a aplicação prática dos conceitos de:
 
 | Componente | Responsabilidade |
 |---|---|
-| Usuário | Acessa o painel administrativo pela web. |
+| Usuário | Acessa a aplicação pela web, de acordo com o seu perfil. |
 | Azure DevOps | Gerencia o repositório e os pipelines. |
 | Azure Repos | Armazena o código-fonte do projeto. |
 | Azure Pipelines (CI) | Executa build e testes automatizados. |
@@ -333,7 +343,7 @@ Após a conclusão bem-sucedida do deploy, a aplicação fica disponível public
 
 https://vetly-app.azurewebsites.net/mvc/login
 
-O acesso às funcionalidades administrativas é realizado por meio da autenticação da aplicação.
+O acesso às funcionalidades é realizado por meio da autenticação da aplicação, e cada perfil é direcionado para a sua área.
 
 ---
 
@@ -425,7 +435,9 @@ O repositório e os pipelines de CI/CD do Vetly estão disponíveis no projeto d
 
 # 📝 Funcionalidades Disponíveis na Nuvem
 
-Na versão hospedada em cloud, o sistema mantém as funcionalidades do painel administrativo MVC Java:
+Na versão hospedada em cloud, o sistema mantém as funcionalidades da aplicação MVC Java.
+
+**Painel administrativo (perfil ADMIN):**
 
 - Cadastro, edição, consulta e exclusão de animais.
 - Cadastro e gerenciamento de tutores.
@@ -433,7 +445,13 @@ Na versão hospedada em cloud, o sistema mantém as funcionalidades do painel ad
 - Agendamento e acompanhamento de consultas.
 - Gerenciamento de prontuários eletrônicos.
 - Solicitação e liberação de resultados de exames.
-- Controle de acesso administrativo.
+
+**Demais perfis e acesso:**
+
+- Área do tutor (`/mvc/area-tutor`).
+- Área do veterinário (`/mvc/area-veterinario`).
+- Cadastro público de tutores e veterinários (`/mvc/cadastro`).
+- Controle de acesso por perfil.
 
 ---
 
@@ -450,6 +468,6 @@ Na versão hospedada em cloud, o sistema mantém as funcionalidades do painel ad
 
 # ▶ Demonstração
 
-Para facilitar a validação do projeto, disponibilizamos uma demonstração completa da solução em vídeo.
+Para facilitar a validação do projeto, disponibilizamos uma demonstração da solução em vídeo, com foco no painel administrativo (perfil ADMIN).
 
 🎥 [Assistir demonstração no YouTube](https://youtu.be/RL_claphgCo)
