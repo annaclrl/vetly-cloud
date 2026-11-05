@@ -1,484 +1,455 @@
-# Vetly — Painel Administrativo (Java MVC)
+# 🐾 Vetly
 
-Painel administrativo server-side em **Java 21 + Spring Boot + Thymeleaf** da
-plataforma Vetly, um marketplace que conecta tutores a veterinários independentes.
-Este serviço é um back-office operado por **ADMIN** (staff), cobrindo a fatia de
-domínio **Usuário · Tutor · Veterinário · Animal · Consulta · Prontuário · Exame ·
-Espécie · Especialidade**, com login por formulário e telas HTML renderizadas no
-servidor — sem API REST.
+> Projeto acadêmico desenvolvido para fins educacionais.
 
-> **Contexto de projeto.** O Vetly tem dois backends. O `vetly-.net` implementa o
-> produto completo (incluindo o app de tutores/veterinários); este repositório é uma
-> implementação **paralela e independente** de um subconjunto do domínio — identidade,
-> banco e dados próprios, **sem integração** com o `.NET`. As regras de negócio
-> seguidas aqui são as **atuais** (RN-001 a RN-107 de `vetly-qa/vetly-tech.md`), não
-> as do produto legado.
+## Integrantes
 
-> **Mudança de arquitetura (2026-09).** Este repositório chegou a expor uma API REST
-> completa (JWT, self-service para TUTOR/VETERINARIO) **junto** de um painel MVC
-> administrativo bolted-on por cima — duas arquiteturas, dois modelos de segurança,
-> Swagger e HATEOAS coexistindo com formulários Thymeleaf. Isso foi resolvido: o
-> repositório agora é **só MVC**, um back-office operado por ADMIN. A API REST
-> self-service (login de tutor/veterinário, auto-registro, "Colmeia") foi removida —
-> ver [Funcionalidade removida](#funcionalidade-removida-colmeia) abaixo.
-
----
-
-## Índice
-
-- [Entrega final e integração entre disciplinas](#entrega-final-e-integração-entre-disciplinas)
-- [Escopo do domínio](#escopo-do-domínio)
-- [Funcionalidade removida: Colmeia](#funcionalidade-removida-colmeia)
-- [Stack tecnológica](#stack-tecnológica)
-- [Estrutura do projeto](#estrutura-do-projeto)
-- [Regras de negócio implementadas](#regras-de-negócio-implementadas)
-- [Modelo de domínio](#modelo-de-domínio)
-- [Telas do painel (rotas)](#telas-do-painel-rotas)
-- [Segurança e autenticação](#segurança-e-autenticação)
-- [Banco de dados e migrations](#banco-de-dados-e-migrations)
-- [Como executar](#como-executar)
-- [Configuração](#configuração)
-- [Roadmap](#roadmap)
-- [Demonstração](#demonstração)
-
----
-
-## Entrega final e integração entre disciplinas
-
-| Conjunto | Disciplinas | Repositórios |
-|---|---|---|
-| **A** | Java Advanced + DevOps & Cloud + Mastering Databases | este repositório (`src/` Java) + [`vetly-database`](https://github.com/challenge-vetly/vetly-database) |
-| **B** | Mobile + Advanced Business Development with .NET | `vetly-.net` + app React Native/Expo |
-
-No conjunto A, a aplicação Java (Spring Boot/JPA) consulta o **Oracle da FIAP**, seguindo a
-modelagem, o DDL e as migrations (repositório [`vetly-database`](https://github.com/challenge-vetly/vetly-database)), e é publicada na **Azure** por uma
-pipeline CI/CD (build, testes, artefato, deploy). Fluxo, requisitos da Sprint 4, estado de
-cada item (✅/🟡/⬜) e checklist: [docs/ENTREGA-FINAL-SPRINT4.md](docs/ENTREGA-FINAL-SPRINT4.md).
-
-Este repositório é a **entrega única** da Sprint 4: código Java e código de banco juntos, sem
-repositórios aninhados. A API REST `vetly-java` e os pacotes da Sprint 3 foram removidos.
-
----
-
-## Escopo do domínio
-
-| Dentro deste repositório | Somente no `vetly-.net` |
+| Nome | RM |
 |---|---|
-| Cadastro de Tutor, Veterinário e Usuário pelo ADMIN | Auto-registro/login de tutor e veterinário, Empresa/Administrador |
-| Animal — CRUD com campos clínicos | Pagamento, split financeiro, fidelidade |
-| Consulta — agendamento e máquina de estados | Matching e geolocalização |
-| Prontuário — versionamento original × correção | IA na consulta (áudio, sugestões) |
-| Exame — solicitação, resultado, anexo, liberação | Internação |
-| Espécie / Especialidade — cadastros de apoio | Notificações push, avaliação, avatar |
-
-Decisões de fronteira e a justificativa de cada exclusão estão em
-`project-context/docs/java-scope.md`.
+| 👩‍💻 Anna Clara Russo Luca | RM561928 |
+| 👨‍💻 Gabriel Duarte Maciel | RM565754 |
+| 👨‍💻 Gustavo Tavares da Silva | RM562827 |
+| 👨‍💻 Tiago Guedes da Costa | RM564731 |
 
 ---
 
-## Funcionalidade removida: Colmeia
+# 📑 Sumário
 
-Antes da consolidação em MVC, a API REST expunha a **Colmeia** (RN-064 a RN-068):
-concessão automática de acesso ao histórico clínico para o veterinário com vínculo
-ativo, escopo por consentimento de rede do tutor, e log de todo acesso — tudo
-inerentemente **self-service** (o veterinário ou o tutor autenticado consultando o
-próprio histórico). Um painel operado por ADMIN não tem "o veterinário logado" nem
-"o tutor logado" como ator, então a feature não tem equivalente MVC possível sem
-reintroduzir login de tutor/veterinário — o que contradiria a decisão de ficar só
-admin.
-
-`AcessoProntuarioService`, o `ColmeiaController` REST e os DTOs de histórico/log de
-acesso foram removidos. As entidades `EvolucaoClinica` e `LogAcessoProntuario`
-continuam mapeadas (JPA) e no schema, mas não têm mais controller/service/tela —
-ficam disponíveis para quem quiser reintroduzir a feature (por exemplo em
-`vetly-.net`, ou nesta base se ela ganhar de volta um login self-service). RN-064,
-RN-066, RN-067 e RN-068 estão hoje **sem implementação neste serviço**.
+- [📌 Descrição do Projeto](#-descrição-do-projeto)
+- [🏗 Arquitetura da Solução](#-arquitetura-da-solução)
+- [🚀 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [💼 Benefícios para o Negócio](#-benefícios-para-o-negócio)
+- [🧩 CRUD Implementado](#-crud-implementado)
+- [☁️ Como Fazer o Deploy em Cloud (Azure)](#️-como-fazer-o-deploy-em-cloud-azure)
+- [🛠️ Tecnologias e Serviços Utilizados](#️-tecnologias-e-serviços-utilizados)
+- [🧩 Componentes da Arquitetura Cloud](#-componentes-da-arquitetura-cloud)
+- [⚙️ Estrutura do Deploy e Automação (CI/CD)](#️-estrutura-do-deploy-e-automação-cicd)
+- [🔗 Projeto no Azure DevOps](#-projeto-no-azure-devops)
+- [📝 Funcionalidades Disponíveis na Nuvem](#-funcionalidades-disponíveis-na-nuvem)
+- [📊 Benefícios da Arquitetura em Cloud](#-benefícios-da-arquitetura-em-cloud)
+- [▶ Demonstração](#-demonstração)
 
 ---
 
-## Stack tecnológica
+# 📌 Descrição do Projeto
 
-| Camada | Tecnologia |
-|--------|-----------|
-| Linguagem | Java 21 |
-| Framework | Spring Boot 4.0.6 |
-| Persistência | Spring Data JPA (Hibernate) |
-| Migrations | Flyway (`flyway-core` + `flyway-database-oracle`) |
-| Banco de dados | Oracle Database (ojdbc11) |
-| Segurança | Spring Security — login por formulário, sessão |
-| Web | Spring Web MVC + Thymeleaf |
-| Validação | Bean Validation (Jakarta) |
-| Build | Gradle |
-| Testes | JUnit 5 via Spring Boot Test |
+O **Vetly** é uma plataforma que conecta tutores de animais a veterinários independentes.
+
+Este repositório contém o **painel administrativo (back-office)** da plataforma, operado por um ator **ADMIN**, cobrindo o núcleo clínico da operação: cadastro de tutores, veterinários e animais, agendamento e acompanhamento de consultas, prontuário eletrônico versionado e solicitação/liberação de resultados de exames.
+
+A solução foi desenvolvida utilizando **Java 21 com Spring Boot**, arquitetura MVC e Thymeleaf, banco de dados **Oracle Database em nuvem**, disponibilizado pela FIAP, e infraestrutura de aplicação hospedada na **Microsoft Azure**, por meio do Azure App Service.
+
+O processo de integração e entrega contínua é realizado com **Azure DevOps**, utilizando Azure Repos e Azure Pipelines para automatizar a compilação, execução dos testes, publicação do artefato e implantação da aplicação.
+
+O projeto demonstra a aplicação prática dos conceitos de:
+
+- Cloud Computing (PaaS).
+- Infraestrutura em nuvem.
+- Persistência de dados em banco relacional na nuvem.
+- Integração contínua (CI).
+- Entrega contínua (CD).
+- Automatização de build, testes e deploy.
+- Gerenciamento seguro de variáveis de ambiente.
 
 ---
 
-## Estrutura do projeto
+# 🏗 Arquitetura da Solução
 
-```
-vetly-mvc/
-├── build.gradle
-├── settings.gradle
-# (DDL, modelagem, pacotes PL/SQL, export JSON e MongoDB: repositório vetly-database)
-├── docs/                                    # Documentação da entrega final (Sprint 4)
-└── src/main/
-    ├── java/com/vetly/vetly_java/
-    │   ├── VetlyJavaApplication.java
-    │   ├── mvc/
-    │   │   ├── controller/                   # Único ponto de entrada HTTP — telas do painel
-    │   │   ├── form/                         # Records de formulário (bind de @ModelAttribute)
-    │   │   └── service/                      # Casos de uso do ADMIN (lista/cria/edita/exclui)
-    │   ├── dto/                              # Records reaproveitados pelos services de domínio
-    │   ├── mapper/                           # Entidade ↔ DTO
-    │   ├── model/                            # Entidades JPA e enums
-    │   ├── repository/                       # Spring Data JPA
-    │   ├── security/MvcSecurityConfig.java    # Única SecurityFilterChain — login por formulário
-    │   ├── service/                          # AuthService (login/registro) + cadastros de apoio
-    │   └── validation/                       # @ValueOfEnum
-    └── resources/
-        ├── application.properties
-        ├── templates/                        # Thymeleaf, uma pasta por entidade
-        └── db/migration/                     # V1..V10 (Flyway)
-```
+![Arquitetura da solução Vetly](arquitetura.jpg)
 
-Duas camadas de serviço coexistem de propósito, não por descuido:
+**Fluxo de acesso à aplicação:**
 
-| Camada | Papel | Por quê |
+1. O usuário ADMIN acessa o Vetly pela web.
+2. A requisição chega ao **Azure App Service**, responsável por hospedar a aplicação Java.
+3. O App Service executa a aplicação `vetly-app`, utilizando os recursos do plano `vetly-plan`.
+4. A aplicação realiza a comunicação com o **Oracle Database da FIAP**, por meio de conexão JDBC.
+5. Os dados são armazenados e consultados no banco Oracle, que funciona como camada de persistência da solução.
+
+**Fluxo de desenvolvimento e implantação:**
+
+1. O desenvolvedor realiza alterações no código e envia as atualizações para o repositório.
+2. O código é disponibilizado no Azure Repos.
+3. O Azure Pipelines executa o processo de CI, realizando o build e os testes automatizados.
+4. Após a aprovação do CI, o pipeline publica o artefato JAR executável.
+5. O estágio de CD utiliza o artefato publicado para atualizar automaticamente a aplicação no Azure App Service.
+
+**Componentes da arquitetura:**
+
+| Componente | Responsabilidade |
+|---|---|
+| Usuário | Acessa o painel administrativo pela web. |
+| Azure DevOps | Gerencia o repositório e os pipelines. |
+| Azure Repos | Armazena o código-fonte do projeto. |
+| Azure Pipelines (CI) | Executa build e testes automatizados. |
+| Artefato JAR | Pacote executável gerado pelo processo de build. |
+| Azure Pipelines (CD) | Realiza a implantação automática da aplicação. |
+| Azure App Service | Hospeda a aplicação Java. |
+| App Service Plan | Fornece os recursos de hospedagem da aplicação. |
+| Oracle Database FIAP | Armazena os dados da aplicação. |
+
+---
+
+# 🚀 Tecnologias Utilizadas
+
+## Back-end
+
+- Java 21
+- Spring Boot 4.0.6
+- Spring Security
+- Spring Data JPA / Hibernate
+- Thymeleaf
+- Gradle
+- Flyway
+
+## Banco de Dados
+
+- Oracle Database (instância em nuvem da FIAP).
+- SQL e PL/SQL.
+- Procedures, packages e triggers.
+- Migrations para controle de evolução do banco de dados.
+
+## Cloud e DevOps
+
+- Microsoft Azure.
+- Azure App Service (Linux).
+- Azure App Service Plan.
+- Azure Resource Group.
+- Azure DevOps.
+- Azure Repos.
+- Azure Pipelines.
+- CI/CD automatizado.
+- Azure CLI para provisionamento da infraestrutura.
+
+---
+
+# 💼 Benefícios para o Negócio
+
+### Centralização da operação
+
+A equipe administrativa cadastra e gerencia tutores, veterinários e animais em um único painel, sem depender de acesso direto ao banco de dados.
+
+### Rastreabilidade clínica
+
+O prontuário nunca é sobrescrito: toda correção gera uma nova versão vinculada à original, com data, hora e responsável, reduzindo riscos e melhorando a auditoria do histórico clínico.
+
+### Governança de resultados de exames
+
+O resultado de um exame só fica visível ao tutor após liberação explícita, evitando que um laudo ainda em análise chegue prematuramente ao cliente final.
+
+### Persistência em nuvem
+
+Os dados permanecem armazenados no Oracle Database da FIAP, independentemente do ciclo de vida da aplicação no Azure App Service.
+
+### Automatização do processo de entrega
+
+A utilização do Azure DevOps permite automatizar a compilação, os testes e a publicação da aplicação, reduzindo etapas manuais e facilitando a disponibilização de novas versões.
+
+### Segurança das configurações
+
+As credenciais do banco de dados e demais informações sensíveis são configuradas por variáveis de ambiente, evitando sua exposição diretamente no código-fonte.
+---
+
+# 🧩 CRUD Implementado
+
+O CRUD completo do projeto foi implementado na entidade **Consulta**, em `ConsultaMvcController` e `ConsultaAdminService`. A exclusão é **lógica**: ao cancelar, o registro permanece no banco com status `CANCELADA`, preservando o histórico de atendimentos.
+
+| Operação | Ação no sistema | Rota | Método do serviço |
+|---|---|---|---|
+| Incluir | Agendar consulta | `POST /mvc/consultas` | `ConsultaAdminService.criar` |
+| Consultar | Listar e ver detalhes | `GET /mvc/consultas` e `GET /mvc/consultas/{id}` | `ConsultaAdminService.listar` / `.buscar` |
+| Alterar | Reagendar data e hora | `POST /mvc/consultas/{id}/reagendar` | `ConsultaAdminService.reagendar` |
+| Excluir (lógica) | Cancelar consulta | `POST /mvc/consultas/{id}/cancelar` | `ConsultaAdminService.transicionar` |
+
+Reagendamento e cancelamento só são permitidos para consultas com status `AGENDADA`.
+
+Para agendar uma consulta, o sistema exige um **Animal** e um **Veterinário** já cadastrados, e todo animal é vinculado a um **Tutor**. Por isso, esses três registros também são criados:
+
+| Cadastro | Rota | Método do serviço |
 |---|---|---|
-| `mvc/service/*AdminService` | Regras do ator ADMIN: lista/cria/edita/exclui **qualquer** registro, sem escopo de dono | É o que o painel back-office precisa — um humano de staff gerindo a base toda |
-| `service/AuthService`, `EspecieService`, `EspecialidadeVetService` | Autenticação (`UserDetailsService` do login) e cadastros de apoio simples | Reaproveitados como estão pelos controllers MVC — não há necessidade de um "AdminService" para uma tabela de 2 campos |
-
-Os services de domínio que existiam só para a API REST self-service (`AnimalService`,
-`ConsultaService`, `TutorService`, `VeterinarioService`, `UsuarioService`,
-`AcessoProntuarioService`, `ProntuarioService`, `SolicitacaoExameService`) foram
-removidos — cada um assumia "o tutor/veterinário autenticado" como ator
-(`SecurityContextHolder` → `currentTutor()`), o que não existe mais neste app.
+| Tutor | `POST /mvc/tutores` | `TutorAdminService.criar` |
+| Veterinário | `POST /mvc/veterinarios` | `VeterinarioAdminService.criar` |
+| Animal | `POST /mvc/animais` | `AnimalAdminService.criar` |
 
 ---
 
-## Regras de negócio implementadas
 
-Numeração conforme `vetly-qa/vetly-tech.md` — **única fonte de verdade**. A tabela abaixo
-lista o que está de fato implementado neste serviço e onde verificar.
+# ☁️ Como Fazer o Deploy em Cloud (Azure)
 
-| RN | Regra | Como está implementada | Onde |
-|----|-------|------------------------|------|
-| **RN-003** | Consulta atribuída ao profissional escolhido | O formulário informa `veterinarioId` no agendamento; não há clínica designando (Empresa está fora de escopo) | `ConsultaMvcController` → `ConsultaAdminService.criar` |
-| **RN-008** | Consulta encerra por ação do vet | Só transição a partir de `AGENDADA`; sem IA acoplada, isso apenas fecha o registro | `ConsultaAdminService.transicionar` |
-| **RN-012** | Responsável cancela ou remarca | Ambas as ações disponíveis na tela de detalhe da consulta | `ConsultaAdminService.reagendar` / `.transicionar` |
-| **RN-038** | Estados da consulta | `AGENDADA → REALIZADA \| CANCELADA \| NAO_COMPARECEU`; toda transição parte de `AGENDADA`, o resto rejeita com erro | `ConsultaAdminService.transicionar` |
-| **RN-060** | Consentimento LGPD registrado | Aceite com carimbo de data no momento em que passa a `true` | `TutorMvcController` → `TutorAdminService.atualizar` |
-| **RN-062** | Revogação, com registro | `consentimentoRede=false` limpa a data, sem apagar registro clínico já produzido | `TutorAdminService.atualizar` |
-| **RN-063** | Prontuário pertence ao animal | Rota é `/mvc/animais/{animalId}/prontuario`; nenhum vet "possui" o prontuário | `ProntuarioMvcController` |
-| **RN-081** | Peso obrigatório | `peso` é `@NotNull` e maior que zero no formulário de animal | `AnimalForm` |
-| **RN-088** | Correção vinculada ao original | A correção cria **nova linha** apontando para a original, com data, hora e justificativa; o original nunca é sobrescrito | `ProntuarioAdminService.corrigir` |
-| **RN-089** | Correção fora de 24h exige justificativa | Passada a janela, `justificativa` em branco é rejeitada | `ProntuarioAdminService.corrigir` |
-| **RN-103** | Exame solicitado na plataforma | Cria uma solicitação com N itens, vinculada à consulta e, por ela, ao animal | `SolicitacaoExameAdminService.criar` |
-| **RN-104** | Resultado só chega ao Responsável após liberação | Registrar o laudo (`ANALISADO`) não libera nada; só a ação "liberar" torna o resultado visível | `SolicitacaoExameAdminService.liberarParaResponsavel` |
+O **Vetly** é implantado na **Microsoft Azure**, utilizando o Azure App Service para hospedagem da aplicação Java e o Oracle Database da FIAP para armazenamento dos dados.
 
-RN-064, RN-066, RN-067, RN-068 (Colmeia) não têm implementação neste serviço — ver
-[Funcionalidade removida](#funcionalidade-removida-colmeia).
+A implantação é realizada de forma automatizada por meio do **Azure DevOps**, utilizando pipelines de CI/CD.
 
-### Adaptações e exclusões conscientes
+> 💡 **Importante:** o banco de dados Oracle utilizado pelo projeto é uma instância disponibilizada pela FIAP, hospedada externamente à Azure. Portanto, não é necessário criar um novo banco de dados na assinatura Azure.
 
-| RN | Situação neste serviço |
-|----|------------------------|
-| RN-013 (pagamento transferido na remarcação) | **Não se aplica** — não há Pagamento no Java; remarcar só troca a data |
-| RN-035 (`EM_CHECKOUT`) | **Removido do ciclo** — o estado existe por causa do lock de pagamento |
-| RN-041 a RN-045 (cancelamento com reembolso) | **Fora de escopo** — pressupõem Pagamento |
-| RN-046 (obrigações do pet) | **Fora do v1** — é consumida por Fidelidade/Avatar/Notificações, que são `.NET` |
-| RN-061 (consentimento granular por finalidade) | **Versão mínima** — dois flags (LGPD e rede) em vez das cinco finalidades |
-| RN-064/065/066/067/068 (Colmeia) | **Removidas com a API REST self-service** — ver seção dedicada acima |
-| RN-078 a RN-085 (IA na consulta) | **Somente `.NET`** |
-| RN-100 a RN-102 (internação) | **Somente `.NET`** |
-| RN-107 (validação de CRMV) | **Não implementada** — só é relevante com matching/diretório público de vets |
+## 1️⃣ Clonar o Repositório
 
-### Decisão de implementação registrada
-
-`StatusExame.RESULTADO_ENVIADO` significa **liberado ao Responsável**, não "enviado ao
-veterinário". A ambiguidade estava aberta em `docs/java-database-alignment.md` §2.7 e foi
-resolvida assim porque é a leitura que corresponde a RN-104: o marco que importa é a
-divulgação ao tutor.
-
----
-
-## Modelo de domínio
-
-### Entidades
-
-#### `Usuario`
-Conta de acesso; implementa `UserDetails`. Só `ADMIN` autentica no painel — `TUTOR` e
-`VETERINARIO` existem como dados de cadastro geridos pelo ADMIN, sem login próprio.
-
-| Campo | Tipo | Descrição |
-|-------|------|-----------|
-| `id` | String (UUID) | Identificador |
-| `email` | String | E-mail único de login |
-| `role` | UserRole | `ADMIN`, `TUTOR` ou `VETERINARIO` |
-| `flagAtivo` | String (`S`/`N`) | Conta ativa |
-| `senhaHash` | String | BCrypt |
-
-#### `Pessoa`
-Dados pessoais compartilhados por Veterinário e Tutor — `nome`, `cpf`, `telefone`
-(CPF+telefone únicos em conjunto).
-
-#### `Tutor`
-Dono do animal. Além do vínculo com `Usuario` e `Pessoa`, carrega o consentimento:
-
-| Campo | Tipo | RN |
-|-------|------|----|
-| `lgpdAceito` / `dataLgpdAceito` | `S`/`N` + LocalDate | RN-060 |
-| `consentimentoRede` / `dataConsentimentoRede` | `S`/`N` + LocalDate | RN-062 |
-
-#### `Veterinario`
-`crmv` único, `usuario`, `pessoa`, mais as listas `especialidades` e `especies`.
-
-#### `Animal`
-Pertence a um `Tutor` e a uma `Especie`.
-
-| Campo | Tipo | Observação |
-|-------|------|-----------|
-| `id` | UUID | |
-| `nome`, `raca` | String (80) | |
-| `sexo` | Sexo | `M` / `F` |
-| `dataNascimento` | LocalDate | Não pode ser futura |
-| `peso` | BigDecimal | **Obrigatório** (RN-081) |
-| `urlFoto` | String (500) | |
-| `castrado` | `S`/`N` | |
-| `condicoesPreexistentes`, `alergias`, `medicacoesEmUso` | String (1000) | |
-
-#### `Consulta`
-`dataHora`, `status` (`StatusConsulta`), `valor`, `observacao`, `veterinario`, `animal`.
-
-#### `Prontuario`
-Uma linha por versão do prontuário do animal.
-
-| Campo | Descrição |
-|-------|-----------|
-| `conteudoClinico` | Texto clínico da versão |
-| `dataUltimaAtualizacao` | Data da versão |
-| `original` | Auto-FK: `null` na original, aponta para ela em cada correção (RN-088) |
-| `dataHoraCorrecao`, `crmvSolicitanteCorrecao` | Carimbo da correção (RN-088) |
-| `justificativaCorrecao` | Preenchida só fora da janela de 24h (RN-089) |
-
-#### `EvolucaoClinica` / `LogAcessoProntuario`
-Mapeadas (JPA) e no schema, mas sem controller/service/tela — ver
-[Funcionalidade removida](#funcionalidade-removida-colmeia).
-
-#### `SolicitacaoExame` / `SolicitacaoExameItem` / `AnexoExame`
-Uma solicitação por consulta, N itens por solicitação, N anexos por item.
-O item guarda `status`, `descricaoResultado`, `liberadoResponsavel` e
-`dataLiberacaoResponsavel` (RN-104).
-
-#### `LogErro`
-Registro de erros de execução para auditoria.
-
-### Enums
-
-| Enum | Valores |
-|------|---------|
-| `UserRole` | `ADMIN`, `TUTOR`, `VETERINARIO` |
-| `Sexo` | `M`, `F` |
-| `StatusConsulta` | `AGENDADA`, `REALIZADA`, `CANCELADA`, `NAO_COMPARECEU` |
-| `StatusExame` | `SOLICITADO`, `AGUARDANDO_RESULTADO`, `ANALISADO`, `RESULTADO_ENVIADO`, `CANCELADO` |
-| `BaseAcesso` | `CONSENTIMENTO_REDE`, `ATENDIMENTO_DIRETO` |
-| `NomeEspecie` | `AVE`, `REPTIL`, `MAMIFERO`, `ANFIBIO`, `PEIXE`, `EQUIDEO`, `CAO`, `GATO` |
-| `NomeEspecialidade` | 21 especialidades (`ACUPUNTURA` … `RADIOLOGIA`) |
-
-### Máquina de estados
-
-```
-Consulta (RN-038)                    Item de exame (RN-103/104)
-
-        AGENDADA                          SOLICITADO
-       /    |    \                            |  registrar resultado
-      /     |     \                           v
-CANCELADA REALIZADA NAO_COMPARECEU        ANALISADO
-                                              |  liberar
-                                              v
-                                      RESULTADO_ENVIADO   # = liberado ao tutor
-```
-
-Qualquer transição que não parta do estado de origem é rejeitada.
-
----
-
-## Telas do painel (rotas)
-
-Tudo sob `/mvc/**`, protegido por login (só `ADMIN`):
-
-| Prefixo | Controller | Telas |
-|---|---|---|
-| `/mvc/login` | `AuthViewController` | Login |
-| `/mvc/` | `DashboardController` | Painel inicial |
-| `/mvc/usuarios` | `UsuarioMvcController` | Listar, ativar/desativar |
-| `/mvc/tutores` | `TutorMvcController` | Listar, cadastrar (cria `Usuario`+`Pessoa`+`Tutor`), detalhar (com animais), editar (consentimento), excluir |
-| `/mvc/veterinarios` | `VeterinarioMvcController` | Listar, cadastrar (com especialidades/espécies), detalhar, editar, excluir |
-| `/mvc/animais` | `AnimalMvcController` | Listar, cadastrar, detalhar, editar, excluir |
-| `/mvc/animais/{id}/prontuario` | `ProntuarioMvcController` | Ver histórico de versões, criar, corrigir |
-| `/mvc/consultas` | `ConsultaMvcController` | Listar, agendar, detalhar, reagendar, mudar status |
-| `/mvc/exames` | `SolicitacaoExameMvcController` | Listar, criar solicitação, registrar resultado, liberar, cancelar |
-| `/mvc/relatorios/consultas` | `RelatorioMvcController` | Relatório de consultas por veterinário/status, calculado no Oracle por `PKG_VETLY_RELATORIO` |
-| `/mvc/especies` | `EspecieMvcController` | Listar, cadastrar, editar, excluir |
-| `/mvc/especialidades` | `EspecialidadeVetMvcController` | Listar, cadastrar, editar, excluir |
-
----
-
-## Segurança e autenticação
-
-Login por formulário e sessão com Spring Security — uma única `SecurityFilterChain`
-(`MvcSecurityConfig`):
-
-- `/mvc/login` é público; **toda** outra rota exige `ROLE_ADMIN`
-- Senhas em **BCrypt**
-- `AuthService` é o `UserDetailsService` do login (`loadUserByUsername`) e também quem
-  registra `Tutor`/`Veterinario` a partir do formulário do ADMIN
-  (`registerTutor`/`registerVeterinario`) — sem essas contas terem acesso ao painel
-
-Não há mais camada JWT/stateless: como o único ator é o ADMIN operando o back-office,
-sessão de servidor é suficiente e mais simples que manter dois modelos de autenticação
-em paralelo.
-
----
-
-## Banco de dados e migrations
-
-O schema é versionado com **Flyway** em `src/main/resources/db/migration/`.
-
-| Migration | O que faz | RN |
-|-----------|-----------|----|
-| `V1__baseline_schema` | Baseline espelhando o `DDL.txt` anterior ao Flyway | — |
-| `V2__animal_campos_clinicos` | `URL_FOTO_ANIMAL`, `FL_CASTRADO`, `DS_CONDICOES_PREEXIST`, `DS_ALERGIAS`, `DS_MEDICACOES_EM_USO` | RN-081 |
-| `V3__evolucao_clinica_flags_rn068` | `FL_OCULTO_RESPONSAVEL`, `FL_ALERTA_SEGURANCA` | RN-068 |
-| `V4__consulta_status_nao_compareceu` | Inclui `NAO_COMPARECEU` no CHECK de status | RN-038 |
-| `V5__solicitacao_exame_item_liberacao_rn104` | `FL_LIBERADO_RESPONSAVEL`, `DT_LIBERACAO_RESPONSAVEL` | RN-104 |
-| `V6__tutor_consentimento_lgpd_rede` | `FL_LGPD_ACEITO`, `DT_LGPD_ACEITO`, `FL_CONSENTIMENTO_REDE`, `DT_CONSENTIMENTO_REDE` | RN-060/062 |
-| `V7__log_acesso_prontuario_rn067` | Tabela `TB_LOG_ACESSO_PRONTUARIO` | RN-067 (tabela mantida, sem uso hoje) |
-| `V8__prontuario_versionamento_rn088_089` | `DS_CONTEUDO_CLINICO`, auto-FK `TB_PRONTUARIO_ID_ORIGINAL`, `DT_HR_CORRECAO`, `CRMV_SOLICITANTE_CORRECAO`, `DS_JUSTIFICATIVA_CORRECAO` | RN-088/089 |
-| `V9__seed_especie_especialidade` | Semeia `TB_ESPECIE` e `TB_ESPECIALIDADES_VET` com os valores dos enums Java | — |
-| `V10__pacotes_plsql_auditoria` | Pacotes `PKG_VETLY_LOG/VALIDACAO/JSON/RELATORIO`, `TB_AUDITORIA` e trigger `TRG_AUD_CONSULTA` (fonte: `scripts/` do `vetly-database`) | Sprint 4 Banco |
-
-Regras de manutenção:
-
-- `spring.jpa.hibernate.ddl-auto=validate` — o Hibernate **nunca** gera DDL; Flyway é a
-  única fonte de verdade do schema.
-- `baseline-on-migrate=true` porque o schema da FIAP já existia criado à mão: a migration
-  `V1` não é reexecutada nesse ambiente, mas roda normalmente em um schema vazio.
-- Ao criar uma migration nova, replique o mesmo DDL no fim do `DDL.txt` e a migration em `migrations/` do `vetly-database`. A V10 (pacotes e trigger) é gerada de `scripts/` por `gerar-migration.sh` desse repositório.
-- **Nunca edite uma migration já aplicada.** O checksum do Flyway cobre o arquivo inteiro,
-  comentários inclusive, então qualquer alteração derruba o start com *checksum mismatch*.
-
----
-
-## Como executar
-
-### Pré-requisitos
-
-- Java 21+ (`java -version`)
-- Instância Oracle acessível (o wrapper `./gradlew` dispensa instalar o Gradle)
-
-### Passo a passo
+Clone o projeto disponível no GitHub:
 
 ```bash
-git clone https://github.com/Duartegdm/vetly-mvc.git
-cd vetly-mvc
+git clone https://github.com/annaclrl/vetly-cloud.git
 
-# 1. Configure o acesso ao Oracle em src/main/resources/application.properties
-#    (ver seção "Configuração" abaixo) antes do primeiro build/run.
-
-./gradlew build        # compila e roda os testes
-./gradlew bootRun      # sobe em http://localhost:8080/mvc/login
-./gradlew test         # só os testes
+cd vetly-cloud
 ```
 
-No Windows use `gradlew.bat` no lugar de `./gradlew`.
+## 2️⃣ Preparar o Ambiente
 
-Na subida, o Flyway aplica as migrations pendentes (`src/main/resources/db/migration`)
-e o Hibernate valida o mapeamento contra o schema — divergência entre entidade e
-tabela derruba a aplicação no start, de propósito. Erro de conexão com o Oracle também
-impede o start, já que não há fallback para outro banco.
+Para trabalhar com o projeto, é necessário ter instalado:
 
-Para parar a aplicação, `Ctrl+C` no terminal onde `bootRun` está rodando.
+- Java 21.
+- Git.
+- Azure CLI.
+- Uma ferramenta para conexão com Oracle, como SQL Developer ou DBeaver.
 
-### Primeiro acesso
+O projeto utiliza o Gradle Wrapper, portanto não é necessário instalar o Gradle separadamente.
 
-Não existe auto-registro nem tela de "criar admin" — só `ADMIN` loga no painel, e o
-cadastro de Tutor/Veterinário é feito pelo próprio ADMIN já logado. Para resolver o
-"ovo e a galinha", `AdminBootstrap` cria um `ADMIN` no startup **se nenhum existir
-ainda**, usando `vetly.admin.bootstrap.email`/`vetly.admin.bootstrap.senha` de
-`application.properties`. Rode uma vez, logue em `/mvc/login`, e depois pode remover
-essas duas linhas — o bootstrap não faz nada assim que já existe um ADMIN.
+Faça login na sua conta Azure:
+
+```bash
+az login
+```
+
+Confira se o login foi realizado corretamente:
+
+```bash
+az account show
+```
+
+## 3️⃣  Configurar os Recursos na Azure
+
+A infraestrutura do Vetly utiliza os seguintes recursos:
+
+| Recurso | Nome | Finalidade |
+|---|---|---|
+| Assinatura | Azure for Students | Disponibiliza os recursos em nuvem. |
+| Resource Group | `vetly-rg` | Agrupa os recursos da aplicação. |
+| App Service Plan | `vetly-plan` | Fornece os recursos de hospedagem. |
+| Azure Web App | `vetly-app` | Hospeda a aplicação Java. |
+| Região | Canada Central | Região de hospedagem dos recursos. |
+| Sistema operacional | Linux | Ambiente de hospedagem. |
+| Runtime | Java 21 | Ambiente de execução da aplicação. |
+
+Caso seja necessário recriar os recursos, o Azure CLI pode ser utilizado.
+
+**Criar o grupo de recursos:**
+
+```bash
+az group create \
+  --name vetly-rg \
+  --location canadacentral
+```
+
+**Criar o App Service Plan para Linux:**
+
+```bash
+az appservice plan create \
+  --name vetly-plan \
+  --resource-group vetly-rg \
+  --location canadacentral \
+  --sku B1 \
+  --is-linux
+```
+
+**Criar o Web App com Java 21:**
+
+```bash
+az webapp create \
+  --resource-group vetly-rg \
+  --plan vetly-plan \
+  --name vetly-app \
+  --runtime "JAVA:21-java21"
+```
+
+> Esses comandos são destinados à criação inicial da infraestrutura. Se os recursos já existirem, não é necessário executá-los novamente.
+
+## 4️⃣ Configurar as Variáveis de Ambiente
+
+A aplicação utiliza variáveis de ambiente para acessar o banco Oracle, configurar o usuário administrador e realizar a autenticação com o Google.
+
+As variáveis devem ser cadastradas de forma segura no Azure DevOps e configuradas no Azure App Service durante o estágio de CD.
+
+Principais variáveis utilizadas:
+
+| Variável | Finalidade |
+|---|---|
+| `SPRING_DATASOURCE_URL` | Endereço de conexão com o Oracle. |
+| `SPRING_DATASOURCE_USERNAME` | Usuário do banco de dados. |
+| `SPRING_DATASOURCE_PASSWORD` | Senha do banco de dados. |
+| `VETLY_ADMIN_BOOTSTRAP_EMAIL` | E-mail do administrador inicial. |
+| `VETLY_ADMIN_BOOTSTRAP_SENHA` | Senha do administrador inicial. |
+| `GOOGLE_CLIENT_ID` | Identificador da aplicação Google OAuth. |
+| `GOOGLE_CLIENT_SECRET` | Segredo da aplicação Google OAuth. |
+| `GOOGLE_SCOPE` | Escopos utilizados na autenticação. |
+
+As informações sensíveis são armazenadas como variáveis protegidas no Azure DevOps, evitando sua exposição no código-fonte.
+
+## 5️⃣ Configurar o Azure DevOps
+
+O projeto utiliza o Azure DevOps para gerenciamento do repositório e automação do processo de integração e entrega contínua.
+
+Para configurar o processo:
+
+1. Acesse o projeto no Azure DevOps.
+2. Utilize o projeto `Sprint 4 - Azure Devops`.
+3. Configure o repositório Git com o código-fonte do Vetly.
+4. Configure a conexão de serviço com a assinatura Azure, utilizando a conexão `vetly-azure-connection`.
+5. Cadastre as variáveis de ambiente necessárias para a aplicação.
+6. Configure o pipeline utilizando o arquivo YAML do projeto.
+7. Configure a branch `main` como gatilho de execução do pipeline.
+
+## 6️⃣ Executar o Pipeline CI – Integração Contínua
+
+O estágio de **CI (Continuous Integration)** é iniciado automaticamente quando uma alteração é enviada para a branch `main`.
+
+Nesse estágio, o Azure Pipelines executa:
+
+1. Configuração do Java 21.
+2. Execução do Gradle com `clean build`.
+3. Compilação do código-fonte.
+4. Execução dos testes automatizados.
+5. Publicação dos resultados dos testes.
+6. Geração do JAR executável.
+7. Publicação do artefato `vetly-jar`.
+
+Caso o build ou os testes falhem, o processo é interrompido e o estágio de CD não é executado.
+
+## 7️⃣ Executar o Pipeline CD – Entrega Contínua
+
+Após a conclusão bem-sucedida do CI, o estágio de **CD (Continuous Delivery)** é iniciado automaticamente.
+
+As etapas realizadas são:
+
+1. Download do artefato `vetly-jar` publicado no CI.
+2. Configuração das variáveis de ambiente no Azure Web App.
+3. Envio do arquivo JAR para o serviço Azure App Service.
+4. Implantação da nova versão utilizando a tarefa `AzureWebApp@1` e o método `zipDeploy`.
+
+Com isso, a aplicação é atualizada automaticamente na Azure, sem a necessidade de realizar manualmente o build e o envio do JAR a cada alteração.
+
+## 8️⃣ Acessar a Aplicação
+
+Após a conclusão bem-sucedida do deploy, a aplicação fica disponível publicamente pelo endereço:
+
+**URL da aplicação:**
+
+https://vetly-app.azurewebsites.net/mvc/login
+
+O acesso às funcionalidades administrativas é realizado por meio da autenticação da aplicação.
 
 ---
 
-## Configuração
+# 🛠️ Tecnologias e Serviços Utilizados
 
-`src/main/resources/application.properties` (valores hoje versionados, apontando para
-o Oracle da FIAP — troque pelos do seu ambiente antes de rodar local):
+O deploy em cloud utiliza os seguintes recursos principais:
 
-```properties
-spring.application.name=vetly-java
-
-# Oracle
-spring.datasource.url=jdbc:oracle:thin:@//oracle.fiap.com.br:1521/orcl
-spring.datasource.username=seu_usuario
-spring.datasource.password=sua_senha
-spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
-
-# O schema do usuario FIAP ja existe com as tabelas de DDL.txt criadas manualmente antes
-# do Flyway entrar no projeto. baseline-on-migrate marca esse estado atual como a versao
-# de baseline sem reexecutar o CREATE TABLE, e so aplica as migrations seguintes.
-# Um schema novo/vazio (ex.: outro ambiente) executa V1 normalmente.
-spring.flyway.enabled=true
-spring.flyway.baseline-on-migrate=true
-spring.flyway.baseline-version=8
-
-# Flyway é dono do schema; Hibernate apenas valida, nunca gera DDL
-spring.jpa.hibernate.ddl-auto=validate
-
-# 404 em rota inexistente em vez de página de erro estática
-spring.mvc.throw-exception-if-no-handler-found=true
-spring.web.resources.add-mappings=false
-
-# Primeiro ADMIN — só roda enquanto nenhum ADMIN existir, ver "Primeiro acesso"
-vetly.admin.bootstrap.email=admin@vetly.com.br
-vetly.admin.bootstrap.senha=Admin@123
-```
-
-Para rodar contra um Oracle próprio (local ou outra instância), basta sobrescrever a
-URL/usuário/senha — por variável de ambiente (`SPRING_DATASOURCE_URL`,
-`SPRING_DATASOURCE_USERNAME`, `SPRING_DATASOURCE_PASSWORD`) ou editando o arquivo
-diretamente. Num schema vazio, o Flyway roda `V1__baseline_schema.sql` em diante
-normalmente — não é preciso mexer em `baseline-version` nesse caso.
-
-> ⚠️ O arquivo versionado hoje contém credenciais reais do ambiente da FIAP. Antes de
-> qualquer uso fora da disciplina, mova-as para variáveis de ambiente e não comite
-> segredo.
+- **Microsoft Azure:** plataforma de computação em nuvem utilizada para hospedar a aplicação.
+- **Azure App Service:** serviço PaaS responsável pela hospedagem da aplicação Java.
+- **Azure App Service Plan:** fornece os recursos computacionais utilizados pelo Web App.
+- **Azure Resource Group:** organiza os recursos relacionados ao projeto.
+- **Azure DevOps:** plataforma utilizada para gerenciamento do projeto e automação CI/CD.
+- **Azure Repos:** repositório Git utilizado para armazenar o código-fonte.
+- **Azure Pipelines:** executa os processos automatizados de build, testes e deploy.
+- **Java 21:** versão utilizada na aplicação.
+- **Spring Boot:** framework utilizado no desenvolvimento do back-end.
+- **Gradle:** ferramenta de build e gerenciamento de dependências.
+- **Oracle Database FIAP:** banco relacional utilizado para persistência dos dados.
+- **Flyway:** ferramenta utilizada para versionamento e execução das migrations do banco.
 
 ---
 
-## Roadmap
+# 🧩 Componentes da Arquitetura Cloud
 
-### Pendências conhecidas
+| Nome do Componente | Tipo | Descrição Funcional | Tecnologia / Ferramenta |
+|---|---|---|---|
+| Repositório de Código | SCM | Armazena e versiona o código-fonte. | Git / Azure Repos |
+| Pipeline CI | Continuous Integration | Compila o projeto e executa testes automatizados. | Azure Pipelines |
+| Artefato | Build Artifact | Armazena o JAR executável gerado pelo CI. | Pipeline Artifact |
+| Pipeline CD | Continuous Delivery | Realiza o deploy automático da aplicação. | Azure Pipelines |
+| Web App | PaaS | Hospeda e disponibiliza a aplicação publicamente. | Azure App Service |
+| Plano de Hospedagem | Compute Plan | Fornece os recursos de execução da aplicação. | App Service Plan |
+| Banco de Dados | Banco relacional | Armazena os dados da aplicação. | Oracle Database FIAP |
+| Gerenciamento de Recursos | Resource Management | Agrupa os recursos utilizados na Azure. | Azure Resource Group |
 
-- [ ] `TB_CONSULTA` — avaliar tornar `TB_VETERINARIO_ID_VETERINARIO` e `TB_ANIMAL_ID_ANIMAL`
-      `NOT NULL` (checar dado existente antes)
-- [ ] Credenciais fora do `application.properties`
-- [ ] Testes automatizados dos serviços do painel (hoje só existe o smoke test de contexto)
+---
 
-### Backlog de escopo (decidir antes de implementar)
+# ⚙️ Estrutura do Deploy e Automação (CI/CD)
 
-- [ ] Reintroduzir a Colmeia exigiria um login self-service (tutor/veterinário) separado
-      do login `ADMIN` do painel — decisão de produto antes de reimplementar RN-064/066/067/068
-- [ ] `Empresa`/`Administrador` entram no domínio do Java, ou ele fica só para vet autônomo?
-- [ ] Validação de CRMV (RN-107) — só relevante se o Java expuser diretório/matching de vets
-- [ ] Documentos além do prontuário (atestado, receita, NF) — depende de RN-087 (assinatura)
-      e de uma decisão sobre split financeiro
-- [ ] LGPD granular por finalidade (RN-061) em vez do aceite simplificado atual
-- [ ] `Disponibilidade` — grade horária do veterinário e resolução de conflitos de agenda
+O processo de automação funciona da seguinte maneira:
 
-## 🎥 Demonstração
+- O **desenvolvedor** realiza alterações no código e envia as atualizações para o repositório.
+- O **Azure Repos** mantém o código-fonte versionado.
+- O **pipeline de CI** é acionado automaticamente a cada alteração na branch `main`, realizando build e testes automatizados.
+- Após a aprovação do CI, o pipeline publica o artefato JAR executável.
+- O **pipeline de CD** recebe o artefato e configura as variáveis de ambiente necessárias.
+- O **Azure App Service** recebe a nova versão da aplicação por meio do deploy automatizado.
+- A aplicação continua utilizando o **Oracle Database da FIAP** para armazenar e consultar os dados.
 
-Para facilitar a validação do projeto, disponibilizamos uma demonstração em vídeo do protótipo.
+**Fluxo resumido:**
 
-<a href="https://youtu.be/NA3uADLVsbU" target="_blank">Assistir demonstração no YouTube</a>
+```text
+Desenvolvedor
+      |
+      v
+Azure Repos
+      |
+      v
+Azure Pipelines - CI
+      |
+      v
+Build e testes automatizados
+      |
+      v
+Publicação do artefato JAR
+      |
+      v
+Azure Pipelines - CD
+      |
+      v
+Configuração das variáveis de ambiente
+      |
+      v
+Deploy no Azure App Service
+      |
+      v
+Aplicação Vetly atualizada
+```
+
+---
+
+# 🔗 Projeto no Azure DevOps
+
+O repositório e os pipelines de CI/CD do Vetly estão disponíveis no projeto do Azure DevOps:
+
+🔗 [Sprint 4 - Azure Devops](https://dev.azure.com/rm561928/Sprint%204%20-%20Azure%20Devops)
+
+---
+
+# 📝 Funcionalidades Disponíveis na Nuvem
+
+Na versão hospedada em cloud, o sistema mantém as funcionalidades do painel administrativo MVC Java:
+
+- Cadastro, edição, consulta e exclusão de animais.
+- Cadastro e gerenciamento de tutores.
+- Cadastro e gerenciamento de veterinários.
+- Agendamento e acompanhamento de consultas.
+- Gerenciamento de prontuários eletrônicos.
+- Solicitação e liberação de resultados de exames.
+- Controle de acesso administrativo.
+
+---
+
+# 📊 Benefícios da Arquitetura em Cloud
+
+- 🌍 **Acesso remoto:** aplicação disponível por meio de uma URL pública.
+- ⚙️ **Automação CI/CD:** build, testes e deploy realizados pelo Azure DevOps.
+- 🚀 **Facilidade de implantação:** novas versões publicadas automaticamente após a aprovação do CI.
+- 🔒 **Segurança:** credenciais e informações sensíveis configuradas por variáveis de ambiente.
+- 🗄️ **Persistência em nuvem:** armazenamento dos dados no Oracle Database da FIAP.
+- 🔄 **Versionamento:** controle das alterações do código e da evolução do banco de dados.
+
+---
+
+# ▶ Demonstração
+
+Para facilitar a validação do projeto, disponibilizamos uma demonstração completa da solução em vídeo.
+
+🎥 [Assistir demonstração no YouTube](https://youtu.be/RL_claphgCo)
